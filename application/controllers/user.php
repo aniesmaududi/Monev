@@ -11,7 +11,9 @@ class User extends CI_Controller {
 	
 	function index()
 	{
-		show_404();
+		$this->data['title'] = 'Dashboard';
+		$this->data['template'] = 'home/index';
+		$this->load->view('index', $this->data);
 	}
 
 	function login()

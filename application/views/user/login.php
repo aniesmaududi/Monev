@@ -3,14 +3,14 @@
 	<head>
 		<title><?php echo($title)? $title.' - ' : ''; ?>MONEV</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="<?php echo base_url().'assets/css/style.css'?>" rel="stylesheet" type="text/css">
+		<link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="images/favicon.png"/>		
 	</head>
 	
 	<body>
 		<div id="login-container">
 		<div id="content">
-			<img src="<?php echo base_url().'assets/images/title.png'?>" id="logo"/>
+			<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
 			<br/>
 			<form action="<?php site_url('user/login')?>" method="post">
 			<div id="login-box">
