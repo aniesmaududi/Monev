@@ -10,18 +10,18 @@
 	<body>
 		<div id="login-container">
 		<div id="content">
-			<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
+			<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/><span style="font-size:1.3em;font-weight:bold;">Administrator</span>
 			<br/>
-			<form action="<?php site_url('user/login')?>" method="post">
+			<form action="<?php site_url('backend/login')?>" method="post">
 			<div id="login-box">
 				<table class="login">
 					<tr>
 						<td class="words">Username</td>
-						<td><input type="text" name="user_name" value=""/></td>
+						<td><input type="text" name="admin_username" value=""/></td>
 					</tr>
 					<tr>
 						<td class="words">Password</td>
-						<td><input type="password" name="user_password" />
+						<td><input type="password" name="admin_password" />
 							<!--<br/><div class="error">password tidak benar</div>-->
 						</td>
 					</tr>
