@@ -9,7 +9,7 @@
 			<div id="nav-box">
 				<p id="total">Total 35 laporan dalam 7 halaman.</p>
 				<div id="pagination">
-					<!--<div id="page-top"><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'top.png'?>"/></a></div>-->
+					<div id="page-top"><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'top.png'?>"/></a></div>
 					<div id="page-prev"><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'prev.png'?>"/></a></div>
 					<div class="number"><a href="#">3</a></div>
 					<div class="number"><a href="#">4</a></div>

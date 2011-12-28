@@ -9,10 +9,12 @@
 	
 	<body>
 		<div id="login-container">
+		<form action="<?php site_url('user/login')?>" method="post">
+
 		<div id="content">
 			<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
 			<br/>
-			<form action="<?php site_url('user/login')?>" method="post">
+			<!-- -->
 			<div id="login-box">
 				<table class="login">
 					<tr>
@@ -22,7 +24,12 @@
 					<tr>
 						<td class="words">Password</td>
 						<td><input type="password" name="user_password" />
-							<!--<br/><div class="error">password tidak benar</div>-->
+							<br/><div class="error">
+							<?php //if(isset($error)) echo "<b><span style='color:red;'>$error</span></b>";
+//if(isset($logout)) echo "<b><span style='color:red;'>$logout</span></b>"; ?>
+<?php if(isset($error)) echo $error;
+if(isset($logout)) echo $logout; ?>
+							</div>
 						</td>
 					</tr>
 				</table>
