@@ -4,6 +4,7 @@
 		<title><?php echo($title)? $title.' - ' : ''; ?>MONEV</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
+		<link href="<?php echo ASSETS_DIR_CSS.'backend.css'?>" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="images/favicon.png"/>		
 	</head>
 	
@@ -28,12 +29,8 @@
 				</table>
 			</div>
 			<div id="button-box">
-				<table class="login">
-					<tr>
-						<td><input type="submit" name="submit" value="Login"></td>
-						<td><input type="reset" value="reset"></td>
-					</tr>
-				</table>
+				<input type="submit" name="submit" class="btn primary action-login" value="login">
+				<input type="reset" value="reset" class="btn">
 			</div>
 			</form>
 		</div>
