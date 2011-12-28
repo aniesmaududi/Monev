@@ -49,7 +49,8 @@ class Admin_model extends CI_Model
 	/* user management */
 	function get_user_list($limit=FALSE,$offset=FALSE)
 	{
-		$this->db->order_by('tb_user.id', 'desc')
+		$this->db->select('tb_user.id as id, tb_user.userid, tb_user.nama, tb_user.jabid, tb_jabatan.id as jabatanid, tb_jabatan.jabatan')
+			->order_by('tb_user.id', 'desc')
 			->join('tb_jabatan','tb_jabatan.id=tb_user.jabid');
 		if($limit):
 			$this->db->limit($limit, $offset);
@@ -58,5 +59,23 @@ class Admin_model extends CI_Model
 		return $query->result();
 	}
 	
+	function get_user($id=FALSE)
+	{
+		if($id):
+			$this->db->select('tb_user.id as id, tb_user.userid, tb_user.nama, tb_user.jabid, tb_jabatan.id as jabatanid, tb_jabatan.jabatan')
+				->order_by('tb_user.id', 'desc')
+				->join('tb_jabatan','tb_jabatan.id=tb_user.jabid')
+				->where('tb_user.id',$id);
+			$query = $this->db->get('tb_user');
+			return $query->row();
+		else:
+			return false;
+		endif;
+	}
+	
+	function update_user($data,$id)
+	{
+		$this->db->where('id',$id)->update('tb_user',$data);
+	}
 	
 }

@@ -1,6 +1,11 @@
-			<h1>Manajemen Pengguna</h1>
+			<h1><?php echo $title;?></h1>
 			<div id="search-box" style="min-height:400px;">
-				<?php if(count($users)):?>
+				<?php if(count($users)>0):?>
+				<?php
+				if($this->session->flashdata('message')):
+					echo flash_message($this->session->flashdata('message_type'));
+				endif;
+				?>
 					<table class="backend-table">
 						<thead>
 							<th>Username</th>
@@ -13,7 +18,7 @@
 							<td><?php echo $user->userid?></td>
 							<td><?php echo $user->nama?></td>
 							<td><?php echo $user->jabatan?></td>
-							<td><a href="" class="btn">Edit</a> <a href="" class="btn error">Hapus</a></td>
+							<td><a href="<?php echo site_url('backend/user/edit/'.$user->id)?>" class="btn">Edit</a> <a href="" class="btn error">Hapus</a></td>
 						</tr>
 						<?php endforeach;?>
 					</table>
