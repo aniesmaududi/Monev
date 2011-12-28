@@ -8,22 +8,18 @@ class User extends CI_Controller {
 		$this->data['now'] = date("Y-m-d H:i:s");
 		$this->data['title'] = '';
 		$this->load->library('form_validation');
-
 		$this->load->model('muser');
-
 	}
 	
 	function index()
 	{
-	if($this->session->userdata('username')):
-		$this->data['title'] = 'Dashboard';
-		$this->data['template'] = 'home/index';
-
-		$this->data['result'] = $this->muser->getdata();
-
-		$this->load->view('index', $this->data);
+		if($this->session->userdata('username')):
+			$this->data['title'] = 'Dashboard';
+			$this->data['template'] = 'home/index';
+			$this->data['result'] = $this->muser->getdata();
+			$this->load->view('index', $this->data);
 		else:
-		redirect('user/login','refresh');
+			redirect('user/login','refresh');
 		endif;
 	}
 
@@ -42,27 +38,24 @@ class User extends CI_Controller {
 			$data['user_name']=$this->input->post('user_name');
 			$data['user_pass']=$this->input->post('user_password');
 			$query = $this->muser->cekuser();
-			if(!$query)
-			{
-			$data['error'] = 'password tidak benar';
-			//$this->load->view('user/login',$data);
-			redirect('user/login');
-			}
-			else
-			{
-			$this->session->set_userdata('username',$data['user_name']);
-			redirect('user');
-			}
+			if(!$query):
+				$data['error'] = 'password tidak benar';
+				redirect('user/login');
+			else:
+				$this->session->set_userdata('username',$data['user_name']);
+				$this->session->set_userdata('nama',$query->nama);
+				$this->session->set_userdata('jabatan',$query->jabid);
+				redirect('user');
+			endif;
 		endif;
 	}
+	
 	function logout()
 	{
-	$this->session->unset_userdata('logged_in');
-	$this->session->sess_destroy();
-//	$data['logout'] = 'You have been logged out.';
-//	$this->load->view('user/login',$data);
-    redirect('user/login','refresh');
-		
+		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('nama');
+		$this->session->unset_userdata('jabatan');
+		redirect();
 	}
 	
 }
