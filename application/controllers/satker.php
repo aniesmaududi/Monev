@@ -6,17 +6,16 @@ class Satker extends CI_Controller {
 	{
 		parent::__construct();
 		$this->data['now'] = date("Y-m-d H:i:s");
-		$this->data['title'] = '';
+		$this->data['title'] = 'Satker ';
 		//get Satker model
 		$this->load->model('msatker');
 		$this->kdsatker = 675713; //inisial kdsatker = 675713 dari tabel t_satker, kdsatker riil diperoleh dari sesi login
 		$this->data['nav_title'] = 'Satker '.$this->kdsatker;
 		$this->data['nav_menu'] = array(
-						0 => 'Entri Data Capaian Output',
-						1 => 'Entri Data IKK',
-						2 => 'Entri Data IKU',
-						3 => 'Entri Data Penyerapan Efisiensi',
-						4 => 'Entri Data Revisi'
+						0 => 'Entri Data Capaian Keluaran',
+						);
+		$this->data['nav_menu_link'] = array(
+						0 => base_url().'satker/program',
 						);
 	}
 	

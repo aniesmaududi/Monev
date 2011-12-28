@@ -1,24 +1,24 @@
 			<table>
-			<tr>
-				<td valign="top">Satuan Kerja</td>
-				<td valign="top"> : </td>
-				<td width="500"><?php echo $nmsatker;?></td>
-			</tr>			
-			<tr>
-				<td valign="top">Unit / Eselon I </td>
-				<td valign="top"> : </td>
-				<td><?php echo $nmunit;?></td>
-			</tr>
-			<tr>
-				<td valign="top">Kementrian / Lembaga</td>
-				<td valign="top"> : </td>
-				<td><?php echo $nmdept;?></td>
-			</tr>
-			<tr>
-				<td valign="top">Program</td>
-				<td valign="top"> : </td>
-				<td><?php echo strtoupper($program);?></td>
-			</tr>
+				<tr>
+					<td valign="top">Satuan Kerja</td>
+					<td valign="top"> : </td>
+					<td width="500"><?php echo $nmsatker;?></td>
+				</tr>			
+				<tr>
+					<td valign="top">Unit / Eselon I </td>
+					<td valign="top"> : </td>
+					<td><?php echo $nmunit;?></td>
+				</tr>
+				<tr>
+					<td valign="top">Kementrian / Lembaga</td>
+					<td valign="top"> : </td>
+					<td><?php echo $nmdept;?></td>
+				</tr>
+				<tr>
+					<td valign="top">Program</td>
+					<td valign="top"> : </td>
+					<td><?php echo strtoupper($program);?></td>
+				</tr>
 			</table>			
                         <!--
 			<div id="search-box">
@@ -57,15 +57,17 @@
 					<h3 style="width:450px;"><?php echo $kegiatan_item['nmgiat'];?></h3>
 					<!--<p><?php echo $kegiatan_item['uroutcome'];?></p>-->
 					<br/>
-					<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
-					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>
+					<!--<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
+					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>-->
 					</div><!-- end of box-content-left -->
 
 					<div class="box-content-right">
 					<table>
 						<tr>
 							<td class="button"><a href="<?php echo base_url();?>satker/realisasi/<?php echo $kegiatan_item['kddept'];?>-<?php echo $kegiatan_item['kdunit'];?>-<?php echo $kegiatan_item['kdsatker'];?>-<?php echo $kegiatan_item['kdprogram'];?>-<?php echo $kegiatan_item['kdgiat'];?>" class="custom">Isi Realisasi</a></td>
-							<td class="mark"><!--<img src="http://localhost/monev/assets/img/new.png" class="round-mark"/>--></td>
+							<td class="mark">
+								<!--<img src="http://localhost/monev/assets/img/new.png" class="round-mark"/>-->
+							</td>
 						</tr>
 					</table>
 					</div><!-- end of box-content-right -->

@@ -1,10 +1,17 @@
 		<div id="content-left">
-			<div id="navigation-title">Eselon XIV</div>
+			<div id="navigation-title"><?php echo $nav_title;?></div>
 			<div id="navigation-list">
 				<ul>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Semua Laporan</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Belum Terisi (15)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Terisi Lengkap (20)</a></li>
+					<?php
+					for($i=0;$i<count($nav_menu);$i++):
+					?>
+					<li>
+						<a href="<?php echo $nav_menu_link[$i];?>">
+							<img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/>
+							<?php echo $nav_menu[$i];?>
+						</a>
+					</li>
+					<?php endfor ?>
 				</ul>
 			</div><!-- end of navigation-list -->
 		</div><!-- end of content-left -->

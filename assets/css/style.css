@@ -5,12 +5,11 @@ html
 	border:0px;
 }
 
-body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset,
+body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset
 {
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-	
 }
 
 body
@@ -28,7 +27,9 @@ body
 	padding: 0px;
 	margin: 0px auto 0px auto;
 }
-
+.action-login{
+	margin-left:195px;
+}
 #container
 {
 	width: 932px;
@@ -557,7 +558,10 @@ input
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
   	border-radius: 5px;
-  	border: 1px solid #a6a6a6; 	
+  	border: 1px solid #a6a6a6;
+}
+input[type=button],input[type=submit],input[type=reset]{
+	cursor:pointer;
 }
 
 input.realisasi

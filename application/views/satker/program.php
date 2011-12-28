@@ -49,8 +49,8 @@
 					<h3 style="width:450px;"><?php echo $program_item['nmprogram'];?></h3>
 					<!--<p><?php echo $program_item['uroutcome'];?></p>-->
 					<br/>
-					<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
-					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>
+					<!--<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
+					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>-->
 					</div><!-- end of box-content-left -->
 
 					<div class="box-content-right">

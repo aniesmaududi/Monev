@@ -36,39 +36,76 @@ class Msatker extends CI_Model
     {
         //Get kegiatan list from table d_output by kdprogram, kdsatker, kdunit, and kddept
         $query = $this->db->query('select distinct output.kdsatker, output.kddept, output.kdunit, output.kdsatker, output.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat '.
-                                'from d_output output, t_giat giat, t_program program '.
-                                'where output.kdgiat = giat.kdgiat '.
-                                'and output.kdunit = giat.kdunit '.
-                                'and output.kddept = giat.kddept '.
-                                'and output.kdprogram = program.kdprogram '.
-                                'and output.kdunit = program.kdunit '.
-                                'and output.kddept = program.kddept '.
-                                'and output.kddept='.$kddept.' '.
-                                'and output.kdunit='.$kdunit.' '.                                 
-                                'and output.kdsatker='.$kdsatker.' '.
-                                'and output.kdprogram='.$kdprogram);    
+                                    'from d_output output, t_giat giat, t_program program '.
+                                    'where output.kdgiat = giat.kdgiat '.
+                                    'and output.kdunit = giat.kdunit '.
+                                    'and output.kddept = giat.kddept '.
+                                    'and output.kdprogram = program.kdprogram '.
+                                    'and output.kdunit = program.kdunit '.
+                                    'and output.kddept = program.kddept '.
+                                    'and output.kddept='.$kddept.' '.
+                                    'and output.kdunit='.$kdunit.' '.                                 
+                                    'and output.kdsatker='.$kdsatker.' '.
+                                    'and output.kdprogram='.$kdprogram);        
+        
         return $query->result_array();
     }
     
     public function get_satker_output($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat)
     {
-        //Get kegiatan list from table d_output by kdprogram, kdsatker, kdunit, and kddept
-        $query = $this->db->query('select distinct output.kdsatker, output.kddept, output.kdunit, output.kdsatker, output.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat, t_output.kdoutput, t_output.nmoutput, output.vol '.
-                                'from d_output output, t_giat giat, t_program program, t_output '.
-                                'where output.kdgiat = giat.kdgiat '.
-                                'and output.kdunit = giat.kdunit '.
-                                'and output.kddept = giat.kddept '.
-                                'and output.kdprogram = program.kdprogram '.
-                                'and output.kdunit = program.kdunit '.
-                                'and output.kddept = program.kddept '.
-                                'and output.kdgiat = t_output.kdgiat '.
-                                'and output.kdoutput = t_output.kdoutput '.
-                                'and output.kddept='.$kddept.' '.
-                                'and output.kdunit='.$kdunit.' '.                                 
-                                'and output.kdsatker='.$kdsatker.' '.
-                                'and output.kdprogram='.$kdprogram.' '.                                
-                                'and output.kdgiat='.$kdgiat);    
+        $is_exist = $this->is_exist_satker_realisasi($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat);
+        if($is_exist['total'] > 0)
+        {
+            $query = $this->db->query('select distinct output.kdsatker, output.kddept, output.kdunit, output.kdsatker, output.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat, t_output.kdoutput, t_output.nmoutput, t_output.sat, output.tvk as vol, output.rvk, output.accsatker, output.accunit, output.accdept '.
+                                    'from tb_satker_realisasi output, t_giat giat, t_program program, t_output '.
+                                    'where output.kdgiat = giat.kdgiat '.
+                                    'and output.kdunit = giat.kdunit '.
+                                    'and output.kddept = giat.kddept '.
+                                    'and output.kdprogram = program.kdprogram '.
+                                    'and output.kdunit = program.kdunit '.
+                                    'and output.kddept = program.kddept '.
+                                    'and output.kdgiat = t_output.kdgiat '.
+                                    'and output.kdoutput = t_output.kdoutput '.
+                                    'and output.kddept='.$kddept.' '.
+                                    'and output.kdunit='.$kdunit.' '.                                 
+                                    'and output.kdsatker='.$kdsatker.' '.
+                                    'and output.kdprogram='.$kdprogram.' '.                                
+                                    'and output.kdgiat='.$kdgiat);
+        }
+        else
+        {
+            //Get kegiatan list from table d_output by kdprogram, kdsatker, kdunit, and kddept
+            $query = $this->db->query('select distinct output.kdsatker, output.kddept, output.kdunit, output.kdsatker, output.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat, t_output.kdoutput, t_output.nmoutput, t_output.sat, output.vol '.
+                                    'from d_output output, t_giat giat, t_program program, t_output '.
+                                    'where output.kdgiat = giat.kdgiat '.
+                                    'and output.kdunit = giat.kdunit '.
+                                    'and output.kddept = giat.kddept '.
+                                    'and output.kdprogram = program.kdprogram '.
+                                    'and output.kdunit = program.kdunit '.
+                                    'and output.kddept = program.kddept '.
+                                    'and output.kdgiat = t_output.kdgiat '.
+                                    'and output.kdoutput = t_output.kdoutput '.
+                                    'and output.kddept='.$kddept.' '.
+                                    'and output.kdunit='.$kdunit.' '.                                 
+                                    'and output.kdsatker='.$kdsatker.' '.
+                                    'and output.kdprogram='.$kdprogram.' '.                                
+                                    'and output.kdgiat='.$kdgiat);
+        }
+        
         return $query->result_array();
+    }
+    
+    public function is_exist_satker_realisasi($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat)
+    {
+        $query = $this->db->query('select count(*) as total from tb_satker_realisasi '.
+                                  'where kddept='.$kddept.' '.
+                                  'and kdunit='.$kdunit.' '.
+                                  'and kdsatker='.$kdsatker.' '.
+                                  'and kdprogram='.$kdprogram.' '.
+                                  'and kdgiat='.$kdgiat.' '.
+                                  'and accsatker in (0,1)');
+        
+        return $query->row_array();
     }
     
     public function set_satker_realisasi($do)
@@ -81,13 +118,24 @@ class Msatker extends CI_Model
         {
             $accsatker = 1;    
         }
-        
+                        
         $kddept = $this->input->post('kddept');
         $kdunit = $this->input->post('kdunit');
         $kdsatker = $this->input->post('kdsatker');
         $kdprogram = $this->input->post('kdprogram');
         $kdgiat = $this->input->post('kdgiat');
         $n = $this->input->post('n');
+        
+        //check first in tb_satker_realisasi
+        $is_exist = $this->is_exist_satker_realisasi($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat);
+        if($is_exist['total'] > 0)
+        {
+            $status = 'update';
+        }
+        else
+        {
+            $status = 'insert';
+        }
         
         for($i=1;$i<=$n;$i++)
         {
@@ -111,8 +159,14 @@ class Msatker extends CI_Model
                     'accdept' => 0,
                     'accdept_date' => '',
                     );
-            
-            $this->db->insert('tb_satker_realisasi',$data);
+            if($status == 'update')
+            {
+                $this->db->update('tb_satker_realisasi',$data, 'kddept = '.$kddept.' and kdunit = '.$kdunit.' and kdsatker = '.$kdsatker.' and kdprogram = '.$kdprogram.' and kdgiat = '.$kdgiat.' and kdoutput = '.$kdoutput.' and accsatker = 0');
+            }
+            else
+            {
+                $this->db->insert('tb_satker_realisasi',$data);
+            }
         }
         
         return 1;
