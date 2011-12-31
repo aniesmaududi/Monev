@@ -17,9 +17,9 @@ class muser extends CI_Model
 	}
 	function getdata()
 	{
-	//$getData = $this->db->get('laporan');
+	$getData = $this->db->get('v_s_r');
 	//if($getData->num_rows() > 0)
-	//return $getData->result_array();
+	return $getData->result_array();
 	//else
 	//return null;
 	}

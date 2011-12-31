@@ -9,6 +9,7 @@ class User extends CI_Controller {
 		$this->data['title'] = '';
 		$this->load->library('form_validation');
 		$this->load->model('muser');
+		$this->load->helper('date');
 	}
 	
 	function index()
