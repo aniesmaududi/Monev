@@ -192,6 +192,17 @@ a#logout:hover
 	border-bottom: 1px solid #3752b8;
 }
 
+#navigation-list ul ul
+{
+	margin-left: 20px;
+	padding: 0px;
+}
+
+#navigation-list ul ul li a:hover
+{
+	width: 165px;
+}
+
 #content-right
 {
 	margin-top: 20px;

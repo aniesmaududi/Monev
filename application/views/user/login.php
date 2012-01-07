@@ -10,7 +10,7 @@
 	
 	<body>
 		<div id="login-container">
-		<form action="<?php site_url('user/login')?>" method="post">
+		<form action="<?php echo site_url('user/login')?>" method="post">
 
 		<div id="content">
 			<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>

@@ -14,12 +14,14 @@ function flash_message($message_type, $message=FALSE)
         '<div class="alert-message ' . $message_type . ' fade in" data-alert="alert">
 			<a class="close" href="#">&times;</a>
 			<p>' . $message . '</p>
+			<div style="clear:both;"></div>
 		</div>';
     else:
         $output .=
         '<div class="alert-message ' . $message_type . ' fade in" data-alert="alert">
 			<a class="close" href="#">&times;</a>
 			<p>' . $ci->session->flashdata('message') . '</p>
+			<div style="clear:both;"></div>
 		</div>';
     endif;
     return $output;

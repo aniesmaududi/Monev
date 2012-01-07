@@ -51,8 +51,10 @@ class Dashboard extends CI_Controller
                 $this->session->set_userdata('admin_username', $result->admin_username);
                 $this->session->set_flashdata('message_type', 'success');
                 $this->session->set_flashdata('message', 'Admin login success');
+                $this->log->create('', 'Login');
                 redirect('backend');
             else:
+                $this->log->create('', 'Gagal Login');
                 $this->session->set_flashdata('message_type', 'error');
                 $this->session->set_flashdata('message', 'Failed to login.');
                 redirect('backend/login');
@@ -65,6 +67,7 @@ class Dashboard extends CI_Controller
     {
         $this->session->unset_userdata('admin_ID');
         $this->session->unset_userdata('admin_username');
+        $this->log->create('', 'Logout');
         redirect('backend');
     }
 

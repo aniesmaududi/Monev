@@ -13,7 +13,7 @@
 					<td valign="top">Kementrian / Lembaga</td>
 					<td valign="top"> : </td>
 					<td><?php echo $nmdept;?></td>
-				</tr>
+				</tr>				
 				<tr>
 					<td valign="top">Program</td>
 					<td valign="top"> : </td>
@@ -23,17 +23,21 @@
 					<td valign="top">Kegiatan</td>
 					<td valign="top"> : </td>
 					<td><?php echo strtoupper($kegiatan);?></td>
-				</tr>
+				</tr>				
 			</table>
 			<h1></h1>
 			<div id="search-box">
-				<!--<p>Terakhir kali diakses: Muhammad Nur Hidayat, 15 Agustus 2011, 17:24:00.</p>-->
+			<?php if($realisasi == "none"){ ?>
+			<p>Satker belum melakukan input realisasi untuk kegiatan ini.</p>
+			<?php } ?>
 			</div>
 			<div id="nav-box">
-			<?php echo form_open('satker/do_realisasi');?>				
-				<p id="total"><img src="<?php echo ASSETS_DIR_IMG.'notdone.png';?>" class="notify"/>Daftar keluaran yang harus diisikan nilai realisasinya.</p>
-				<input type="submit" name="submit" value="Simpan" class="blackbg"/>
-				<input type="submit" name="submit" value="Eskalasi" id="incomplete" class="blackbg"/>
+			<?php
+			if($realisasi != "none"){
+			echo form_open('kementrian/do_approval');
+			?>
+				<p id="total"><img src="<?php echo ASSETS_DIR_IMG.'notdone.png';?>" class="notify"/>Daftar hasil capaian keluaran untuk Anda setujui/tidak</p>				
+				<input type="submit" name="submit" value="Proses" id="incomplete" class="blackbg"/>
 				<div class="clearfix"></div>
 				
 				<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
@@ -58,39 +62,32 @@
 						<input type="hidden" class="realisasi" name="kdoutput_<?php echo $i;?>" value="<?php echo $output_item['kdoutput'];?>"/>
 						<?php echo $output_item['nmoutput'];?>
 					</div>
-					<div class="column2">
-						<input type="hidden" class="realisasi" name="tvk_<?php echo $i;?>" value="<?php echo $output_item['vol'];?>"/>
+					<div class="column2">						
 						<?php echo $output_item['vol'].' '.$output_item['sat'];?>
 					</div>
 					<div class="column3">
-						<?php
-						if($output_item['accsatker'] == 1 && $output_item['accunit'] == 1){
-							if(isset($output_item['rvk'])) echo $output_item['rvk'].' '.$output_item['sat'];
-						}
-						else
-						{
-						?>
-						<input type="text" class="realisasi" name="rvk_<?php echo $i;?>" value="<?php if(isset($output_item['rvk'])) echo $output_item['rvk'];?>"/> <?php echo $output_item['sat'];?>
-						<?php } ?>
+						<?php echo $output_item['rvk'].' '.$output_item['sat'];?>
 					</div>
 					<div class="column4" style="padding:0;margin:0;width:120px;">
 						<?php
-						if($output_item['accsatker'] == 1 && $output_item['accunit'] == 0){
-						  echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
-						<p style="font-size:10px;">[Dalam proses : Eselon I]</p>';	
-						}
-						
-						elseif($output_item['accsatker'] == 1 && $output_item['accunit'] == 1 && $output_item['accdept'] == 0)
-						{ echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
-						<p style="font-size:10px;">[Dalam proses : K/L]</p>'; }
-						
-						elseif($output_item['accsatker'] == 1 && $output_item['accunit'] == 1 && $output_item['accdept'] == 1)
-						{ echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
-						<p style="font-size:10px;">[FINAL]</p>'; }
-						
-						else
-						{ echo '<img src="'.ASSETS_DIR_IMG.'notdone.png">'; }
+						if($output_item['accunit'] == 1 && $output_item['accdept'] == 1)
+						{
+							echo '<img src="'.ASSETS_DIR_IMG.'done.png">';	
+						} else {
+							if($output_item['accdept_date'] != "0000-00-00 00:00:00")
+							{ echo '<img src="'.ASSETS_DIR_IMG.'notdone.png"><br>
+							<p style="font-size:9px;">Dikembalikan ke satker</p>'; }
+							elseif($output_item['accunit_date'] != "0000-00-00 00:00:00" && $output_item['accunit'] == 0)
+							{ echo '<img src="'.ASSETS_DIR_IMG.'notdone.png"><br>
+							<p style="font-size:9px;">Dikembalikan oleh Eselon I</p>'; }
+							else
+							{
 						?>
+							<input type="radio" name="status_<?php echo $i;?>" value="ok"/>Disahkan <br>
+							<input type="radio" name="status_<?php echo $i;?>" value="nok" checked/>Tidak disahkan
+						<?php
+							}
+						} ?>
 					</div>
 					<div class="clearfix"></div>
 				</div><!-- end of box-content -->
@@ -100,18 +97,8 @@
 				$n = $i-1;
 				?>
 				<input type="hidden" class="realisasi" name="n" value="<?php echo $n;?>"/>
-				<!--
-				<div class="box-yellow">
-					<div class="column1">Keluaran 1 (Program)</div>
-					<div class="column2">15.000.000.000</div>
-					<div class="column3">
-						<input type="text" class="realisasi" value=""/>
-						<div class="error">realisasi belum terisi</div>
-					</div>					
-					<div class="clearfix"></div>
-				</div>
-				-->
 			</form>
+			<?php } ?>
 			</div>
 			
 		</div><!-- end of content-right -->
