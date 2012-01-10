@@ -59,7 +59,7 @@
 				</form>
 			</div>
 			<div id="nav-box">								
-				<?php if(isset($submitK)){ ?>
+				<?php if(isset($submitP)){ ?>
 				
 				<div id="box-title">
 					<div class="column1">Program</div>
