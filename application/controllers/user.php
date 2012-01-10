@@ -134,7 +134,7 @@ class User extends CI_Controller
 	
 	function logout()
 	{
-		$this->log->create('logout', $this->session->username.' logout');
+		$this->log->create('logout', $this->session->userdata('username').' logout');
 		$this->session->unset_userdata('username');
 		$this->session->unset_userdata('nama');
 		$this->session->unset_userdata('jabatan');
