@@ -1,35 +1,69 @@
-			<h1><?php echo $title;?></h1>
-			<table>
-				<tr>
-					<td>Program</td>
-					<td>:</td>
-					<td><?php echo $program;?></td>
-				</tr>
-				<tr>
-					<td>Unit / Eselon I</td>
-					<td>:</td>
-					<td><?php echo $unit;?></td>
-				</tr>
-				<tr>
-					<td>Kementrian / Lembaga</td>
-					<td>:</td>
-					<td><?php echo $dept;?></td>
-				</tr>
-			</table>                        
+			<h1><?php echo $title;?></h1>			        
 			<div id="search-box">
-				<!--<p>20 laporan masih bermasalah</p>-->
-				<div id="search">
-					<img src="<?php echo ASSETS_DIR_IMG.'magnifier.png'?>"/>
-					<input type="text"/>
-				</div>
+				<form name="form1" action="<?php echo base_url();?>dja/efisiensi_table" method="POST">					
+					<select name="kddept" onchange="this.form.submit();" style="width:650px;">
+						<option value="0" selected="selected">Semua Kementerian</option>
+					<?php					
+					foreach ($dept as $item):
+						if($kddept == $item['kddept']){ $selected = 'selected';} else { $selected = "";}
+					?>
+						<option value="<?php echo $item['kddept'];?>" <?php echo $selected;?>>
+						<?php echo $item['kddept'];?> -- <?php echo $item['nmdept'];?>
+						</option>				
+					<?php endforeach ?>
+					</select>					
+				</form>
+				<?php				
+				if(isset($kddept) && $kddept != 0){					
+				?>				
+				<form name="form2" action="<?php echo base_url();?>dja/efisiensi_table" method="POST">
+					<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
+					<select name="kdunit" onchange="this.form.submit();" style="width:650px;">
+						<option value="0" selected="selected">Semua Eselon</option>
+					<?php
+					foreach ($unit as $item):
+						if($kdunit == $item['kdunit']){ $selected = 'selected';} else { $selected = "";}
+					?>
+						<option value="<?php echo $item['kdunit'];?>" <?php echo $selected;?>>
+						<?php echo $item['kdunit'];?> -- <?php echo $item['nmunit'];?>
+						</option>				
+					<?php endforeach ?>
+					</select>					
+				</form>
+				<?php
+				} 				
+				if((isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0)){					
+				?>				
+				<form name="form3" action="<?php echo base_url();?>dja/efisiensi_table" method="POST">
+					<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
+					<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
+					<select name="kdprogram" onchange="this.form.submit();" style="width:650px;">
+						<option value="0" selected="selected">Semua Program</option>
+					<?php
+					foreach ($program as $item):
+						if($kdprogram == $item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
+					?>
+						<option value="<?php echo $item['kdprogram'];?>" <?php echo $selected;?>>
+						<?php echo $item['kdprogram'];?> -- <?php echo $item['nmprogram'];?>
+						</option>				
+					<?php endforeach ?>
+					</select>					
+				</form>
+				<?php } ?>
+				<br>
+				<form name="form4" action="<?php echo base_url();?>dja/efisiensi_table" method="POST">
+					<?php if(isset($kddept)) { ?><input type="hidden" name="kddept" value="<?php echo $kddept;?>"/><?php } ?>
+					<?php if(isset($kdunit)) { ?><input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/><?php } ?>
+					<?php if(isset($kdprogram)) { ?><input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/><?php } ?>
+					<input type="submit" name="submit-e" value="Tampilkan"/>					
+				</form>
 			</div>
 			<div>
-			<?php echo form_open('');?>					
-				<!--<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
-				<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
-				<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>
-				-->
-				<table style="border:1px solid #bebebe;" border=1 cellpadding="2" cellspacing="0">
+				<?php
+				if(isset($submitE))
+				{
+				?>
+				<table style="border:1px solid #bebebe;" width="100%" border=1 cellpadding="2" cellspacing="0">
 					<thead>
 						<th>Keluaran</th>
 						<th>Target</th>
@@ -40,6 +74,8 @@
 					</thead>
 					<tbody>
 				<?php
+				if(count($output) > 0)
+				{
 				$total_ek = 0;
 				foreach($output as $output_item):
 				?>					
@@ -83,7 +119,8 @@
 					</tr>								
 				<?php
 				$total_ek += $ek;
-				endforeach
+				endforeach;
+				}
 				?>
 					</tbody>
 				</table>
@@ -93,11 +130,18 @@
 					</div>					
 					<div class="column4">
 						<?php						
+						if(count($output) > 0){
 						$E = round($total_ek/$n,2);
-						echo $E; ?>
+						echo $E;
+						}
+						else
+						{
+						echo 0;	
+						}
+						?>
 						%
 					</div>
 					<div class="clearfix"></div>				
 				</div><!-- end of box-content -->
-			</form>
+				<?php } ?>
 			</div>

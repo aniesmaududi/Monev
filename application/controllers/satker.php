@@ -1440,11 +1440,12 @@ class Satker extends CI_Controller
                     'code' => $code . '.' . $kd_thang,
                     'code2' => $code2,
                     //'kdjendok' => $kd_dokumen,
-                    'kdkementrian' => $kd_kementrian,
+                    'kddept' => $kd_kementrian,
                     'kdunit' => $kd_unit,
                     'kdlokasi' => $kd_lokasi,
                     'kdsatker' => $kd_satker,
 //                    'thang' => $kd_thang,
+		    'submit_date' => date("Y-m-d H:i:s"),
                 ));
 
 

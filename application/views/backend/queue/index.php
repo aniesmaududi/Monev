@@ -10,17 +10,21 @@
     <table class="backend-table">
 
         <thead>
-        <th>Nama File</th>
-        <th></th>
-        <th>Aksi</th>
+        <th>K/L</th>
+        <th>Eselon</th>
+        <th>Satker</th>
+        <th>Status</th>
+        <th>Aksi</th>        
         </thead>
 
         <tbody>
         <?php foreach ($rows->result() as $value): ?>
-        <tr>
-            <td><?php echo $value->filename ?></td>
-            <td></td>
-            <td><?php echo anchor('/backend/queue/execute/' . $value->id, 'Proses') ?></td>
+        <tr style="font-size:10px;">
+            <td><?php echo $value->kddept.' -- '.$value->nmdept ?></td>
+            <td><?php echo $value->kdunit.' -- '.$value->nmunit ?></td>
+            <td><?php echo $value->kdsatker.' -- '.$value->nmsatker ?></td>            
+            <td><?php if($value->is_done == 1){ echo "sukses"; } else { echo "belum diproses"; } ?></td>
+            <td><?php if($value->is_done != 1){ echo anchor('/backend/queue/execute/' . $value->id, 'Proses'); } else { echo "-";}?></td>
         </tr>
             <?php endforeach;?>
         </tbody>
