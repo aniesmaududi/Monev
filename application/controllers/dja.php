@@ -84,7 +84,7 @@ class Dja extends CI_Controller
             
             //all K/L
             if(empty($kddept)){
-                $pagu = $this->mdja->get_pagu_anggaran($thang, null, null, null, true);
+                $pagu = $this->mdja->get_pagu_anggaran($thang, null, null, null, true);                
                 $this->data['total_pagu'] = $pagu['total'];
                 $realisasi = $this->mdja->get_realisasi_anggaran($thang, null, null, null, true);
                 $this->data['total_realisasi'] = $realisasi['total'];
