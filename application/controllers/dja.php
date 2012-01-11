@@ -154,7 +154,7 @@ class Dja extends CI_Controller
     /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
     function konsistensi_table()
     {
-        $this->data['title'] = 'Konsistensi antara Perencanaan dan Implementasi';
+        $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
         $this->data['pengukuran'] = 'konsistensi';
         $this->data['dept'] = $this->mdja->get_dept();
         if(empty($thang))
@@ -260,6 +260,7 @@ class Dja extends CI_Controller
     /*-------------------------------- Pengukuran Volume Keluaran -----------------------------------------*/
     public function keluaran_table()
     {
+		$this->data['title'] = 'Tingkat Pencapaian Keluaran';
         $this->data['dept'] = $this->mdja->get_dept();
         if(empty($thang))
         {
