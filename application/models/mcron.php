@@ -83,6 +83,8 @@ class Mcron extends CI_Model
 			$data = array(
 				'thang' => $thang,
 				'tgldok' => date('Y-m-d'),
+				'pagu' => $pagu->total,
+				'realisasi' => $realisasi->total,
 				'p' => $p,
 				'kddept' => $pagu->kddept,
 				'kdunit' => $pagu->kdunit,
@@ -93,7 +95,7 @@ class Mcron extends CI_Model
 				$this->db->insert('tb_penyerapan_anggaran',$data);
 			else:
 				$this->db->query('
-					update tb_penyerapan_anggaran set p='.$p.' where id='.$check_data.'
+					update tb_penyerapan_anggaran set p='.$p.', pagu='.$pagu->total.', realisasi='.$realisasi->total.' where id='.$check_data.'
 				');
 			endif;
 		endforeach;
@@ -208,6 +210,8 @@ class Mcron extends CI_Model
 						$data = array(
 							'thang' => $thang,
 							'bulan' => $bulan,
+							'jmlrpd' => $rpd->jmlrpd,
+							'jmlrealisasi' => $realisasi->jmlrealisasi,
 							'k' => $k,
 							'kddept' => $data_index->kddept,
 							'kdunit' => $data_index->kdunit,
@@ -218,7 +222,7 @@ class Mcron extends CI_Model
 							$this->db->insert('tb_konsistensi',$data);
 						else:
 							$this->db->query('
-								update tb_konsistensi set k='.$k.' where id='.$check_data.'
+								update tb_konsistensi set jmlrpd='.$rpd->jmlrpd.', jmlrealisasi='.$realisasi->jmlrealisasi.', k='.$k.' where id='.$check_data.'
 							');
 						endif;
 					endif;

@@ -35,6 +35,9 @@ class Dja extends CI_Controller
     
     function index()
     {
+		$this->data['title'] = 'Dashboard DJA';
+		$this->data['penyerapan'] = get_penyerapan('2011',null,null,null,true);
+		$this->data['konsistensi_all'] = get_konsistensi('2011');
         $this->data['template'] = 'dja/index';
         $this->load->view('index', $this->data);
     }

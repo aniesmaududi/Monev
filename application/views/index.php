@@ -13,6 +13,22 @@
         <!-- styles load below -->
         <link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="images/favicon.png"/>
+		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'enhance.js'?>"></script>
+		<script type="text/javascript">
+			// Run capabilities test
+			enhance({
+				loadScripts: [
+					'<?php echo ASSETS_DIR_JS?>excanvas.js',
+					'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js',
+					'<?php echo ASSETS_DIR_JS?>visualize.jQuery.js',
+					'<?php echo ASSETS_DIR_JS?>style.js',
+				],
+				loadStyles: [
+					'<?php echo ASSETS_DIR_CSS?>visualize.css',
+					'<?php echo ASSETS_DIR_CSS?>visualize-light.css'
+				]	
+			});   
+	    </script>
     </head>
     <body>
 		<!-- template load below -->
