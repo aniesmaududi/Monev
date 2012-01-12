@@ -14,24 +14,16 @@
 				<td valign="top"> : </td>
 				<td><?php echo $nmdept;?></td>
 			</tr>
-			<tr>
-				<td valign="top">Program</td>
-				<td valign="top"> : </td>
-				<td><?php echo strtoupper($program);?></td>
-			</tr>
-			</table>			
-                        <!--
+			</table>		
 			<div id="search-box">
-				<p>20 laporan masih bermasalah</p>
+				<!--<p>20 laporan masih bermasalah</p>-->
 				<div id="search">
-					<img src="http://localhost/monev/assets/img/magnifier.png"/>
+					<img src="<?php echo ASSETS_DIR_IMG.'magnifier.png'?>"/>
 					<input type="text"/>
 				</div>
 			</div>
-                        -->
 			<div id="nav-box">
-                            <!--
-				<p id="total">Total 35 laporan dalam 7 halaman.</p>
+				<!--<p id="total">Total 35 laporan dalam 7 halaman.</p>
 				<div id="pagination">
 					<div id="page-top"><a href="#"><img src="http://localhost/monev/assets/img/top.png"/></a></div>
 					<div id="page-prev"><a href="#"><img src="http://localhost/monev/assets/img/prev.png"/></a></div>
@@ -46,25 +38,25 @@
 				<div class="clearfix"></div>
 				-->
 				<div id="box-title">
-					<div class="column1">Daftar Kegiatan</div>
+					<div class="column1">Daftar Program</div>
 					<div class="clearfix"></div>
 				</div>
 				<?php
-                                foreach ($kegiatan as $kegiatan_item):
+                                foreach ($program as $program_item):
                                 ?>
 				<div class="box-content">
 					<div class="box-content-left">
-					<h3 style="width:450px;"><?php echo $kegiatan_item['nmgiat'];?></h3>
-					<!--<p><?php echo $kegiatan_item['uroutcome'];?></p>-->
+					<h3 style="width:450px;"><?php echo $program_item['nmprogram'];?></h3>
+					<!--<p><?php echo $program_item['uroutcome'];?></p>-->
 					<br/>
-					<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
-					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>
+					<!--<p>Terakhir kali diakses oleh Hermawan Tri Sudarmo, tanggal 15 Januari 2011,</p>
+					<p>07:23:25. Laporan PMK ini sudah selesai diisi.</p>-->
 					</div><!-- end of box-content-left -->
 
 					<div class="box-content-right">
 					<table>
 						<tr>
-							<td class="button"><a href="<?php echo base_url();?>satker/realisasi/<?php echo $kegiatan_item['kddept'];?>-<?php echo $kegiatan_item['kdunit'];?>-<?php echo $kegiatan_item['kdsatker'];?>-<?php echo $kegiatan_item['kdprogram'];?>-<?php echo $kegiatan_item['kdgiat'];?>" class="custom">Isi Realisasi</a></td>
+							<td class="button"><a href="<?php echo base_url();?>satker/kegiatan/<?php echo $program_item['kddept'];?>-<?php echo $program_item['kdunit'];?>-<?php echo $program_item['kdsatker'];?>-<?php echo $program_item['kdprogram'];?>" class="custom">Lihat Kegiatan</a></td>
 							<td class="mark"><!--<img src="http://localhost/monev/assets/img/new.png" class="round-mark"/>--></td>
 						</tr>
 					</table>

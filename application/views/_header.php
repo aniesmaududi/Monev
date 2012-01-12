@@ -1,13 +1,8 @@
-		<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
-		<div id="user"><?php echo $this->session->userdata('nama');?></div>
-		<div id="position"><?php if($this->session->userdata('jabatan')==1)
-		echo 'SATKER';
-		elseif($this->session->userdata('jabatan')==2)
-		echo 'ESELON';
-		elseif($this->session->userdata('jabatan')==3)
-		echo 'K/L';
-		elseif($this->session->userdata('jabatan')==4)
-		echo 'DJA';
-		?></div>
+		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS;?>fusioncharts.js"></script>
+        <img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
 		<?php echo anchor('user/logout','Logout','class="custom floatright"');?>
+		<div id="position"><?php echo $this->session->userdata('jabatan');?></div>
+		<div id="user"><?php echo $this->session->userdata('nama');?></div>
+		
+		
 		

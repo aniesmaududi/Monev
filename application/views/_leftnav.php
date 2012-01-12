@@ -1,33 +1,35 @@
 		<div id="content-left">
-			<div id="navigation-title"><!--Eselon XIV-->
-			<?php if($this->session->userdata('jabatan')==1)
-		echo 'Satker';
-		elseif($this->session->userdata('jabatan')==2)
-		echo 'Eselon';
-		elseif($this->session->userdata('jabatan')==3)
-		echo 'K/L';
-		elseif($this->session->userdata('jabatan')==4)
-		echo 'DJA';
-		?></div>
-			<div id="navigation-list">
+			<a href="<?php echo $dashboard_menu_link;?>" class="navigation-title first <?php echo ($this->uri->segment(2)=='')?'active':'';?>">Dashboard</a>
+			<a class="navigation-title <?php echo ($this->uri->segment(2)!='')?'active':'';?>"><?php echo $nav_title;?></a>
+			<div class="navigation-list <?php echo (isset($nav2_title))? '':'last'?>">
 				<ul>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Semua Laporan</a></li>
-<?php if($this->session->userdata('jabatan')==1): ?>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Belum Terisi (15)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Terisi Lengkap (20)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Perlu Revisi (5)</a></li>
-<?php elseif($this->session->userdata('jabatan')==2): ?>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Baru (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Belum Divalidasi (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Perlu Revisi (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Diagram Kinerja</a></li>
-<?php elseif($this->session->userdata('jabatan')==3): ?>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Baru (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Belum Divalidasi (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Perlu Revisi (10)</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Diagram Kinerja</a></li>
-<?php endif;?>
+					<?php
+					for($i=0;$i<count($nav_menu);$i++):
+					?>
+					<li>
+						<a href="<?php echo $nav_menu_link[$i];?>">
+							<img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/>
+							<?php echo $nav_menu[$i];?>
+						</a>
+					</li>
+					<?php endfor ?>
 				</ul>
 			</div><!-- end of navigation-list -->
-
-		</div><!-- end of content-left -->
+			<?php if(isset($nav2_title)){ ?>	
+			<a class="navigation-title"><?php echo $nav2_title;?></a>
+			<div class="navigation-list last">
+				<ul>
+					<?php
+					for($i=0;$i<count($nav2_menu);$i++):
+					?>
+					<li>
+						<a href="<?php echo $nav2_menu_link[$i];?>">
+							<img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/>
+							<?php echo $nav2_menu[$i];?>
+						</a>
+					</li>
+					<?php endfor ?>
+				</ul>
+			</div><!-- end of navigation-list -->
+			<?php } ?>
+		</div><!-- end of content-left -->		
