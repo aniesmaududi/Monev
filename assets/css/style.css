@@ -1,3 +1,5 @@
+@import url(backend.css);
+@import url(chosen.css);
 html
 {
 	margin: 0px;
@@ -34,7 +36,6 @@ body
 {
 	width: 1020px;
 	min-width: 1020px;
-	height: auto;
 	padding: 0px;
 	margin: 0px auto 0px auto;
 }
@@ -98,30 +99,36 @@ img#logo
 
 a.custom
 {
-	/*background: url('../img/btn.png');*/
-	background-color: #CECECE;
+	-webkit-transition:border linear 0.2s,box-shadow linear 0.2s;-moz-transition:border linear 0.2s,box-shadow linear 0.2s;-ms-transition:border linear 0.2s,box-shadow linear 0.2s;-o-transition:border linear 0.2s,box-shadow linear 0.2s;transition:border linear 0.2s,box-shadow linear 0.2s;
+	background-color: #FBFBFB;
     background-repeat: repeat-x;
     background-image: -moz-linear-gradient(#FBFBFB, #CECECE);
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FBFBFB), to(#CECECE));
     background-image: -o-linear-gradient(top, #FBFBFB, #CECECE);
     background-image: linear-gradient(top, #FBFBFB, #CECECE);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#CECECE', GradientType=0);
-	padding: 4px 10px 4px 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-  	border-radius: 10px;
+	padding: 5px 13px 5px 13px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
   	font-size: 12px;
-  	border: 1px solid #919191;
+  	border: 1px solid #bbbbbb;
   	color: #575757;
   	text-decoration: none;
-  	-moz-box-shadow:0px 1px 1px #999;
-    -webkit-box-shadow:0px 1px 1px #999;
-    box-shadow:0px 1px 1px #999;
+  	-moz-box-shadow:0px -1px #DFDFDF inset;
+    -webkit-box-shadow:0px -1px #DFDFDF inset;
+    box-shadow:0px -1px #DFDFDF inset;
+	cursor:pointer;
+	text-shadow: 0 1px #eeeeee;
 }
 
 a.custom:hover
 {
 	background: url('../images/hover.png');
+	border: 1px solid #919191;
+	-moz-box-shadow:0px 1px #F7F9FC inset;
+    -webkit-box-shadow:0px 1px #F7F9FC inset;
+    box-shadow:0px 1px #F7F9FC inset;
 }
 
 a#logout:hover
@@ -132,7 +139,7 @@ a#logout:hover
 input.custom
 {
 	/*background: url('../img/btn.png');*/
-	background-color: #CECECE;
+	background-color: #FBFBFB;
     background-repeat: repeat-x;
     background-image: -moz-linear-gradient(#FBFBFB, #CECECE);
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FBFBFB), to(#CECECE));
@@ -140,21 +147,28 @@ input.custom
     background-image: linear-gradient(top, #FBFBFB, #CECECE);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#CECECE', GradientType=0);
 	padding: 4px 10px 4px 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-  	border-radius: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
   	font-size: 12px;
-  	border: 1px solid #919191;
+  	border: 1px solid #bbbbbb;
   	color: #575757;
   	text-decoration: none;
-  	-moz-box-shadow:0px 1px 1px #999;
-    -webkit-box-shadow:0px 1px 1px #999;
-    box-shadow:0px 1px 1px #999;
+  	-moz-box-shadow:0px -1px #DFDFDF inset;
+    -webkit-box-shadow:0px -1px #DFDFDF inset;
+    box-shadow:0px -1px #DFDFDF inset;
+	cursor:pointer;
+	text-shadow: 0 1px #eeeeee;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 input.custom:hover
 {
 	background: url('../images/hover.png');
+	border: 1px solid #919191;
+	-moz-box-shadow:0px 1px #F7F9FC inset;
+    -webkit-box-shadow:0px 1px #F7F9FC inset;
+    box-shadow:0px 1px #F7F9FC inset;
 }
 
 input#logout:hover
@@ -253,14 +267,15 @@ a.navigation-title
 	border: 1px solid #aeafb0;
 	color: #575757;
 	display: block;
-	box-shadow:inset 0px 1px 1px #d8dae0;
+	box-shadow: inset 0 1px 1px #d8dae0;
 	text-decoration: none;	
 }
 a.navigation-title.first{
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-topleft: 5px;
-	-webkit-border-radius: 5px 5px 0px 0px;
-	border-radius: 5px 5px 0px 0px;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+	border-bottom:none;
 }
 a.navigation-title.active
 {
@@ -272,6 +287,7 @@ a.navigation-title.active
 	width: 755px;
 	float: left;
 	padding: 20px 0px 0px 20px;
+	display:inline-block;
 }
 
 #content-right h1
@@ -326,7 +342,6 @@ table.login tr td.words
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;
 	-webkit-border-radius: 5px 5px 0px 0px;
-	min-height:30px;
 	display:block;
 }
 
@@ -832,8 +847,13 @@ table#report
 {
 	border-collapse: collapse;
 	width: 100%;
+	font-size:13px;
 }
-
+table#report thead th{
+	font-size:13px;
+	padding:5px;
+	border: 1px solid #acacac;
+}
 table#report tr td
 {
 	border: 1px solid #acacac;
@@ -841,7 +861,7 @@ table#report tr td
 input,textarea{-webkit-transition:border linear 0.2s,box-shadow linear 0.2s;-moz-transition:border linear 0.2s,box-shadow linear 0.2s;-ms-transition:border linear 0.2s,box-shadow linear 0.2s;-o-transition:border linear 0.2s,box-shadow linear 0.2s;transition:border linear 0.2s,box-shadow linear 0.2s;-webkit-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);-moz-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);}
 input:focus,textarea:focus{outline:0;border-color:rgba(82, 168, 236, 0.8);-webkit-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);-moz-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);}
 input[type=file]:focus,input[type=checkbox]:focus,select:focus{-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;outline:1px dotted #666;}
-
+.chzn-search input:focus,textarea:focus{border-color:rgba(82, 168, 236, 0.8);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
 /*twitter modal*/
 
 .modal-backdrop {
@@ -931,4 +951,29 @@ input[type=file]:focus,input[type=checkbox]:focus,select:focus{-webkit-box-shado
 .modal-footer .btn {
   float: right;
   margin-left: 5px;
+}
+/* graph filter select */
+.filter-option-box{
+	display:block;
+	margin-bottom:10px;
+	border-bottom:1px solid #dddddd;
+	padding-bottom:10px;
+	
+}
+.filter-option-box select{
+	margin-bottom:5px;
+	width:100%;
+}
+.filter-option-box input[type=submit]{
+	margin-top:5px;
+}
+.form-tampilkan{
+	display:block;
+	text-align:right;
+}
+h3.header-graph{
+	position:relative;
+	top:5px;
+	text-transform:uppercase;
+	text-align:center;
 }

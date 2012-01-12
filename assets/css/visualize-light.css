@@ -1,16 +1,17 @@
 /* page styles */
 
 /*demo styles*/
-table {width: 500px; height: 200px; margin-left: 30px; }
+table.accessHide {width: 500px; height: 200px; margin-left: 30px; }
 table.accessHide { position: absolute; left: -999999px; }
-td, th {  font-size: 1.2em; padding: 2px; width: 13%; }
-th { background-color:#f4f4f4; } 
-caption { font-size: 1.5em;  }
+table.accessHide td, table.accessHide th {  font-size: 1.2em; padding: 2px; width: 13%; }
+table.accessHide th { background-color:#f4f4f4; } 
+table.accessHide caption { font-size: 1.5em;  }
 
 /*visualize extension styles*/
-.visualize { margin: 0; padding: 40px 40px 90px; border: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.visualize { margin: 0; padding: 25px 40px 90px; border: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 .visualize canvas { border-top: 1px dashed #dddddd;border-bottom: 1px solid #dddddd;  margin: 0 0 0 20px; background: #fff; }
-.visualize-labels-x, .visualize-labels-y { top: 40px; left: 60px; z-index: 100; }
+.visualize-labels-x, .visualize-labels-y { top: 25px; left: 60px; z-index: 100; }
+.visualize-labels-x{top:35px;}
 .visualize-pie .visualize-labels { position: absolute; top: 70px; left: 40px; }
 .visualize-labels-x li span.label, .visualize-labels-y li span.label { color: #444; font-size: 11px; font-weight:bold; padding-right: 5px; }
 .visualize-labels-y li:first-child span.label{top:-8px;}
