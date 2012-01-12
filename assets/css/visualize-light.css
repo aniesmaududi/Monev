@@ -1,4 +1,5 @@
 /* page styles */
+
 /*demo styles*/
 table {width: 500px; height: 200px; margin-left: 30px; }
 table.accessHide { position: absolute; left: -999999px; }
@@ -7,18 +8,20 @@ th { background-color:#f4f4f4; }
 caption { font-size: 1.5em;  }
 
 /*visualize extension styles*/
-.visualize { margin: 0; padding: 20px 40px 90px; background: #fff top repeat-x; border: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
-.visualize canvas { border-top: 1px dashed #dddddd; border-bottom:1px solid #dddddd; margin: -1px; background: #fff; }
-.visualize-labels-x, .visualize-labels-y { top: 18px; left: 40px; z-index: 100; }
-
-.visualize-labels-y li:first-child span.label{top:-4px;}
-.visualize-labels-y li:last-child span.label{top:8px;}
+.visualize { margin: 0; padding: 40px 40px 90px; border: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.visualize canvas { border-top: 1px dashed #dddddd;border-bottom: 1px solid #dddddd;  margin: 0 0 0 20px; background: #fff; }
+.visualize-labels-x, .visualize-labels-y { top: 40px; left: 60px; z-index: 100; }
 .visualize-pie .visualize-labels { position: absolute; top: 70px; left: 40px; }
-.visualize-labels-x li span.label, .visualize-labels-y li span.label { color: #444; font-size: .9em; padding-right: 5px; }
-.visualize-labels-y li span.line { border-top: 1px dashed;  opacity: .7; color:#dddddd; }
+.visualize-labels-x li span.label, .visualize-labels-y li span.label { color: #444; font-size: 11px; font-weight:bold; padding-right: 5px; }
+.visualize-labels-y li:first-child span.label{top:-8px;}
+.visualize-labels-y li:last-child span.label{bottom:-8px;}
+.visualize-labels-y li span.line { border-style: dashed;  opacity: .7; }
 .visualize .visualize-info { border: 0; position: static;  opacity: 1; background: none; }
 .visualize .visualize-title { position: absolute; top: 20px; color: #333; margin-bottom: 0; left: 20px; font-size: 2.1em; font-weight: bold; }
-.visualize ul.visualize-key { position: absolute; bottom: 25px; background: #eee; z-index: 10; padding: 10px 0; color: #aaa; width: 100%; left: 0;  }
+.visualize ul.visualize-key { position: absolute; bottom: 15px; background: #eee; z-index: 10; padding: 10px 0; color: #aaa; width: 100%; left: 0;  }
 .visualize ul.visualize-key li { font-size: 1.2em;  margin-left: 20px; padding-left: 18px; }
+.visualize ul.visualize-key li:first-child{
+	margin-left:60px;
+}
 .visualize ul.visualize-key .visualize-key-color { width: 10px; height: 10px;  margin-top: -4px; }
 .visualize ul.visualize-key .visualize-key-label { color: #333; }

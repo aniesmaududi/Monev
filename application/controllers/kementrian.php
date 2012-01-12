@@ -49,14 +49,17 @@ class Kementrian extends CI_Controller {
 						7 => base_url().'kementrian/',
 						);
 		//keperluan chart
-		$this->_kdunit = "11"; // 11
-		$this->_kddept = "018"; // 015
+		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
 		$this->_iskl = FALSE;
 	}
 	
 	function index()
 	{
 		$this->data['title'] = 'Dashboard Kementrian / Lembaga';
+		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept']);
+		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept']);
+		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept']);
+		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept']);
 		$this->data['template'] = 'kementrian/index';
 		$this->load->view('index', $this->data);
 	}

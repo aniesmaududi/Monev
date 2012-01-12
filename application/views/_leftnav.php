@@ -1,6 +1,6 @@
 		<div id="content-left">
-			<div id="navigation-title"><?php echo $nav_title;?></div>
-			<div id="navigation-list">
+			<a class="navigation-title first active"><?php echo $nav_title;?></a>
+			<div class="navigation-list <?php echo (isset($nav2_title))? '':'last'?>">
 				<ul>
 					<?php
 					for($i=0;$i<count($nav_menu);$i++):
@@ -14,10 +14,9 @@
 					<?php endfor ?>
 				</ul>
 			</div><!-- end of navigation-list -->
-			<br>
 			<?php if(isset($nav2_title)){ ?>	
-			<div id="navigation-title"><?php echo $nav2_title;?></div>
-			<div id="navigation-list">
+			<a class="navigation-title"><?php echo $nav2_title;?></a>
+			<div class="navigation-list last">
 				<ul>
 					<?php
 					for($i=0;$i<count($nav2_menu);$i++):
