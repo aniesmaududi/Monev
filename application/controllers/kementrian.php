@@ -13,7 +13,9 @@ class Kementrian extends CI_Controller {
 		$this->load->model('meselon');
 		//get Dept model
 		$this->load->model('mkementrian');		
+		$this->load->model('mdja');	
 		$this->kddept = $this->session->userdata('kddept');
+		$this->data['dashboard_menu_link'] =  base_url().'kementrian/';
 		$this->data['nav_title'] = 'Pengesahan';
 		$this->data['nav_menu'] = array(
 						0 => 'Pengesahan Outcome',						
@@ -56,10 +58,30 @@ class Kementrian extends CI_Controller {
 	function index()
 	{
 		$this->data['title'] = 'Dashboard Kementrian / Lembaga';
-		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept']);
-		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept']);
-		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept']);
-		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept']);
+		
+		$this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
+        $this->data['kddept'] = $this->data['kddept'];
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;
+		
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0)):
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+        endif;
+		
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0)):
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+            //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+        endif;
+		
+		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		
 		$this->data['template'] = 'kementrian/index';
 		$this->load->view('index', $this->data);
 	}
