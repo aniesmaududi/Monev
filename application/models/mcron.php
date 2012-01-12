@@ -232,44 +232,40 @@ class Mcron extends CI_Model
 	}
 
 	// pencapaian keluaran
-	public function get_volume_keluaran($thang="2011", $kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $bulan=null)
+	public function get_volume_keluaran($thang="2011", $kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, $bulan=null)
     {
-        if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat)):
-			$sql = 'select kddept, kdunit, kdsatker, kdprogram, kdgiat, kdoutput '.
-				'from tb_real_output '.
-				'where substring(tgldok,1,4)='.$thang.' group by kddept, kdunit, kdsatker, kdprogram, kdgiat ';
+		if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat) && !isset($kdoutput)):
+			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
+                'from tb_real_output sr '.
+                'where substring(tgldok,1,4) = '.$thang. ' ';
 		else:
-			$sql = 'select kddept, kdunit, kdsatker, kdprogram, kdgiat, sum(tvk) as tvk, sum(rvk) as rvk, kdoutput '.
-                'from tb_real_output '.
-                'where substring(tgldok,1,4)='.$thang. ' ';
+			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
+                'from tb_real_output sr '.
+                'where substring(tgldok,1,4) = '.$thang. ' ';
 		endif;
 		
         if(isset($bulan)):
 			$sql .= 'and substring(tgldok,6,2) = '.$bulan.' ';
 		endif;
         if(isset($kddept)){                          
-        $sql .= 'and kddept='.$kddept.' ';
+        $sql .= 'and sr.kddept='.$kddept.' ';
         }
         if(isset($kdunit)){
-        $sql .= 'and kdunit='.$kdunit.' ';
+        $sql .= 'and sr.kdunit='.$kdunit.' ';
         }
 		if(isset($kdsatker)){
-        $sql .= 'and kdsatker='.$kdsatker.' ';
+        $sql .= 'and sr.kdsatker='.$kdsatker.' ';
         }
         if(isset($kdprogram)){
-        $sql .= 'and kdprogram='.$kdprogram.' ';
+        $sql .= 'and sr.kdprogram='.$kdprogram.' ';
         }
 		if(isset($kdgiat)){
-        $sql .= 'and kdgiat='.$kdgiat.' ';
+        $sql .= 'and sr.kdgiat='.$kdgiat.' ';
         }
-		
-        $query = $this->db->query($sql);
-		
-		if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat)):
-			return $query->result();
-		else:
-			return $query->row();
+		if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat) && !isset($kdoutput)):
+			$sql .='group by sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput';
 		endif;
+        return $query = $this->db->query($sql);
     }
 	
 	public function check_tb_keluaran($thang="2011", $kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat, $bulan)
@@ -294,6 +290,42 @@ class Mcron extends CI_Model
 	
 	public function cron_keluaran($thang)
 	{
+		for($bulan=1;$bulan<=12;$bulan++):
+			$bulan_ke = $bulan;
+			if($bulan<10):
+				$bulan_ke = '0'.$bulan;
+			endif;
+			$total_persen = 0;
+			$i = 0;
+			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, $bulan_ke)->result();
+			if($data_bulanan):
+				foreach($data_bulanan as $keluaran):
+					$i++;
+					$RVK = $keluaran->rvk;
+					$TVK = $keluaran->tvk;
+					$total_persen += round(($RVK/$TVK) * 100,2);
+				endforeach;
+				$data = array(
+					'thang' => $thang,
+					'bulan' => $bulan_ke,
+					'pk' => round($total_persen/$i,2),
+					'kddept' => $keluaran->kddept,
+					'kdunit' => $keluaran->kdunit,
+					'kdsatker' => $keluaran->kdsatker,
+					'kdprogram' => $keluaran->kdprogram,
+					'kdgiat' => $keluaran->kdgiat
+				);
+				$check_data = $this->check_tb_keluaran($thang,$keluaran->kddept,$keluaran->kdunit,$keluaran->kdsatker,$keluaran->kdprogram,$keluaran->kdgiat,$bulan_ke);
+				if(!$check_data):
+					$this->db->insert('tb_keluaran',$data);
+				else:
+					$this->db->query('
+						update tb_keluaran set pk='.$pk.' where id='.$check_data.'
+					');
+				endif;
+			endif;
+		endfor;
+		/*
 		$data_index = $this->get_volume_keluaran($thang);
 		foreach($data_index as $data_index):
 			if($data_index->kddept!='' && $data_index->kdunit!='' && $data_index->kdsatker!='' && $data_index->kdprogram!='' && $data_index->kdgiat!=''):
@@ -327,6 +359,7 @@ class Mcron extends CI_Model
 				endfor;
 			endif;
 		endforeach;
+		*/
 	}
 	
 	// tingkat efisiensi
@@ -379,45 +412,45 @@ class Mcron extends CI_Model
 	
 	public function cron_efisiensi($thang)
 	{
-		$data_index = $this->get_volume_keluaran($thang);
-		foreach($data_index as $data_index):
-			if($data_index->kddept!='' && $data_index->kdunit!='' && $data_index->kdsatker!='' && $data_index->kdprogram!='' && $data_index->kdgiat!=''):
-				for($i=1;$i<=12;$i++):
-					$bulan = $i;
-					if($i<10):
-						$bulan = '0'.$i;
-					endif;
-					$data_keluaran = $this->get_volume_keluaran($thang, $data_index->kddept, $data_index->kdunit, $data_index->kdsatker, $data_index->kdprogram, $data_index->kdgiat, $bulan);
-					$RVK = $data_keluaran->rvk;
-					$TVK = $data_keluaran->tvk;
-					$pagu = $this->get_pagu_anggaran_keluaran($data_index->kddept, $data_index->kdunit, $data_index->kdsatker, $data_index->kdprogram, $data_index->kdgiat, $data_index->kdoutput);
-					$PAK = $pagu->pagu;
-					$realisasi = $this->get_realisasi_anggaran_keluaran($data_index->kddept, $data_index->kdunit, $data_index->kdsatker, $data_index->kdprogram, $data_index->kdgiat, $data_index->kdoutput);
-					$RAK = $realisasi->total;
-					if($RVK>0 && $TVK>0 && $PAK>0 && $RAK>0):
-						$e =round(1-( ($RAK/$RVK) / ($PAK/$TVK) * 100),2);
-						$data = array(
-							'thang' => $thang,
-							'bulan' => $bulan,
-							'e' => $e,
-							'kddept' => $data_index->kddept,
-							'kdunit' => $data_index->kdunit,
-							'kdsatker' => $data_index->kdsatker,
-							'kdprogram' => $data_index->kdprogram,
-							'kdgiat' => $data_index->kdgiat
-						);
-						$check_data = $this->check_tb_efisiensi($thang,$data_index->kddept, $data_index->kdunit, $data_index->kdsatker, $data_index->kdprogram, $data_index->kdgiat,$bulan);
-						if(!$check_data):
-							$this->db->insert('tb_efisiensi',$data);
-						else:
-							$this->db->query('
-								update tb_efisiensi set e='.$e.' where id='.$check_data.'
-							');
-						endif;
-					endif;
-				endfor;
+		for($bulan=1;$bulan<=12;$bulan++):
+			$bulan_ke = $bulan;
+			if($bulan<10):
+				$bulan_ke = '0'.$bulan;
 			endif;
-		endforeach;
+			$total_persen = 0;
+			$i = 0;
+			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, $bulan_ke)->result();
+			if($data_bulanan):
+				foreach($data_bulanan as $efisiensi):
+					$i++;
+					$RVK = $efisiensi->rvk;
+					$TVK = $efisiensi->tvk;
+					$pagu = $this->get_pagu_anggaran_keluaran($efisiensi->kddept,$efisiensi->kdunit,$efisiensi->kdsatker,$efisiensi->kdprogram,$efisiensi->kdgiat,$efisiensi->kdoutput);
+					$PAK = $pagu->pagu;
+					$realisasi = $this->get_realisasi_anggaran_keluaran($efisiensi->kddept,$efisiensi->kdunit,$efisiensi->kdsatker,$efisiensi->kdprogram,$efisiensi->kdgiat,$efisiensi->kdoutput);
+					$RAK = $realisasi->total;
+					$total_persen += round(1-( ($RAK/$RVK) / ($PAK/$TVK) * 100),2);
+				endforeach;
+				$data = array(
+							'thang' => $thang,
+							'bulan' => $bulan_ke,
+							'e' => round($total_persen/$i,2),
+							'kddept' => $efisiensi->kddept,
+							'kdunit' => $efisiensi->kdunit,
+							'kdsatker' => $efisiensi->kdsatker,
+							'kdprogram' => $efisiensi->kdprogram,
+							'kdgiat' => $efisiensi->kdgiat
+						);
+				$check_data = $this->check_tb_efisiensi($thang,$efisiensi->kddept, $efisiensi->kdunit, $efisiensi->kdsatker, $efisiensi->kdprogram, $efisiensi->kdgiat,$bulan_ke);
+				if(!$check_data):
+					$this->db->insert('tb_efisiensi',$data);
+				else:
+					$this->db->query('
+						update tb_efisiensi set e='.round($total_persen/$i,2).' where id='.$check_data.'
+					');
+				endif;
+			endif;
+		endfor;
 	}
 	
 }

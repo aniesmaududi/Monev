@@ -19,7 +19,7 @@
 			enhance({
 				loadScripts: [
 					'<?php echo ASSETS_DIR_JS?>excanvas.js',
-					'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js',
+					'<?php echo ASSETS_DIR_JS?>jquery.min.js',
 					'<?php echo ASSETS_DIR_JS?>visualize.jQuery.js',
 					'<?php echo ASSETS_DIR_JS?>style.js',
 				],
@@ -47,7 +47,7 @@
 			<div class="clearfix"></div>
 		
 		</div><!-- end of content -->
-		
+		<p id="copyright">Copyright &copy; <?php echo date('Y');?> Kementerian Keuangan RI - DJA</p>
 		</div><!-- end of container -->
 		<!-- javascript load below -->
 	</body>

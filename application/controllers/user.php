@@ -126,6 +126,8 @@ class User extends CI_Controller
 				$this->session->set_userdata('jabatan',$query_dja->kdjabatan);
 				redirect('dja/satker');
 			else:
+				$this->session->set_flashdata('message_type', 'error');
+                $this->session->set_flashdata('message', '<b>Login gagal</b>, userid atau password salah.');
 				$data['error'] = 'password tidak benar';
 				redirect('user/login');
 			endif;	

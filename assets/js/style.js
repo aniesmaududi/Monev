@@ -1,3 +1,3 @@
 $(function(){
-	$('table.chart-bar').visualize({type: 'bar', width: '550px'});
+	$('table.chart-bar').visualize({type: 'bar', width: '673px'});
 });

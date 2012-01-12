@@ -48,14 +48,18 @@ class Eselon extends CI_Controller {
 						7 => base_url().'eselon/',
 						);
 		//keperluan chart
-		$this->_kdunit = "11"; // 11
-		$this->_kddept = "018"; // 015
+		$this->data['kdunit'] = $this->session->userdata('kdunit'); // 11
+		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
 		$this->_iskl = FALSE;
 	}
 	
 	function index()
 	{
 		$this->data['title'] = 'Dashboard Eselon';
+		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit']);
+		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit']);
+		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit']);
+		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit']);
 		$this->data['template'] = 'eselon/index';
 		$this->load->view('index', $this->data);
 	}
