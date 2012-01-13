@@ -50,11 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-<<<<<<< HEAD
-$db['default']['password'] = 'bondowoso';
-=======
 $db['default']['password'] = '';
->>>>>>> monev/master
 $db['default']['database'] = 'db_monev';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

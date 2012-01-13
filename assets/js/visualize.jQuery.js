@@ -25,7 +25,7 @@ $.fn.visualize = function(options, container){
 			pieMargin: 20, //pie charts only - spacing around pie
 			pieLabelsAsPercent: true,
 			pieLabelPos: 'inside',
-			lineWeight: 4, //for line and area - stroke weight
+			lineWeight: 2, //for line and area - stroke weight
 			barGroupMargin: 10,
 			barMargin: 1, //space around bars in bar chart (added to both sides of bar)
 			yLabelInterval: 30 //distance between y labels

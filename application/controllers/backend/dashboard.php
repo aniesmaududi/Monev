@@ -52,7 +52,7 @@ class Dashboard extends CI_Controller
                 $this->session->set_flashdata('message_type', 'success');
                 $this->session->set_flashdata('message', 'Admin login success');
                 $this->log->create('', 'Login');
-                redirect('backend');
+                redirect('backend/user_management');
             else:
                 $this->log->create('', 'Gagal Login');
                 $this->session->set_flashdata('message_type', 'error');

@@ -11,6 +11,7 @@ class Satker extends CI_Controller
         //get Satker model
         $this->load->model('msatker');
         $this->kdsatker = $this->session->userdata('kdsatker');
+		$this->data['dashboard_menu_link'] =  base_url().'satker/';
         $this->data['nav_title'] = 'Entri Data';
         $this->data['nav_menu'] = array(
             0 => 'Entri IKU',
@@ -31,28 +32,25 @@ class Satker extends CI_Controller
 
         $this->data['nav2_title'] = 'Laporan';
         $this->data['nav2_menu'] = array(
-            0 => 'Laporan Outcome',
-            1 => 'Kertas Kerja Outcome',
-            2 => 'Laporan Output',
-            3 => 'Kertas Kerja Output',
-            4 => 'Laporan Perencanaan & Realisasi',
-            5 => 'Kertas Kerja Konsistensi',
-            6 => 'Laporan Penyerapan Efisiensi',
-            7 => 'Kertas Kerja Penyerapan Efisiensi',
-        );
+            0 => 'Laporan Outcome',            
+            1 => 'Laporan Output',            
+            2 => 'Laporan Perencanaan & Realisasi',            
+            3 => 'Laporan Penyerapan Efisiensi',        
+        
+	);
         $this->data['nav2_menu_link'] = array(
-            0 => base_url() . 'satker/capaian_hasil',
-            1 => base_url() . 'satker/',
-            2 => base_url() . 'satker/keluaran',
-            3 => base_url() . 'satker/',
-            4 => base_url() . 'satker/konsistensi',
-            5 => base_url() . 'satker/',
-            6 => base_url() . 'satker/efisiensi',
-            7 => base_url() . 'satker/',
+            0 => base_url() . 'satker/capaian_hasil',        
+            1 => base_url() . 'satker/keluaran',            
+            2 => base_url() . 'satker/konsistensi',            
+            3 => base_url() . 'satker/efisiensi',            
         );
         //keperluan chart
+        //$this->_kdunit = "11"; // 11
+        //$this->_kddept = "018"; // 015
+        //$this->_iskl = FALSE;
         $this->data['kdunit'] = $this->session->userdata('kdunit'); // 11
-		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
+	$this->data['kddept'] = $this->session->userdata('kddept'); // 015
+	$this->data['kdprogram'] = null;
         $this->_iskl = FALSE;
 
     }

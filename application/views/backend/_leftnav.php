@@ -3,13 +3,13 @@
 			<div id="navigation-list">
 				<ul>
 					<li><a href="<?php echo site_url('backend/user')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Data Pengguna</a></li>
-					<li><a href=""><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen Akses</a></li>
+					<li><a href="<?php echo site_url('backend/access_management')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen Akses</a></li>
 						<ul>
 								<li><a href="#">Bappenas</a></li>
 								<li><a href="<?php echo site_url('backend/akses_kl')?>">K/L</a></li>
 								<li><a href="#">Intern DJA</a></li>
 						</ul>
-					<li><a href=""><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen User</a></li>
+					<li><a href="<?php echo site_url('backend/user_management')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen User</a></li>
 						<ul>
 								<li><a href="<?php echo site_url('backend/user_bappenas')?>">Bappenas</a></li>
 								<li><a href="#">K/L</a></li>
