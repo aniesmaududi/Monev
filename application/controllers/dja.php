@@ -39,7 +39,6 @@ class Dja extends CI_Controller
     {
 		$this->data['title'] = 'Dashboard DJA';
 		
-		
 		$this->data['dept'] = $this->mdja->get_dept();
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;

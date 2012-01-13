@@ -11,6 +11,7 @@ class Satker extends CI_Controller
         //get Satker model
         $this->load->model('msatker');
         $this->kdsatker = $this->session->userdata('kdsatker');
+		$this->data['dashboard_menu_link'] =  base_url().'satker/';
         $this->data['nav_title'] = 'Entri Data';
         $this->data['nav_menu'] = array(
             0 => 'Entri IKU',
@@ -49,6 +50,7 @@ class Satker extends CI_Controller
         //$this->_iskl = FALSE;
         $this->data['kdunit'] = $this->session->userdata('kdunit'); // 11
 	$this->data['kddept'] = $this->session->userdata('kddept'); // 015
+	$this->data['kdprogram'] = null;
         $this->_iskl = FALSE;
 
     }

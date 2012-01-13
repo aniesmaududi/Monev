@@ -44,7 +44,50 @@
 					</form>
 					</span>
 				</div>
-				<h3>Grafik Indikator Kerja</h3>
+				
+				<h3 class="header-graph">Grafik Penyerapan Anggaran</h3>
+				<table class="chart-line accessHide" >
+					<caption>Grafik Penyerapan Anggaran</caption>
+					<thead>
+						<tr>
+							<td></td>
+							<th scope="col">Jan</th>
+							<th scope="col">Feb</th>
+							<th scope="col">Mar</th>
+							<th scope="col">Apr</th>
+							<th scope="col">Mei</th>
+							<th scope="col">Jun</th>
+							<th scope="col">Jul</th>
+							<th scope="col">Agu</th>
+							<th scope="col">Sep</th>
+							<th scope="col">Okt</th>
+							<th scope="col">Nov</th>
+							<th scope="col">Des</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Rencana Penarikan Anggaran(Juta)</th>
+							<?php for($i=1;$i<=12;$i++):
+								($i<10) ? $bulan='0'.$i : $bulan=$i;
+								$rpd = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
+							?>
+							<td><?php echo ($rpd) ? substr($rpd->rpd, 0, -6) : '0';?></td>
+							<?php endfor;?>
+						</tr>
+						<tr>
+							<th scope="row">Realisasi Anggaran(Juta)</th>
+							<?php for($i=1;$i<=12;$i++):
+								($i<10) ? $bulan='0'.$i : $bulan=$i;
+								$realisasi = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
+							?>
+							<td><?php echo ($realisasi) ? substr($realisasi->realisasi, 0, -6) : '0';?></td>
+							<?php endfor;?>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<h3 class="header-graph">Grafik Indikator Kerja</h3>
 				<table class="chart-bar accessHide" >
 					<caption>Grafik Indikator Kerja</caption>
 					<thead>

@@ -125,3 +125,33 @@ function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 	endif;
 	return $ci->db->query($sql)->row();
 }
+
+// untuk ambil data konsistensi perbulan dari tb_konsistensi
+function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$sql = 'SELECT 
+			bulan, 
+			sum( jmlrpd ) AS rpd, 
+			sum( jmlrealisasi ) AS realisasi, 
+			round( avg( k ) , 2 ) AS konsistensi
+		FROM tb_konsistensi
+		WHERE thang ='.$thang.' ';
+		
+	if(isset($bulan)):
+		$sql .= 'and bulan='.$bulan.' ';
+	endif;
+	if(isset($kddept)):
+		$sql .= 'and kddept='.$kddept.' ';
+	endif;
+	if(isset($kdunit)):
+		$sql .= 'and kdunit='.$kdunit.' ';
+	endif;
+	if(isset($kdprogram)):
+		$sql .= 'and kdprogram='.$kdprogram.' ';
+	endif;
+	
+	$sql .='GROUP BY thang, bulan';
+	return $ci->db->query($sql)->row();
+}
