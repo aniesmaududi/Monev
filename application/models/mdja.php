@@ -149,7 +149,7 @@ class Mdja extends CI_Model
         return $query->row_array();
     }
     
-    public function get_volume_keluaran($thang, $kddept=null, $kdunit=null, $kdprogram=null)
+    public function get_volume_keluaran($thang, $kddept=null, $kdunit=null, $kdprogram=null, $list=FALSE)
     {
         //Get calculation of Volume Keluaran from tb_real_output
         $sql = 'select output.kdoutput, output.nmoutput, output.sat, sr.kddept, dept.nmdept, sr.kdunit, unit.nmunit, sr.kdsatker, satker.nmsatker, sr.kdprogram, program.nmprogram, sr.kdgiat, giat.nmgiat, sr.tvk, sr.rvk '.
@@ -181,8 +181,10 @@ class Mdja extends CI_Model
                 'and sr.kdgiat=giat.kdgiat '.                
                 'and sr.kdoutput=output.kdoutput '.
                 'and sr.kdgiat=output.kdgiat '.
-                'and sr.accdept=1';
-        
+                ' ';
+        if($list):
+			$sql .=' group by sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat';
+		endif;
         $query = $this->db->query($sql);
         return $query->result_array();
     }

@@ -330,20 +330,20 @@ class Dja extends CI_Controller
             //get volume keluaran
             if($this->data['kddept'] == 0)
             {
-                //echo "dudi dept";
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, null, null, null);
+                echo "yay";
+                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, null, null, null, true);
             }
             elseif(isset($this->data['kddept']) && empty($this->data['kdunit']))
             {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], null, null);
+                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], null, null, true);
             }
             elseif(isset($this->data['kdunit']) && empty($this->data['kdprogram']))
             {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], null);                
+                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], null, true);                
             }            
             elseif(isset($this->data['kdprogram']))
             {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], true);
             }
             
             $this->data['n'] = count($this->data['output']);
