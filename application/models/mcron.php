@@ -8,8 +8,7 @@ class Mcron extends CI_Model
 	
 	// tingkat penyerapan
 	public function get_pagu_anggaran($thang="2011")
-    {
-        //Get calculation of Pagu Anggaran from d_item           
+    { 
 		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jumlah) as total '.
 				'from d_item item, t_program program, t_dept dept, t_unit unit '.
 				'where item.kddept = dept.kddept '.
@@ -28,16 +27,14 @@ class Mcron extends CI_Model
     
     public function get_realisasi_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $all=false)
     {
-        //Get calculation of Realisasi Anggaran from r_2011_cur
-        
-		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jmlrealiasi) as total '.
-				'from r_'.$thang.'_cur item, t_program program, t_dept dept, t_unit unit '.
-				  'where item.kddept = dept.kddept '.
-				  'and item.kdunit = unit.kdunit '.
-				  'and item.kdprogram = program.kdprogram '.
-				  'and program.kddept = dept.kddept '.
-				  'and program.kdunit = unit.kdunit '.
-				  'and unit.kddept = dept.kddept ';
+		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jmlrealiasi) as total 
+				from r_'.$thang.'_cur item, t_program program, t_dept dept, t_unit unit 
+				where item.kddept = dept.kddept 
+				and item.kdunit = unit.kdunit 
+				and item.kdprogram = program.kdprogram 
+				and program.kddept = dept.kddept 
+				and program.kdunit = unit.kdunit 
+				and unit.kddept = dept.kddept ';
 		if(isset($kddept)){
 		$sql .= 'and item.kddept='.$kddept.' ';
 		}
@@ -325,41 +322,6 @@ class Mcron extends CI_Model
 				endif;
 			endif;
 		endfor;
-		/*
-		$data_index = $this->get_volume_keluaran($thang);
-		foreach($data_index as $data_index):
-			if($data_index->kddept!='' && $data_index->kdunit!='' && $data_index->kdsatker!='' && $data_index->kdprogram!='' && $data_index->kdgiat!=''):
-				for($i=1;$i<=12;$i++):
-					$bulan = $i;
-					if($i<10):
-						$bulan = '0'.$i;
-					endif;
-					$data_keluaran = $this->get_volume_keluaran($thang, $data_index->kddept, $data_index->kdunit, $data_index->kdsatker, $data_index->kdprogram, $data_index->kdgiat, $bulan);
-					if(($data_keluaran->rvk > 0) && ($data_keluaran->tvk > 0)):
-						$pk = round(($data_keluaran->rvk/$data_keluaran->tvk)*100,2);
-						$data = array(
-							'thang' => $thang,
-							'bulan' => $bulan,
-							'pk' => $pk,
-							'kddept' => $data_index->kddept,
-							'kdunit' => $data_index->kdunit,
-							'kdsatker' => $data_index->kdsatker,
-							'kdprogram' => $data_index->kdprogram,
-							'kdgiat' => $data_index->kdgiat
-						);
-						$check_data = $this->check_tb_keluaran($thang,$data_index->kddept,$data_index->kdunit,$data_index->kdsatker,$data_index->kdprogram,$data_index->kdgiat,$bulan);
-						if(!$check_data):
-							$this->db->insert('tb_keluaran',$data);
-						else:
-							$this->db->query('
-								update tb_keluaran set pk='.$pk.' where id='.$check_data.'
-							');
-						endif;
-					endif;
-				endfor;
-			endif;
-		endforeach;
-		*/
 	}
 	
 	// tingkat efisiensi
