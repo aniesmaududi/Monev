@@ -396,7 +396,6 @@ class Dja extends CI_Controller
             //get volume keluaran
             if($this->data['kddept'] == 0)
             {
-                //echo "dudi dept";
                 $this->data['output'] = $this->mdja->get_volume_keluaran($thang, null, null, null);
             }
             elseif(isset($this->data['kddept']) && empty($this->data['kdunit']))

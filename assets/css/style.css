@@ -956,25 +956,6 @@ input[type=file]:focus,input[type=checkbox]:focus,select:focus{-webkit-box-shado
   float: right;
   margin-left: 5px;
 }
-/* graph filter select */
-.filter-option-box{
-	display:block;
-	margin-bottom:10px;
-	border-bottom:1px solid #dddddd;
-	padding-bottom:10px;
-	
-}
-.filter-option-box select{
-	margin-bottom:5px;
-	width:100%;
-}
-.filter-option-box input[type=submit]{
-	margin-top:5px;
-}
-.form-tampilkan{
-	display:block;
-	text-align:right;
-}
 h3.header-graph{
 	position:relative;
 	top:5px;

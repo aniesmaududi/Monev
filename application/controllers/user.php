@@ -83,12 +83,13 @@ class User extends CI_Controller
 		else: 
 			//login script
 			$data['user_name']=$this->input->post('user_name');
-			$data['user_pass']=$this->input->post('user_password');
+			$data['user_pass']=md5($this->input->post('user_password'));
 			$query = $this->muser->cekuser();
 			$query_bappenas = $this->muser->cek_user_akses_bappenas($data['user_name'],$data['user_pass']);
 			$query_dja = $this->muser->cek_user_akses_dja($data['user_name'],$data['user_pass']);
 			if($query):
 				$this->session->set_userdata('username',$data['user_name']);
+				$this->session->set_userdata('user_pass',$data['user_pass']);
 				$this->session->set_userdata('nama',$query->nama);
 				$this->session->set_userdata('jabatan',$query->jabid);
 				switch($query->jabid)
@@ -118,10 +119,12 @@ class User extends CI_Controller
 				redirect($page);
 			elseif($query_bappenas):
 				$this->session->set_userdata('username',$data['user_name']);
+				$this->session->set_userdata('user_pass',$data['user_pass']);
 				$this->session->set_userdata('nama',$query_bappenas->nama);
 				redirect('bappenas');
 			elseif($query_dja):
 				$this->session->set_userdata('username',$data['user_name']);
+				$this->session->set_userdata('user_pass',$data['user_pass']);
 				$this->session->set_userdata('nama',$query_dja->nama);
 				$this->session->set_userdata('jabatan',$query_dja->kdjabatan);
 				redirect('dja/satker');
@@ -138,6 +141,7 @@ class User extends CI_Controller
 	{
 		$this->log->create('logout', $this->session->userdata('username').' logout');
 		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('user_pass');
 		$this->session->unset_userdata('nama');
 		$this->session->unset_userdata('jabatan');
 		redirect();
