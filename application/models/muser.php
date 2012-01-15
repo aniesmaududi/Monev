@@ -17,7 +17,6 @@ class muser extends CI_Model
 	}
 	function cek_user_akses_bappenas($username,$password)
 	{
-		$password = md5($password);
 		$this->db->where('username',$username);
 		$this->db->where('password',$password);
 		$query = $this->db->get('tb_akses_bapenas');
@@ -31,7 +30,6 @@ class muser extends CI_Model
 	
 	function cek_user_akses_dja($username,$password)
 	{
-		$password = md5($password);
 		$this->db->where('username',$username);
 		$this->db->where('password',$password);
 		$query = $this->db->get('tb_akses_dja');
