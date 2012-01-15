@@ -5,6 +5,7 @@ class Dja extends CI_Controller
     function __construct()
     {
         parent::__construct();
+		is_login();
         $this->data['now'] = date("Y-m-d H:i:s");
         $this->data['title'] = '';
         //get user DJA model

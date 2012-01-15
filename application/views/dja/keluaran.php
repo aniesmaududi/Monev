@@ -71,7 +71,6 @@
 						</thead>
 						<tbody>
 						<?php
-						$total_k = 0;
 						foreach($output as $output_item):
 						?>					
 						<tr>
@@ -90,8 +89,8 @@
 							<td>
 								<?php echo $output_item['nmgiat'];?>
 							</td>
-						</tr>					
-						
+						</tr>
+						<?php endforeach;?>
 						</tbody>
 					</table>
 				<?php } ?>
