@@ -21,7 +21,8 @@ class Queue extends CI_Controller
                 'and u.kdunit = unit.kdunit '.
                 'and u.kddept = satker.kddept '.
                 'and u.kdunit = satker.kdunit '.
-                'and u.kdsatker = satker.kdsatker';
+                'and u.kdsatker = satker.kdsatker '.
+				'and u.is_done!=1';
         
         $result = $this->db->query($sql);
         
@@ -139,4 +140,26 @@ class Queue extends CI_Controller
 
 
     }
+	function proses()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$this->load->model('mqueue');
+		
+//			$this->session->set_flashdata('message_type', 'success');
+	//		$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
+
+//		$this->load->view('backend/queue/index',$data);
+		$this->mqueue->set_status($id);
+		redirect('backend/queue/proses1');
+
+	}
+	function proses1()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$this->load->model('mqueue');
+		redirect('backend/queue');
+//		$this->load->view('backend/queue/index',$data);
+//		$this->mqueue->set_status($id);
+
+	}
 }

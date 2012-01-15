@@ -1,5 +1,12 @@
 			<h1><?php echo $title;?></h1>
 			<div id="search-box" style="min-height:400px;">
+				<?php echo $this->session->flashdata('message');
+				if(count($hasil)>0):?>
+				<?php
+				if($this->session->flashdata('message')):
+					echo flash_message($this->session->flashdata('message_type'));
+				endif;
+				?>
 					<table class="backend-table">
 						<thead>
 							<th>Nama Department</th>
@@ -16,10 +23,13 @@
 							<td><?php echo $row->nmsatker; ?></td>
 							<td><?php echo $row->start_time; ?></td>
 							<td><?php echo $row->end_time; ?></td>
-							<td>.....</td>
+							<td><?php echo anchor('backend/access_management/edit/'.$row->id,'Edit');?></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>					
+				<?php else:?>
+					no data
+				<?php endif;?>
 			</div>
 			<div id="nav-box">
 				<div class="clearfix"></div>
