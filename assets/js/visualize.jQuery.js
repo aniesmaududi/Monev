@@ -28,7 +28,7 @@ $.fn.visualize = function(options, container){
 			lineWeight: 2, //for line and area - stroke weight
 			barGroupMargin: 10,
 			barMargin: 1, //space around bars in bar chart (added to both sides of bar)
-			yLabelInterval: 20 //distance between y labels
+			yLabelInterval: 30 //distance between y labels
 		},options);
 		
 		//reset width, height to numbers
@@ -267,7 +267,7 @@ $.fn.visualize = function(options, container){
 					.insertBefore(canvas);
 					
 				$.each(yLabels, function(i){  
-					var thisLi = $('<li><span>'+Math.round(this*100)/100+'</span></li>')
+					var thisLi = $('<li><span>'+this+'</span></li>')
 						.prepend('<span class="line"  />')
 						.css('bottom',liBottom*i)
 						.prependTo(ylabelsUL);
@@ -341,7 +341,7 @@ $.fn.visualize = function(options, container){
 					.height(canvas.height())
 					.insertBefore(canvas);
 				$.each(yLabels, function(i){  
-					var thisLi = $('<li><span>'+Math.round(this*100)/100+'</span></li>')
+					var thisLi = $('<li><span>'+this+'</span></li>')
 						.prepend('<span class="line"  />')
 						.css('bottom',liBottom*i)
 						.prependTo(ylabelsUL);

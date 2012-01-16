@@ -36,7 +36,7 @@
 						<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 						<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
 						<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
-							<option value="0" selected="selected">Semua Program</option>
+							<option value="0" selected="selected">SEMUA PROGRAM</option>
 							<?php
 							foreach ($program as $item):
 								if($kdprogram == $item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
