@@ -1,6 +1,6 @@
 			<h1><?php echo $title;?></h1>
 			<div id="search-box" style="min-height:400px;">
-				<?php echo $this->session->flashdata('message');
+				<?php
 				if(count($hasil)>0):?>
 				<?php
 				if($this->session->flashdata('message')):

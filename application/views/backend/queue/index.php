@@ -1,4 +1,3 @@
-<script src="<?php echo ASSETS_DIR_JS.'/flash/jquery.min.js'?>"></script>
 <script type="text/javascript" >
 //function ReplaceContentInContainer(id,content) {
 	//			window.location="backend/queue/proses";
