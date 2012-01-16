@@ -185,11 +185,58 @@ form.backend-form h4 span{
 span.custom-button-span{
 	display:block;
 	padding-right:20px;
+	min-height:28px;
+	margin-bottom:8px;
 }
 .custom-button{
 	float:right;
 	margin-left:5px;
 	font-weight:bold;
+	border:none;
+	-webkit-transition:border linear 0.2s,box-shadow linear 0.2s;-moz-transition:border linear 0.2s,box-shadow linear 0.2s;-ms-transition:border linear 0.2s,box-shadow linear 0.2s;-o-transition:border linear 0.2s,box-shadow linear 0.2s;transition:border linear 0.2s,box-shadow linear 0.2s;
+	background-color: #FBFBFB;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(#FBFBFB, #CECECE);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FBFBFB), to(#CECECE));
+    background-image: -o-linear-gradient(top, #FBFBFB, #CECECE);
+    background-image: linear-gradient(top, #FBFBFB, #CECECE);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#CECECE', GradientType=0);
+	padding: 6px 16px 6px 13px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
+  	font-size: 12px;
+  	color: #575757;
+  	text-decoration: none;
+  	-moz-box-shadow:0px -1px #DFDFDF inset;
+    -webkit-box-shadow:0px -1px #DFDFDF inset;
+    box-shadow:0px -1px #DFDFDF inset;
+	border: 1px solid #dddddd;
+	cursor:pointer;
+	text-shadow: 0 1px #eeeeee;
+	
+	min-width:40px;
+}
+.custom-button:hover
+{
+	background: url('../images/hover.png');
+	-moz-box-shadow:0px 1px #F7F9FC inset;
+    -webkit-box-shadow:0px 1px #F7F9FC inset;
+    box-shadow:0px 1px #F7F9FC inset;
+}
+span.icon{
+	width:16px;
+	height:16px;
+	display:inline-block;
+	line-height:0;
+	float:left;
+	margin-right:5px;
+}
+.pdf{
+	background:url(../images/pdf.png) no-repeat;
+}
+.excel{
+	background:url(../images/excel.png) no-repeat;
 }
 .filter-option-box{
 	display:block;
@@ -224,4 +271,13 @@ table#report th, table#report .row-grey {
 	-moz-box-shadow:0 1px #ffffff inset;
 	box-shadow:0 1px #ffffff inset;
 	text-shadow:0 1px #ffffff;
+}
+.box-report .visualize{
+	position:relative;
+	left:-20px;
+}
+.box-report h3{
+	margin-top:20px;
+	text-align:center;
+	padding-top:10px;
 }

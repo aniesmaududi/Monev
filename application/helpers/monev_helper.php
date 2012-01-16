@@ -57,6 +57,17 @@ function format_bulan($i,$format="signed")
 	return $bulan;
 }
 
+// pembulatan juta
+function pembulatan_juta($num)
+{
+	$num_bulat = substr($num, 0, -6);
+	$num_juta = substr($num, -6);
+	if($num_juta>=500000):
+		$num_bulat = substr($num, 0, -6)+1;
+	endif;
+	return $num_bulat;
+}
+
 // untuk ambil data penyerapan dari tb_penyerapan_anggaran
 function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 {
