@@ -3,7 +3,7 @@
 /*demo styles*/
 
 /*visualize extension styles*/
-.visualize { margin: 10px 0 0 0; padding: 40px 50px 90px 60px; background: #fff top repeat-x; border: none;}
+.visualize { margin: 10px 0 0 -20px; padding: 40px 50px 90px 60px; background: #fff top repeat-x; border: none;}
 .visualize canvas 
 { 
 	border-left: 1px solid #aaa; 
