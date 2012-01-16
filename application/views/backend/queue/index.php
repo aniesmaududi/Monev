@@ -64,7 +64,7 @@ $change="<div class='flash'>$nama</div>";
         <tbody>
         <?php
 		foreach ($rows->result() as $value): ?>
-		<tr style="font-size:10px;" class="flash" id="flash<?=$value->id?>">
+	    <tr style="font-size:10px;" class="flash" id="flash<?=$value->id?>">
             <td>			<?php //echo $change; ?><?php echo $value->kddept.' -- '.$value->nmdept ?></td>
             <td><?php echo $value->kdunit.' -- '.$value->nmunit ?></td>
             <td><?php echo $value->kdsatker.' -- '.$value->nmsatker ?></td>            
@@ -81,5 +81,4 @@ $change="<div class='flash'>$nama</div>";
 
 <div id="nav-box">
     <div class="clearfix"></div>
-<<<<<<< HEAD
 </div>
