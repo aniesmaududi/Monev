@@ -1,8 +1,9 @@
             <h1><?php echo(isset($title))?$title:'Dashboard Satker';?></h1>
-			<div id="search-box" style="min-height:400px;">
-				
-				<h3 class="header-graph">Grafik Penyerapan Anggaran</h3>
-				<table class="chart-line accessHide" >
+			<div id="search-box"></div>
+			<div id="nav-box">
+				<h2>Grafik Konsistensi Penyerapan Anggaran</h2>
+				<div class="box-content">
+				<table class="chart-line" style="display:none; height:300px;">
 					<caption>Grafik Penyerapan Anggaran</caption>
 					<thead>
 						<tr>
@@ -41,10 +42,12 @@
 							<?php endfor;?>
 						</tr>
 					</tbody>
-				</table>
+				</table><!-- end of chart-line table -->
+				</div><!-- end of box-content -->
 				<br>
-				<h3 class="header-graph">Grafik Indikator Kerja</h3>
-				<table class="chart-bar accessHide" >
+				<h2>Grafik Indeks Kinerja</h2>
+				<div class="box-content">
+				<table class="chart-bar" style="display:none;height:200px;">
 					<caption>Grafik Indikator Kerja</caption>
 					<thead>
 						<tr>
@@ -75,9 +78,5 @@
 						</tr>		
 					</tbody>
 				</table>
-			</div>
-			<div id="nav-box">
-				
-				
-				
-			</div>
+				</div><!-- end of box-content -->
+			</div><!-- end of nav-box -->
