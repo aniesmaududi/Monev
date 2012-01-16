@@ -214,12 +214,10 @@ class Mcron extends CI_Model
 	{
 		$data_bulanan = $this->get_rpd($thang, null, null, null, null, null, null, null)->result();
 		if($data_bulanan):
+			$i = 1;
 			foreach($data_bulanan as $konsistensi):
 				for($bulan=1;$bulan<=12;$bulan++):
-					$bulan_ke = $bulan;
-					if($bulan<=9):
-						$bulan_ke = '0'.$bulan;
-					endif;
+					
 					
 					$jmlrealisasi = 0;
 					$rpd = $this->get_rpd($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
@@ -227,10 +225,10 @@ class Mcron extends CI_Model
 					if($realisasi):
 						$jmlrealisasi = $realisasi->jmlrealisasi;
 					endif;
-					$k = round($jmlrealisasi/$rpd->jmlrpd,2);
+					$k = round($jmlrealisasi/$rpd->jmlrpd*100,2);
 					$data = array(
 						'thang' => $thang,
-						'bulan' => $bulan_ke,
+						'bulan' => format_bulan($bulan),
 						'jmlrpd' => $rpd->jmlrpd,
 						'jmlrealisasi' => $jmlrealisasi,
 						'k' => $k,
@@ -239,7 +237,7 @@ class Mcron extends CI_Model
 						'kdsatker' => $konsistensi->kdsatker,
 						'kdprogram' => $konsistensi->kdprogram
 					);
-					$check_data = $this->check_tb_konsistensi($thang, $bulan_ke, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker);
+					$check_data = $this->check_tb_konsistensi($thang, format_bulan($bulan), $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker);
 					if(!$check_data):
 						$this->db->insert('tb_konsistensi',$data);
 					else:
@@ -247,6 +245,17 @@ class Mcron extends CI_Model
 							update tb_konsistensi set jmlrpd='.$rpd->jmlrpd.', jmlrealisasi='.$jmlrealisasi.', k='.$k.' where id='.$check_data.'
 						');
 					endif;
+					echo '<b>CRON '.$i.' : </b>';
+					echo 'tahun : '.$thang.' | ';
+					echo 'bulan : '.format_bulan($bulan).' | ';
+					echo 'dept : '. $konsistensi->kddept.' | ';
+					echo 'unit : '. $konsistensi->kdunit.' | ';
+					echo 'satker : '. $konsistensi->kdsatker.' | ';
+					echo 'program : '. $konsistensi->kdprogram.' | ';
+					echo 'rpd kumulatif : '. $rpd->jmlrpd.' | ';
+					echo 'realisasi kumulatif : '. $rpd->jmlrpd.' | ';
+					echo 'konsistensi : '. $k.' <hr> ';
+					$i++;
 				endfor;
 			endforeach;
 		endif;

@@ -1,5 +1,4 @@
-
-			<h1><?php echo $nmprogram;?></h1>
+			<h1><?php echo (isset($nmprogram))? $nmprogram: 'Tidak Ada Kegiatan';?></h1>
 			<div id="search-box">
 				<div id="search">
 					<img src="<?php echo ASSETS_DIR_IMG.'magnifier.png'?>"/>
@@ -7,7 +6,12 @@
 				</div>
 			</div>
 			<div id="nav-box">
-				<p id="total">Total ada <?php echo count($kegiatan);?> kegiatan</p>
+				<?php 
+				$count = 0;
+				if(isset($kegiatan)):
+				$count = count($kegiatan);
+				?>
+				<p id="total">Total ada <?php echo $count;?> kegiatan</p>
 				<div class="clearfix"></div>
 				
 				<div id="box-title">
@@ -36,6 +40,12 @@
 				</div><!-- end of box-content -->
 				</a>
 				<?php endforeach;?>
+				<?php else:?>
+				<span class="custom-button-span"><p id="total">Total ada <?php echo $count;?> kegiatan</p></span>
 				<div class="clearfix"></div>
-				
+				<div class="box-content box-report">
+					<p class="alert-message block-message error">Tidak ada data</p>
+				</div>
+				<?php endif;?>
+				<div class="clearfix"></div>
 			</div><!-- end of nav-box -->

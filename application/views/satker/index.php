@@ -3,7 +3,7 @@
 			<div id="nav-box">
 				<h2>Grafik Konsistensi Penyerapan Anggaran</h2>
 				<div class="box-content">
-				<table class="chart-line" style="display:none; height:300px;">
+				<table class="chart-line accessHide" style="display:none; height:300px;">
 					<caption>Grafik Penyerapan Anggaran</caption>
 					<thead>
 						<tr>

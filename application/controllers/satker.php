@@ -956,12 +956,13 @@ class Satker extends CI_Controller
     {
     	//this part loads get_satker_program content according to satker's id 
     	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
-    	$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
-    	$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
-    	
+    	if($this->data['program']):
+			$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
+			$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
+			$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
+    	endif;
     	//this part loads kegiatan
-    	$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
-
+    	
     	$this->data['template'] = 'satker/kegiatan';
     	$this->load->view('index',$this->data);
     }
