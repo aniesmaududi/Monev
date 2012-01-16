@@ -159,3 +159,50 @@ function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit
 	$sql .=' GROUP BY thang, bulan'.$group;
 	return $ci->db->query($sql)->row();
 }
+
+/* helper untuk backend */
+function get_unit()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $unit = $ci->db->get('t_unit')->result();
+}
+
+function get_dept()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $dept = $ci->db->get('t_dept')->result();
+}
+
+function get_kabkota()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $kabkota = $ci->db->get('t_kabkota')->result();
+}
+
+function get_lokasi()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $lokasi = $ci->db->get('t_lokasi')->result();
+}
+function get_jnssat()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $jnssat = $ci->db->get('t_jnssat')->result();
+}
+function get_kppn()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $kppn = $ci->db->get('t_kppn')->result();
+}
