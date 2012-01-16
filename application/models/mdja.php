@@ -296,6 +296,45 @@ class Mdja extends CI_Model
         return $number; 
     }
 	
+	// laporan
+	public function get_penyerapan($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null)
+	{
+		$sql = '
+			SELECT 
+				pa.thang AS tahun,
+				d.nmdept AS departemen, 
+				u.nmunit AS eselon, 
+				p.nmprogram AS program, 
+				sum(pa.pagu) AS pagu, 
+				sum(pa.realisasi) AS realisasi,
+				round(avg(pa.p),2) AS penyerapan
+			FROM tb_penyerapan_anggaran pa, t_unit u, t_dept d, t_program p
+			WHERE pa.thang = '.$thang.' 
+			AND pa.kddept = d.kddept
+			AND u.kddept = d.kddept
+			AND u.kdunit = pa.kdunit
+			AND p.kdprogram = pa.kdprogram
+			AND p.kdunit = pa.kdunit
+			AND p.kddept = pa.kddept
+			';
+		$group = ' GROUP BY pa.thang';
+		
+		if(isset($kddept)){ 
+			$sql .= 'and pa.kddept='.$kddept.' ';
+			$group .= ', pa.kddept';
+		}
+		if(isset($kdunit)){
+			$sql .= 'and pa.kdunit='.$kdunit.' ';
+			$group .= ', pa.kdunit';
+		}
+		if(isset($kdprogram)){
+			$sql .= 'and pa.kdprogram='.$kdprogram.' ';
+			$group .= ', pa.kdprogram';
+		}
+		
+		return $this->db->query($sql.$group);
+	}
+	
 	public function get_konsistensi($thang='2011',$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
 	{
 		$sql = '

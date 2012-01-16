@@ -98,50 +98,48 @@ class Dja extends CI_Controller
             $this->data['kdprogram'] = $_POST['kdprogram'];
             //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         }
-        if(isset($_POST['submit-p']))
-        {    
-            $this->data['submitP'] = 1;
-            $thang = $this->input->post('thang');
-            if(empty($thang))
-            {
-                //$thang = date("Y");
-                $thang = '2011';
-            }
-            $kddept = $this->data['kddept'];
-            $kdunit = $this->data['kdunit'];
-            $kdprogram = $this->data['kdprogram'];
-            
-            //all K/L
-            if(empty($kddept)){
-                $pagu = $this->mdja->get_pagu_anggaran($thang, null, null, null, true);                
-                $this->data['total_pagu'] = $pagu['total'];
-                $realisasi = $this->mdja->get_realisasi_anggaran($thang, null, null, null, true);
-                $this->data['total_realisasi'] = $realisasi['total'];
-            }
-            else if(isset($kddept) && empty($kdunit))
-            {
-                $pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, null, null, false);
-                if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; }
-                $realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, null, null, false);
-                if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
-            }
-            else if(isset($kddept) && isset($kdunit) && empty($kdprogram))
-            {
-                $pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, $kdunit, null, false);
-                if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; }
-                $this->data['nmprogram'] = "Semua Program";
-                $realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, $kdunit, null, false);
-                if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
-            }
-            else if(isset($kddept) && isset($kdunit) && isset($kdprogram))
-            {
-                $pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, $kdunit, $kdprogram, false);
-                if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; $this->data['nmprogram'] = $pagu['nmprogram'];}                
-                $realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, $kdunit, $kdprogram, false);
-                if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
-            }
-            
-        }
+        
+		$thang = $this->input->post('thang');
+		if(empty($thang))
+		{
+			//$thang = date("Y");
+			$thang = '2011';
+		}
+		$kddept = $this->data['kddept'];
+		$kdunit = $this->data['kdunit'];
+		$kdprogram = $this->data['kdprogram'];
+		
+		/*all K/L
+		if(empty($kddept)){
+			$pagu = $this->mdja->get_pagu_anggaran($thang, null, null, null, true);                
+			$this->data['total_pagu'] = $pagu['total'];
+			$realisasi = $this->mdja->get_realisasi_anggaran($thang, null, null, null, true);
+			$this->data['total_realisasi'] = $realisasi['total'];
+		}
+		else if(isset($kddept) && empty($kdunit))
+		{
+			$pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, null, null, false);
+			if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; }
+			$realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, null, null, false);
+			if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
+		}
+		else if(isset($kddept) && isset($kdunit) && empty($kdprogram))
+		{
+			$pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, $kdunit, null, false);
+			if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; }
+			$this->data['nmprogram'] = "Semua Program";
+			$realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, $kdunit, null, false);
+			if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
+		}
+		else if(isset($kddept) && isset($kdunit) && isset($kdprogram))
+		{
+			$pagu = $this->mdja->get_pagu_anggaran($thang, $kddept, $kdunit, $kdprogram, false);
+			if(count($pagu) > 0){ $this->data['total_pagu'] = $pagu['total']; $this->data['nmprogram'] = $pagu['nmprogram'];}                
+			$realisasi = $this->mdja->get_realisasi_anggaran($thang, $kddept, $kdunit, $kdprogram, false);
+			if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
+		}
+		*/
+		$this->data['penyerapans'] = $this->mdja->get_penyerapan($thang,$kddept,$kdunit,$kdprogram)->result();
         $this->data['template'] = 'dja/penyerapan';  
         $this->load->view('index', $this->data);
     }

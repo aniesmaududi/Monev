@@ -82,7 +82,6 @@ class Mcron extends CI_Model
 			$p = round(($total_realisasi/$total_pagu)*100,2);
 			$data = array(
 				'thang' => $thang,
-				'tgldok' => date('Y-m-d'),
 				'pagu' => $pagu->total,
 				'realisasi' => $realisasi->total,
 				'p' => $p,
