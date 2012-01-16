@@ -81,8 +81,7 @@
 							<?php endif; ?>
 						</table>
 					</div>
-					<?php 
-					
+					<?php
 					if(isset($konsistensi->rpd)):?>
 					<table id="report">
 						<thead>

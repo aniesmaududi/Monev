@@ -7,6 +7,8 @@ hr.space{
 .no-margin-bottom{
 	margin-bottom:0;
 }
+.gray{color:#aaaaaa;}
+.small-text{font-size:.9em;}
 .bold{font-weight:bold;}
 /* button */
 .btn.danger,.alert-message.danger,.btn.danger:hover,.alert-message.danger:hover,.btn.error,.alert-message.error,.btn.error:hover,.alert-message.error:hover,.btn.success,.alert-message.success,.btn.success:hover,.alert-message.success:hover,.btn.info,.alert-message.info,.btn.info:hover,.alert-message.info:hover{color:#ffffff;}
@@ -208,10 +210,6 @@ span.custom-button-span{
   	font-size: 12px;
   	color: #575757;
   	text-decoration: none;
-  	-moz-box-shadow:0px -1px #DFDFDF inset;
-    -webkit-box-shadow:0px -1px #DFDFDF inset;
-    box-shadow:0px -1px #DFDFDF inset;
-	border: 1px solid #dddddd;
 	cursor:pointer;
 	text-shadow: 0 1px #eeeeee;
 	

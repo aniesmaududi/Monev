@@ -335,20 +335,42 @@ class Mdja extends CI_Model
 		return $this->db->query($sql.$group);
 	}
 	
-	public function get_konsistensi($thang='2011',$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
+	public function get_keluaran($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null)
 	{
 		$sql = '
 			SELECT 
-				thang AS tahun, 
-				bulan, 
-				kddept AS departemen, 
-				kdunit AS eselon, 
-				kdprogram AS program, 
-				sum( jmlrpd ) AS rpd_kumulatif, 
-				sum( jmlrealisasi ) AS realisasi_kumulatif, 
-				round( avg( k ) , 2 ) AS rerata_konsistensi
-			FROM `tb_konsistensi`
-			WHERE thang = '.$thang.' 
-			GROUP BY kddept, kdunit, kdprogram, thang, bulan';
+				k.thang AS tahun,
+				d.nmdept AS departemen, 
+				u.nmunit AS eselon, 
+				s.nmsatker AS satker, 
+				p.nmprogram AS program,
+				g.nmgiat AS kegiatan
+			FROM tb_keluaran k, t_unit u, t_dept d, t_program p, t_giat g, t_satker s
+			WHERE k.thang = '.$thang.' 
+			AND k.kddept = d.kddept
+			AND u.kddept = d.kddept
+			AND u.kdunit = k.kdunit
+			AND p.kdprogram = k.kdprogram
+			AND p.kdunit = k.kdunit
+			AND p.kddept = k.kddept
+			AND k.kdgiat = g.kdgiat
+			AND k.kdsatker = s.kdsatker
+			';
+		$group = ' GROUP BY k.thang, k.kdgiat';
+		
+		if(isset($kddept)){ 
+			$sql .= 'and k.kddept='.$kddept.' ';
+			$group .= ', k.kddept';
+		}
+		if(isset($kdunit)){
+			$sql .= 'and k.kdunit='.$kdunit.' ';
+			$group .= ', k.kdunit';
+		}
+		if(isset($kdprogram)){
+			$sql .= 'and k.kdprogram='.$kdprogram.' ';
+			$group .= ', k.kdprogram';
+		}
+		
+		return $this->db->query($sql.$group);
 	}
 }

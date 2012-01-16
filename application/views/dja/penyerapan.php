@@ -4,8 +4,10 @@
 			</div>
 			<div id="nav-box">
 				<span class="custom-button-span">
-					<input type="button" class="custom custom-button" value="pdf" style="margin-top:-2px; width:70px;"/>
-					<input type="button" class="custom custom-button" value="excel" style="margin-top:-2px; width:70px;"/>
+					<?php if($penyerapans):?>
+					<a type="button" class="custom-button" /><span class="icon pdf"></span>pdf</a>
+					<a type="button" class="custom-button" /><span class="icon excel"></span>excel</a>
+					<?php endif;?>
 				</span>
 				<div class="clearfix"></div>
 				<div class="box-content box-report">

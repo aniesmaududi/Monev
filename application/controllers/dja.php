@@ -222,12 +222,12 @@ class Dja extends CI_Controller
         $this->data['dept'] = $this->mdja->get_dept();
         if(empty($thang))
         {
-            //$thang = date("Y");
             $thang = '2011';
         }
-        $this->data['kddept'] = "";
-        $this->data['kdunit'] = "";
-        $this->data['kdprogram'] = "";                
+		$this->data['thang'] = $thang;
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;                
         
         if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
@@ -247,34 +247,11 @@ class Dja extends CI_Controller
             $this->data['kdprogram'] = $_POST['kdprogram'];            
         }
         
-        if(isset($_POST['submit-pk']))
-        {
-            $this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];
-            $this->data['submitPK'] = 1;
-            
-            //get volume keluaran
-            if($this->data['kddept'] == 0)
-            {
-                echo "yay";
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, null, null, null, true);
-            }
-            elseif(isset($this->data['kddept']) && empty($this->data['kdunit']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], null, null, true);
-            }
-            elseif(isset($this->data['kdunit']) && empty($this->data['kdprogram']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], null, true);                
-            }            
-            elseif(isset($this->data['kdprogram']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], true);
-            }
-            
-            $this->data['n'] = count($this->data['output']);
-        }
+		
+		$this->data['output'] = $this->mdja->get_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'])->result();
+
+		
+		$this->data['n'] = count($this->data['output']);
         
         $this->data['template'] = 'dja/keluaran';                 
         $this->load->view('index', $this->data);
@@ -287,12 +264,12 @@ class Dja extends CI_Controller
         $this->data['dept'] = $this->mdja->get_dept();
         if(empty($thang))
         {
-            //$thang = date("Y");
             $thang = '2011';
         }
-        $this->data['kddept'] = "";
-        $this->data['kdunit'] = "";
-        $this->data['kdprogram'] = "";                
+		$this->data['thang'] = $thang;
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;                
         
         if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
@@ -312,33 +289,13 @@ class Dja extends CI_Controller
             $this->data['kdprogram'] = $_POST['kdprogram'];            
         }
         
-        if(isset($_POST['submit-e']))
-        {
-            $this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];
-            $this->data['submitE'] = 1;
-            
-            //get volume keluaran
-            if($this->data['kddept'] == 0)
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, null, null, null);
-            }
-            elseif(isset($this->data['kddept']) && empty($this->data['kdunit']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], null, null);
-            }
-            elseif(isset($this->data['kdunit']) && empty($this->data['kdprogram']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], null);                
-            }            
-            elseif(isset($this->data['kdprogram']))
-            {
-                $this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
-            }
-            
-            $this->data['n'] = count($this->data['output']);
-        }
+		//get volume keluaran
+		
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+		
+		
+		$this->data['n'] = count($this->data['output']);
+        
         
         $this->data['template'] = 'dja/efisiensi';    
         $this->load->view('index', $this->data);
