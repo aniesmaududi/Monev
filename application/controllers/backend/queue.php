@@ -145,8 +145,8 @@ class Queue extends CI_Controller
 		$id = abs((int)$this->uri->segment(4));
 		$this->load->model('mqueue');
 		
-//			$this->session->set_flashdata('message_type', 'success');
-	//		$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
+        //  $this->session->set_flashdata('message_type', 'success');
+        //        $this->session->set_flashdata('message', 'Data berhasil diperbaharui');
 
 //		$this->load->view('backend/queue/index',$data);
 		$this->mqueue->set_status($id);
