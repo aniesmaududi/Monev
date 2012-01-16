@@ -91,8 +91,7 @@
 						</thead>
 						<tbody>
 						<?php foreach($output as $output_item): ?>		
-						<a href="">
-						<tr valign="top">
+						<tr valign="top" onclick="javascript:window.location('<?php echo site_url()?>')">
 							<?php if(!isset($kddept)):?>
 							<td><?php echo $output_item->departemen;?></td>
 							<?php endif;?>
@@ -105,7 +104,6 @@
 							<td><?php echo $output_item->satker;?></td>
 							<td><?php echo $output_item->kegiatan;?></td>
 						</tr>
-						</a>
 						<?php endforeach;?>
 						</tbody>
 					</table>

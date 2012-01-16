@@ -85,7 +85,7 @@
 								($i<10) ? $bulan='0'.$i : $bulan=$i;
 								$rpd = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
 							?>
-							<td><?php echo ($rpd) ? substr($rpd->rpd, 0, -6) : '0';?></td>
+							<td><?php echo ($rpd) ? pembulatan_juta($rpd->rpd) : '0';?></td>
 							<?php endfor;?>
 						</tr>
 						<tr>
@@ -94,7 +94,7 @@
 								($i<10) ? $bulan='0'.$i : $bulan=$i;
 								$realisasi = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
 							?>
-							<td><?php echo ($realisasi) ? substr($realisasi->realisasi, 0, -6) : '0';?></td>
+							<td><?php echo ($realisasi) ? pembulatan_juta($realisasi->realisasi) : '0';?></td>
 							<?php endfor;?>
 						</tr>
 					</tbody>

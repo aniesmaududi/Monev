@@ -60,10 +60,17 @@ function format_bulan($i,$format="signed")
 // pembulatan juta
 function pembulatan_juta($num)
 {
-	$num_bulat = substr($num, 0, -6);
-	$num_juta = substr($num, -6);
-	if($num_juta>=500000):
-		$num_bulat = substr($num, 0, -6)+1;
+	$num_bulat = $num;
+	if($num>1000000):
+		$num_bulat = substr($num, 0, -6);
+		$num_juta = substr($num, -6);
+		if($num_juta>=500000):
+			$num_bulat = substr($num, 0, -6)+1;
+		endif;
+	elseif($num>=500000 && $num<1000000):
+		$num_bulat = 1;
+	else:
+		$num_bulat = 0;
 	endif;
 	return $num_bulat;
 }
