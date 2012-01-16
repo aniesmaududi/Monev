@@ -61,122 +61,52 @@
 			</div>
 			<div id="nav-box">
 				<div class="box-content">
-				<?php if(isset($submitK)) { ?>			
-				<table id="report">
-					<thead>
-						<th width="80">Bulan</th>
-						<th>RPD</th>
-						<th>RPD Kumulatif</th>
-						<th>Realisasi</th>
-						<th>Tk. Penyerapan</th>						
-					</thead>
-					<tbody>
-						<?php
-						$rpdk = $jml1;
-						$jml = "jml";					
-						$ra[-1] = 0;
-						for($i=0;$i<12;$i++):
-							$j = $i+1;
-							switch($j){
-								case 1 : $m = "Januari"; break;
-								case 2 : $m = "Februari"; break;
-								case 3 : $m = "Maret"; break;
-								case 4 : $m = "April"; break;
-								case 5 : $m = "Mei"; break;
-								case 6 : $m = "Juni"; break;
-								case 7 : $m = "Juli"; break;
-								case 8 : $m = "Agustus"; break;
-								case 9 : $m = "September"; break;
-								case 10 : $m = "Oktober"; break;
-								case 11 : $m = "November"; break;
-								case 12 : $m = "Desember"; break;
-							}
-													
-							$rpd = $jml.$j;						
-						?>
-						<tr>
-							<td><?php echo $m;?></td>
-							<td align="right">Rp. <?php echo $this->mdja->formatMoney($$rpd);?></td>
-							<td align="right">Rp. <?php echo $this->mdja->formatMoney($rpdk);?></td>
-							<td align="right">
-								<?php
-								if(isset($realisasi)){
-									$ra[$i] = $realisasi[$i]['jumlah'];
-									echo 'Rp. '.$this->mdja->formatMoney($ra[$i]);
-								}
-								else
-								{
-									echo 0;	
-								}
-								?></td>
-							<td align="center">
-								<?php								
-								$k[$i] = round(($ra[$i-1] + $ra[$i])/($rpdk)*100,2);
-								//echo "ra - 1  = ".$ra[$i-1]."<br>";
-								//echo "ra = ".$ra[$i]."<br>";
-								//echo "rpdk = ".$rpdk."<br>";								
-								echo $k[$i]."%";
-								?>
-							</td>
-						</tr>
-						<?php
-						$rpdk += $$rpd;
-						endfor;
-						?>
-					</tbody>
-				</table>
-				<?php
-				//Chart Konsistensi
-				$thang = "2011";
-				$this->load->helper(array('url','fusioncharts'));
-					
-				// --------- Line Chart --------- //
-				$graph_swfFile	= base_url().'public/charts/Line.swf' ;
-				$graph_caption	= 'Konsistensi Tahun Anggaran '.$thang;
-				$graph_caption	= '';
-				$graph_numberPrefix	= '';
-				$graph_numberSuffix	= '%';
-				$graph_title	= 'Konsistensi' ;
-				$graph_width	= 450 ;
-				$graph_height	= 250 ;                                
-				
-				// Store Name of months
-				$arrData_K[0][1] = "Jan";
-				$arrData_K[1][1] = "Feb";
-				$arrData_K[2][1] = "Mar";
-				$arrData_K[3][1] = "Apr";
-				$arrData_K[4][1] = "Mei";
-				$arrData_K[5][1] = "Jun";
-				$arrData_K[6][1] = "Jul";
-				$arrData_K[7][1] = "Agu";
-				$arrData_K[8][1] = "Sep";
-				$arrData_K[9][1] = "Okt";
-				$arrData_K[10][1] = "Nov";
-				$arrData_K[11][1] = "Des";
-			 
-				//Store K data
-				$arrData_K[0][2] = $k[0];
-				$arrData_K[1][2] = $k[1];
-				$arrData_K[2][2] = $k[2];
-				$arrData_K[3][2] = $k[3];
-				$arrData_K[4][2] = $k[4];
-				$arrData_K[5][2] = $k[5];
-				$arrData_K[6][2] = $k[6];
-				$arrData_K[7][2] = $k[7];
-				$arrData_K[8][2] = $k[8];
-				$arrData_K[9][2] = $k[9];
-				$arrData_K[10][2] = $k[10];
-				$arrData_K[11][2] = $k[11];
-			
-				$strXML_K = "<graph caption='".$graph_caption."' numberSuffix='".$graph_numberSuffix."' formatNumberScale='0' decimalPrecision='0'>";
-			
-				foreach ($arrData_K as $arSubData) {
-					$strXML_K .= "<set name='" . $arSubData[1] . "' value='" . $arSubData[2] . "' color='".getFCColor()."' />";
-				}
-				$strXML_K .= "</graph>";
-					
-				$graph_K  = renderChart($graph_swfFile, $graph_title, $strXML_K, "K" , $graph_width, $graph_height);
-				echo $graph_K;
-				} ?>
+				<?php if(isset($submitK)): ?>
+					<?php if(isset($realisasi)):?>
+					<table id="report">
+						<thead>
+							<th width="60">Tahun</th>
+							<th>Bulan</th>
+							<th width="150">RPD Kumulatif</th>
+							<th width="150">Realisasi Kumulatif</th>
+							<th width="100">Tk. Penyerapan</th>						
+						</thead>
+						<tbody>
+							<tr><td rowspan="12" align="center"><?php echo $thang?></td></tr>
+							<?php
+							for($i=1;$i<12;$i++):
+								$bulan = $i;
+								if($i<10):
+									$bulan = '0'.$i;
+								endif;
+								switch($i){
+									case 1 : $m = "Januari"; break;
+									case 2 : $m = "Februari"; break;
+									case 3 : $m = "Maret"; break;
+									case 4 : $m = "April"; break;
+									case 5 : $m = "Mei"; break;
+									case 6 : $m = "Juni"; break;
+									case 7 : $m = "Juli"; break;
+									case 8 : $m = "Agustus"; break;
+									case 9 : $m = "September"; break;
+									case 10 : $m = "Oktober"; break;
+									case 11 : $m = "November"; break;
+									case 12 : $m = "Desember"; break;
+								}								
+							?>
+							<tr>
+								
+								<td><?php echo $m;?></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format(get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->rpd);?></span></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format(get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->realisasi);?></span></td>
+								<td align="center"><?php echo get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->konsistensi;?></td>
+							</tr>
+							<?php endfor; ?>
+						</tbody>
+					</table>
+					<?php else:?>
+						<p class="alert-message block-message error laporan-alert">Tidak ada data</p>
+					<?php endif;?>
+				<?php endif;?>
 				</div>
 			</div>

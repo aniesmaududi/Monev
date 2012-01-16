@@ -61,6 +61,9 @@
 			<div id="nav-box">
 				<div class="box-content">
 				<?php if(isset($submitP)): ?>
+					<?php if(empty($total_pagu)) { $total_pagu = 0; } ?>
+					<?php if(empty($total_realisasi)) { $total_realisasi = 0; } ?>
+					<?php if($total_pagu > 0):?>
 					<table id="report">
 						<thead>
 							<th>Program</th>
@@ -72,12 +75,12 @@
 							<tr>
 								<td><?php if(isset($nmprogram)) { echo $nmprogram; } else { echo 'Semua Program';}?></td>
 								<td align="right">
-									<?php if(empty($total_pagu)) { $total_pagu = 0; } ?>
+									
 									<input type="hidden" class="realisasi" name="pagu" value="<?php echo $total_pagu;?>"/>
 									Rp. <?php echo $this->mdja->formatMoney($total_pagu);?>
 								</td>
 								<td align="right">
-									<?php if(empty($total_realisasi)) { $total_realisasi = 0; } ?>
+									
 									<input type="hidden" class="realisasi" name="realisasi" value=""/>
 									Rp. <?php echo $this->mdja->formatMoney($total_realisasi);?>
 								</td>
@@ -96,8 +99,9 @@
 							</tr>
 						</tbody>
 					</table>
-					<?php echo $graph_P;?>
-					<div class="clearfix"></div>
+					<?php else:?>
+						<p class="alert-message block-message error laporan-alert">Tidak ada data</p>
+					<?php endif; ?>
 				<?php endif; ?>
 				</div><!-- end of box-content -->
 				

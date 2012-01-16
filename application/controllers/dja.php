@@ -76,9 +76,9 @@ class Dja extends CI_Controller
     {
         $this->data['title'] = 'Pengukuran Penyerapan Anggaran';        
         $this->data['dept'] = $this->mdja->get_dept();
-        $this->data['kddept'] = "";
-        $this->data['kdunit'] = "";
-        $this->data['kdprogram'] = "";
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;    
         
         if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
@@ -144,41 +144,7 @@ class Dja extends CI_Controller
                 if(count($realisasi) > 0){ $this->data['total_realisasi'] = $realisasi['total']; }
             }
             
-            //Chart Penyerapan
-            $this->load->helper(array('url','fusioncharts'));
-		
-            // --------- PIE K/L --------- //
-            $graph_swfFile_PieKL	= base_url().'public/charts/Pie2D.swf' ;
-            //$graph_caption_PieKL	= 'Penyerapan Anggaran '.$this->data['nmdept'].' Tahun Anggaran '.$thangVal;
-            $graph_caption_PieKL	= '';
-            $graph_numberPrefix_PieKL	= '';
-            $graph_numberSuffix_PieKL	= '%';
-            $graph_title_PKL		= 'Penyerapan Anggaran' ;
-            $graph_width_PKL		= 450 ;
-            $graph_height_PKL		= 250 ;
-                        
-            $P = round(($this->data['total_realisasi']/$this->data['total_pagu'])*100,2);
-            $this->data['P'] = $P;
-            $this->data['notP'] = 100 - $this->data['P'];
-            // Store Name of months
-            $arrData_P[0][1] = "Anggaran terserap";
-            $arrData_P[1][1] = "Anggaran belum terserap";        
-     
-            //Store P data
-            $arrData_P[0][2] = $this->data['P'];
-            $arrData_P[1][2] = $this->data['notP'];        
-    
-            $strXML_P = "<graph caption='".$graph_caption_PieKL."' numberSuffix='".$graph_numberSuffix_PieKL."' formatNumberScale='0' decimalPrecision='0'>";
-    
-            foreach ($arrData_P as $arSubData) {
-                $strXML_P .= "<set name='" . $arSubData[1] . "' value='" . $arSubData[2] . "' color='".getFCColor()."' />";
-            }
-            $strXML_P .= "</graph>";
-                    
-            $this->data['graph_P']  = renderChart($graph_swfFile_PieKL, $graph_title_PKL, $strXML_P, "PIEPKL" , $graph_width_PKL, $graph_height_PKL);            
-            
         }
-        
         $this->data['template'] = 'dja/penyerapan';  
         $this->load->view('index', $this->data);
     }
@@ -194,11 +160,11 @@ class Dja extends CI_Controller
             //$thang = date("Y");
             $thang = '2011';
         }
-        $this->data['kddept'] = "";
-        $this->data['kdunit'] = "";
-        $this->data['kdprogram'] = "";                
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;                
         
-        if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+		if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
@@ -213,42 +179,46 @@ class Dja extends CI_Controller
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];            
+            $this->data['kdprogram'] = $_POST['kdprogram'];
         }
-        
-        if(isset($_POST['submit-k']))
+		
+		if(isset($_POST['submit-k']))
         {
+			
+			$this->data['submitK'] = 1;
+			
             $thang = $this->input->post('thang');
             if(empty($thang))
             {
-                //$thang = date("Y");
                 $thang = '2011';
             }
-            $this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];            
-            $this->data['submitK'] = 1;
-            
-            if(isset($this->data['kddept']) && empty($this->data['kdunit']))
+            $this->data['thang'] = $thang;
+			$kddept = $this->data['kddept'];
+            $kdunit = $this->data['kdunit'];
+            $kdprogram = $this->data['kdprogram'];
+			
+			if(empty($kddept)){
+                $rpd = $this->mdja->get_rpd($thang, null, null, null);
+                $this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, null, null, null);
+            }
+            elseif(isset($kddept) && empty($kdunit))
             {
                 $rpd = $this->mdja->get_rpd($thang, $this->data['kddept'], null, null);
                 $this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $this->data['kddept'], null, null);                
             }            
-            elseif(isset($this->data['kdunit']) && empty($this->data['kdprogram']))
+            elseif(isset($kddept) && isset($kdunit) && empty($kdprogram))
             {
                 $rpd = $this->mdja->get_rpd($thang, $this->data['kddept'], $this->data['kdunit'], null);
                 $this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $this->data['kddept'], $this->data['kdunit'], null);            
             }            
-            elseif(isset($this->data['kdprogram']))
+            elseif(isset($kddept) && isset($kdunit) && isset($kdprogram))
             {
-                $rpd = $this->mdja->get_rpd($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
-                $this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+                $rpd = $this->mdja->get_rpd($thang, $kddept, $kdunit, $kdprogram);
+                $this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $kddept, $kdunit, $kdprogram);
             }
             
             if(count($rpd) > 0)
-            {
-                if(isset($rpd['kddept'])) $this->data['kddept'] = $rpd['kddept']; else $this->data['kddept'] = 0;
-                if(isset($rpd['kdunit'])) $this->data['kdunit'] = $rpd['kdunit'];                
+            { 
                 $this->data['jml'] = "jml";                
                 $this->data['jml1'] = $rpd['jml01'];
                 $this->data['jml2'] = $rpd['jml02'];
@@ -263,12 +233,7 @@ class Dja extends CI_Controller
                 $this->data['jml11'] = $rpd['jml11'];
                 $this->data['jml12'] = $rpd['jml12'];
             } else {
-                $this->data['kddept'] = 0;
-                $this->data['dept'] = 0;
-                $this->data['kdunit'] = 0;
-                $this->data['unit'] = 0;
-                $this->data['kdprogram'] = 0;
-                $this->data['program'] = 0;
+                $this->data['jml'] = 0;   
                 $this->data['jml1'] = 0;
                 $this->data['jml2'] = 0;
                 $this->data['jml3'] = 0;

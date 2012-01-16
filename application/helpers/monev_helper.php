@@ -138,20 +138,24 @@ function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit
 			round( avg( k ) , 2 ) AS konsistensi
 		FROM tb_konsistensi
 		WHERE thang ='.$thang.' ';
-		
+	
+	$group = '';
 	if(isset($bulan)):
 		$sql .= 'and bulan='.$bulan.' ';
 	endif;
 	if(isset($kddept)):
 		$sql .= 'and kddept='.$kddept.' ';
+		$group .= ', kddept';
 	endif;
 	if(isset($kdunit)):
 		$sql .= 'and kdunit='.$kdunit.' ';
+		$group .= ', kdunit';
 	endif;
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
+		$group .= ', kdprogram';
 	endif;
 	
-	$sql .='GROUP BY thang, bulan';
+	$sql .=' GROUP BY thang, bulan'.$group;
 	return $ci->db->query($sql)->row();
 }

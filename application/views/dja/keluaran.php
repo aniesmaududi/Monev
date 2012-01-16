@@ -60,7 +60,8 @@
 			</div>
 			<div id="nav-box">
 				<div class="box-content">
-				<?php if(isset($submitPK)) { ?>
+				<?php if(isset($submitPK)): ?>
+					<?php if($output):?>
 					<table id="report">
 						<thead>
 							<th>K/L</th>
@@ -93,7 +94,10 @@
 						<?php endforeach;?>
 						</tbody>
 					</table>
-				<?php } ?>
+					<?php else:?>
+						<p class="alert-message block-message error laporan-alert">Tidak ada data</p>
+					<?php endif; ?>
+				<?php endif; ?>
 				</div>				
 				
 			</div>

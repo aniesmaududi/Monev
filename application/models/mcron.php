@@ -213,40 +213,44 @@ class Mcron extends CI_Model
 	
 	public function cron_konsistensi($thang)
 	{
-		for($bulan=1;$bulan<=12;$bulan++):
-			$bulan_ke = $bulan;
-			if($bulan<=9):
-				$bulan_ke = '0'.$bulan;
-			endif;
-			$data_bulanan = $this->get_rpd($thang, null, null, null, null, null, null, null)->result();
-			if($data_bulanan):
-				foreach($data_bulanan as $konsistensi):
+		$data_bulanan = $this->get_rpd($thang, null, null, null, null, null, null, null)->result();
+		if($data_bulanan):
+			foreach($data_bulanan as $konsistensi):
+				for($bulan=1;$bulan<=12;$bulan++):
+					$bulan_ke = $bulan;
+					if($bulan<=9):
+						$bulan_ke = '0'.$bulan;
+					endif;
+					
+					$jmlrealisasi = 0;
 					$rpd = $this->get_rpd($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
 					$realisasi = $this->get_realisasi_bulanan($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
-					if($rpd && $realisasi):
-						$data = array(
-							'thang' => $thang,
-							'bulan' => $bulan_ke,
-							'jmlrpd' => $rpd->jmlrpd,
-							'jmlrealisasi' => $realisasi->jmlrealisasi,
-							'k' => round($realisasi->jmlrealisasi/$rpd->jmlrpd,2),
-							'kddept' => $konsistensi->kddept,
-							'kdunit' => $konsistensi->kdunit,
-							'kdsatker' => $konsistensi->kdsatker,
-							'kdprogram' => $konsistensi->kdprogram
-						);
-						$check_data = $this->check_tb_konsistensi($thang, $bulan_ke, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker);
-						if(!$check_data):
-							$this->db->insert('tb_konsistensi',$data);
-						else:
-							$this->db->query('
-								update tb_konsistensi set jmlrpd='.$rpd->jmlrpd.', jmlrealisasi='.$realisasi->jmlrealisasi.', k='.round($realisasi->jmlrealisasi/$rpd->jmlrpd,2).' where id='.$check_data.'
-							');
-						endif;
+					if($realisasi):
+						$jmlrealisasi = $realisasi->jmlrealisasi;
 					endif;
-				endforeach;
-			endif;
-		endfor;
+					$k = round($jmlrealisasi/$rpd->jmlrpd,2);
+					$data = array(
+						'thang' => $thang,
+						'bulan' => $bulan_ke,
+						'jmlrpd' => $rpd->jmlrpd,
+						'jmlrealisasi' => $jmlrealisasi,
+						'k' => $k,
+						'kddept' => $konsistensi->kddept,
+						'kdunit' => $konsistensi->kdunit,
+						'kdsatker' => $konsistensi->kdsatker,
+						'kdprogram' => $konsistensi->kdprogram
+					);
+					$check_data = $this->check_tb_konsistensi($thang, $bulan_ke, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker);
+					if(!$check_data):
+						$this->db->insert('tb_konsistensi',$data);
+					else:
+						$this->db->query('
+							update tb_konsistensi set jmlrpd='.$rpd->jmlrpd.', jmlrealisasi='.$jmlrealisasi.', k='.$k.' where id='.$check_data.'
+						');
+					endif;
+				endfor;
+			endforeach;
+		endif;
 	}
 
 	// pencapaian keluaran

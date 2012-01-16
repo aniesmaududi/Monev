@@ -200,3 +200,20 @@ form.backend-form h4 span{
 	text-align:right;
 }
 .laporan-alert{margin-top:-35px;-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;}
+.rupiah{display:inline-block;text-align:left;float:left;}
+.rupiah_number{display:inline-block;text-align:right;float:right;}
+table#report th{
+	border-top:1px solid #eeeeee;
+	background: #eeeeee;
+	background-color: #FBFBFB;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(#FBFBFB, #eeeeee);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FBFBFB), to(#eeeeee));
+    background-image: -o-linear-gradient(top, #FBFBFB, #eeeeee);
+    background-image: linear-gradient(top, #FBFBFB, #eeeeee);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#eeeeee', GradientType=0);
+	-webkit-box-shadow:0 1px #ffffff inset;
+	-moz-box-shadow:0 1px #ffffff inset;
+	box-shadow:0 1px #ffffff inset;
+	text-shadow:0 1px #ffffff;
+}

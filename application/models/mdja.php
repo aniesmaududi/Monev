@@ -295,4 +295,21 @@ class Mdja extends CI_Model
         } 
         return $number; 
     }
+	
+	public function get_konsistensi($thang='2011',$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
+	{
+		$sql = '
+			SELECT 
+				thang AS tahun, 
+				bulan, 
+				kddept AS departemen, 
+				kdunit AS eselon, 
+				kdprogram AS program, 
+				sum( jmlrpd ) AS rpd_kumulatif, 
+				sum( jmlrealisasi ) AS realisasi_kumulatif, 
+				round( avg( k ) , 2 ) AS rerata_konsistensi
+			FROM `tb_konsistensi`
+			WHERE thang = '.$thang.' 
+			GROUP BY kddept, kdunit, kdprogram, thang, bulan';
+	}
 }
