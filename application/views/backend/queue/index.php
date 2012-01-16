@@ -1,28 +1,3 @@
-<script type="text/javascript" >
-//function ReplaceContentInContainer(id,content) {
-	//			window.location="backend/queue/proses";
-//var container = document.getElementById(id);
-//container.innerHTML = content;
-//}
-
-//$(document).ready(function()
-function OnClickButton(id)
-	{
-//	$('#table1 td input.proses').click(function(){
-		window.location="backend/queue/proses/" + id;
-		document.getElementById("flash"+id).style.backgroundColor="#0f0";
-		setTimeout(function()
-		{
-		$(".flash").fadeOut("slow", function () 
-			{
-//ReplaceContentInContainer('rep','');
-				$(".flash").remove();
-			}); 
-		}, 1000);
-	//	});
-	}
-
-</script>
   <style type="text/css">
 .flash{
 	width:759px;
@@ -35,7 +10,8 @@ font-size:10px;-moz-border-radius: 6px;-webkit-border-radius: 6px;
 
 
 
-<h1><?php echo $title;?></h1>
+<h1><?php echo $title;
+?></h1>
 <div id="search-box" style="min-height:400px;">
 
     <?php
@@ -62,6 +38,7 @@ $change="<div class='flash'>$nama</div>";
 
         <tbody>
         <?php
+		$temp = 0;
 		foreach ($rows->result() as $value): ?>
 	    <tr style="font-size:10px;" class="flash" id="flash<?=$value->id?>">
             <td>			<?php //echo $change; ?><?php echo $value->kddept.' -- '.$value->nmdept ?></td>
@@ -71,7 +48,10 @@ $change="<div class='flash'>$nama</div>";
 			<?php $nama=$value->kddept.' -- '.$value->nmdept.' -- '.$value->kdunit.' -- '.$value->nmunit.' -- '.$value->kdsatker.' -- '.$value->nmsatker;?>
             <td><?php if($value->is_done != 1){  ?><input type="hidden" value="<?php echo $nama ?>" name="nama"><input class="proses" type="button" value="Proses" onclick="OnClickButton(<? echo $value->id; ?>)"><?php } else { echo "-";}?></td>
             <!--<td><?php// if($value->is_done != 1){ echo anchor('/backend/queue/proses/' . $value->id, 'Proses','class=.flash'); } else { echo "-";}?></td>-->
-        </tr>
+			<?php if($temp==0)
+			$temp=$value->id; ?>
+
+		</tr>
             <?php endforeach;?>
         </tbody>
     </table>
@@ -81,3 +61,35 @@ $change="<div class='flash'>$nama</div>";
 <div id="nav-box">
     <div class="clearfix"></div>
 </div>
+
+
+
+<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'flash/jquery.min.js'?>"></script>
+<script type="text/javascript" >
+function reloadpage()
+{
+//$(document).ready(function()
+	//{
+
+//		window.location=
+	//	alert(window.location);
+		document.getElementById("flash"+<?php echo $temp?>).style.backgroundColor="#0f0";
+		setTimeout(function()
+		{
+		$(".flash").fadeOut("slow", function () 
+			{
+				$(".flash").remove();
+			}); 
+		}, 5000);
+	//}	); 
+	}
+	window.onload = setupRefresh;
+	function setupRefresh(){
+	setTimeout("refreshPage();",10000);
+	}
+	function refreshPage(){
+	reloadpage();
+	window.location="backend/queue/proses/" + <?php echo $temp?>;
+	} 
+
+</script>

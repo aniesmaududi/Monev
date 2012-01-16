@@ -22,7 +22,8 @@ class Queue extends CI_Controller
                 'and u.kddept = satker.kddept '.
                 'and u.kdunit = satker.kdunit '.
                 'and u.kdsatker = satker.kdsatker '.
-				'and u.is_done!=1';
+				'and u.is_done!=1 '.
+				'ORDER BY id ASC';
         
         $result = $this->db->query($sql);
         
