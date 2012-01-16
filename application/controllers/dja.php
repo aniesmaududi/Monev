@@ -99,10 +99,7 @@ class Dja extends CI_Controller
             //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         }
         if(isset($_POST['submit-p']))
-        {
-            $this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];            
+        {    
             $this->data['submitP'] = 1;
             $thang = $this->input->post('thang');
             if(empty($thang))

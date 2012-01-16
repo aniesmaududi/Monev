@@ -41,6 +41,22 @@ function sanitize_string($str)
     return $str;
 }
 
+// untuk format bulan by $i
+function format_bulan($i,$format="signed")
+{
+	if($format=="signed"):
+		$bulan = ($i<10) ? '0'.$i : $i;
+	else:
+		$array_bulan = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+		if($format=="long"):
+			$bulan = $array_bulan[$i];
+		elseif($format=="short"):
+			$bulan = substr($array_bulan[$i],0,3);
+		endif;
+	endif;
+	return $bulan;
+}
+
 // untuk ambil data penyerapan dari tb_penyerapan_anggaran
 function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 {

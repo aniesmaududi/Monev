@@ -65,43 +65,39 @@
 					<?php if(isset($realisasi)):?>
 					<table id="report">
 						<thead>
-							<th width="60">Tahun</th>
+							<th width="140">Tahun Anggaran</th>
 							<th>Bulan</th>
 							<th width="150">RPD Kumulatif</th>
 							<th width="150">Realisasi Kumulatif</th>
 							<th width="100">Tk. Penyerapan</th>						
 						</thead>
 						<tbody>
-							<tr><td rowspan="12" align="center"><?php echo $thang?></td></tr>
-							<?php
-							for($i=1;$i<12;$i++):
-								$bulan = $i;
-								if($i<10):
-									$bulan = '0'.$i;
-								endif;
-								switch($i){
-									case 1 : $m = "Januari"; break;
-									case 2 : $m = "Februari"; break;
-									case 3 : $m = "Maret"; break;
-									case 4 : $m = "April"; break;
-									case 5 : $m = "Mei"; break;
-									case 6 : $m = "Juni"; break;
-									case 7 : $m = "Juli"; break;
-									case 8 : $m = "Agustus"; break;
-									case 9 : $m = "September"; break;
-									case 10 : $m = "Oktober"; break;
-									case 11 : $m = "November"; break;
-									case 12 : $m = "Desember"; break;
-								}								
+							<?php 
+								$total_k = 0;
+								for($i=1;$i<=12;$i++):
+								$rpd = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
+								$realisasi = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
+								$k = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
+								$nilai_k = ($k) ? $k->konsistensi : 0;
 							?>
 							<tr>
-								
-								<td><?php echo $m;?></td>
-								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format(get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->rpd);?></span></td>
-								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format(get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->realisasi);?></span></td>
-								<td align="center"><?php echo get_konsistensi_perbulan($thang,$bulan,$kddept,$kdunit,$kdprogram)->konsistensi;?></td>
+								<?php if($i==1):?>
+								<td rowspan="12" align="center"><?php echo $thang?></td>
+								<?php endif;?>
+								<td><?php echo format_bulan($i,'long');?></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo ($rpd) ? number_format($rpd->rpd): 0;?></span></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo ($realisasi) ? number_format($realisasi->realisasi) : 0;?></span></td>
+								<td align="center"><?php echo $nilai_k;?>%</td>
 							</tr>
-							<?php endfor; ?>
+							<?php 
+								$total_k += $nilai_k;
+								endfor;
+								$rata_k = round($total_k/12,2);
+							?>
+							<tr>
+								<td align="right" colspan="4" class="row-grey"><b>Rata-rata</b></td>
+								<td align="center" class="row-grey"><?php echo $rata_k?>%</td>
+							</tr>
 						</tbody>
 					</table>
 					<?php else:?>

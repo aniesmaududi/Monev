@@ -74,8 +74,8 @@
 						<?php
 						foreach($output as $output_item):
 						?>					
-						<tr>
-							<td>
+						<tr valign="top">
+							<td >
 								<?php echo $output_item['nmdept'];?>
 							</td>
 							<td>

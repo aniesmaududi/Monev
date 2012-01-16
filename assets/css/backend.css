@@ -202,7 +202,7 @@ form.backend-form h4 span{
 .laporan-alert{margin-top:-35px;-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;}
 .rupiah{display:inline-block;text-align:left;float:left;}
 .rupiah_number{display:inline-block;text-align:right;float:right;}
-table#report th{
+table#report th, table#report .row-grey {
 	border-top:1px solid #eeeeee;
 	background: #eeeeee;
 	background-color: #FBFBFB;
