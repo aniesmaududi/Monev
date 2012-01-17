@@ -39,4 +39,5 @@
 			<div id="nav-box">
 				<?php //echo $page; ?>
 				<div class="clearfix"></div>
+>>>>>>> 2dc8ba0fabc3b0cd6cc392bf1b3ac7fd6d2ce561
 			</div>

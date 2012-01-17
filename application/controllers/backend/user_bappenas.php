@@ -64,5 +64,4 @@ class User_bappenas extends CI_Controller
 			redirect('backend/add_user_bappenas');
 		endif;
 	}
-
 }
