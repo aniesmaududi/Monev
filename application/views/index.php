@@ -22,11 +22,9 @@
 		<div id="content">
 			<?php $this->view('_header');?>
 			<div class="clearfix"></div>
-			<?php if($this->uri->segment(1)!='satker'):
-				$this->view('_leftnav');
-			else:
-				$this->view('satker/leftnav');
-			endif;?>
+			<?php 
+				$this->view($this->uri->segment(1).'/leftnav');
+			?>
 			
 		
 			<div id="content-right">

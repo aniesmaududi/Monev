@@ -1,8 +1,6 @@
 			<h1><?php echo(isset($title))?$title:'Dashboard DJA';?></h1>
 			<div id="search-box">
 				
-				
-				
 			</div>
 			<div id="nav-box">
 				<div class="box-content box-report">

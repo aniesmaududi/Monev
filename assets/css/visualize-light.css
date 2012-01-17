@@ -15,6 +15,12 @@
 .visualize-labels-x, .visualize-labels-y { top: 40px; left: 60px; z-index: 100; }
 .visualize-pie .visualize-labels { position: absolute; top: 70px; left: 40px; }
 .visualize-labels-x li span.label, .visualize-labels-y li span.label { color: #444; font-size: 12px; padding-right: 5px; }
+.visualize-labels-y li:first-child span.label {
+	top:-7px;
+}
+.visualize-labels-y li:last-child span.label {
+	bottom:-7px;
+}
 .visualize-labels-y li span.line { border-style: dashed;  opacity: .7; }
 .visualize .visualize-info { border: 0; position: static;  opacity: 1; background: none; }
 .visualize .visualize-title { position: absolute; top: 20px; color: #333; margin-bottom: 0; left: 20px; font-size: 2.1em; font-weight: bold; }
