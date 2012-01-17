@@ -28,7 +28,7 @@
 					<li><a href="satker-mevaluasi.html"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Evaluasi Kerja</a></li>
 				</ul>
 			</div><!-- end of navigation-list -->
-			<a class="navigation-bottom bordertop" href="satker-upload.html"> Unggah Berkas</a>			
+			<a class="navigation-bottom bordertop" href="satker/upload"> Unggah Berkas</a>			
 
 			
 		</div><!-- end of content-left -->	
