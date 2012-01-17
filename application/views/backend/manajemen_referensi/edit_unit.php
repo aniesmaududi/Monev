@@ -1,4 +1,4 @@
- 			<h1><?php echo $title;?></h1>
+			<h1><?php echo $title;?></h1>
 			<div id="search-box" style="min-height:400px;">				
 				<form action="<?php echo site_url();?>backend/ref/ubahunit/" class="backend-form" method="post">
 					

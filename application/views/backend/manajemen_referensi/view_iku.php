@@ -1,4 +1,4 @@
- 			<h1><?php echo $title;?></h1>
+			<h1><?php echo $title;?></h1>
                         <h3><?php
 						if ($table_name=='program'){ echo 'Daftar Program';}
 							else if ($table_name=='iku'){ echo 'Daftar Indeks Kinerja Utama';}
