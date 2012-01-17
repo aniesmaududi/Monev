@@ -1,5 +1,6 @@
 		<img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
-		<div id="user"><?php echo $this->session->userdata('admin_username');?></div>
+		
+		<a href="<?php echo site_url('backend/logout');?>" class="custom floatright" id="logout">Logout</a>
 		<div id="position">ADMINISTRATOR</div>
-		<a href="<?php echo site_url('backend/logout');?>" class="btn info floatright">Logout</a>
+		<div id="user"><?php echo $this->session->userdata('admin_username');?></div>
 		

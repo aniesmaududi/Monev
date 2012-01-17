@@ -1,3 +1,5 @@
+		
+		
 		<div id="content-left">
 			<a href="<?php echo $dashboard_menu_link;?>" class="navigation-title first <?php echo ($this->uri->segment(2)=='')?'active':'';?>">Dashboard</a>
 			<a class="navigation-title <?php echo ($this->uri->segment(2)!='')?'active':'';?>"><?php echo $nav_title;?></a>
