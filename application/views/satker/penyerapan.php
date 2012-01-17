@@ -1,6 +1,5 @@
 <h1>Pengukuran Penyerapan Anggaran</h1>
 			<div id="search-box">
-				<p>Diberikan pada tanggal 15 Agustus 2011, 17:24:00.</p>
 			</div>
 			<div id="nav-box">
 				<input type="button" class="blackbg" value="pdf" style="margin-top:-2px; width:70px;"/>

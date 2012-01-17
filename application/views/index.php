@@ -11,6 +11,8 @@
 
         <base href="<?php echo base_url(); ?>"></base>
         <!-- styles load below -->
+        <link href="<?php echo ASSETS_DIR_CSS.'backend.css'?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo ASSETS_DIR_CSS.'chosen.css'?>" rel="stylesheet" type="text/css">
         <link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="images/favicon.png"/>
 		
@@ -22,14 +24,15 @@
 		<div id="content">
 			<?php $this->view('_header');?>
 			<div class="clearfix"></div>
-			<?php if($this->uri->segment(1)!='satker'):
-			$this->view('_leftnav');
-			else:
-			$this->view('satker/leftnav');
 			
-			endif;?>
+			<?php 
+				//this part edited by Dita:
+				//setiap user dibuatkan leftnav sendiri-sendiri
+				//$this->view('_leftnav');
+			?>
 			
-		
+			<?php $this->view($this->uri->segment(1).'/leftnav');?>
+			
 			<div id="content-right">
 				<!-- change this with parameter from controller -->
 				<?php $this->view($template);?>

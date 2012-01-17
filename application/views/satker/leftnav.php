@@ -1,3 +1,4 @@
+		<!-- leftnav belongs to satker -->
 		<div id="content-left">
 			<a class="navigation-top" href="satker/index" <?php if($this->uri->segment(2) == 'index'):echo 'id="active-main"';endif;?>>Dashboard</a>
 			<a class="navigation-title" href="satker/kegiatan"<?php if($this->uri->segment(2) == 'kegiatan'):echo 'id="active-main"';endif;?>>Kegiatan</a>
