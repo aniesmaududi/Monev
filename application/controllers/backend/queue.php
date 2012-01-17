@@ -22,8 +22,8 @@ class Queue extends CI_Controller
                 'and u.kddept = satker.kddept '.
                 'and u.kdunit = satker.kdunit '.
                 'and u.kdsatker = satker.kdsatker '.
-				'and u.is_done!=1 '.
-				'ORDER BY id ASC';
+                'and u.is_done is null '.
+                'ORDER BY id ASC';
         
         $result = $this->db->query($sql);
         
@@ -116,7 +116,7 @@ class Queue extends CI_Controller
             }                                    
         }
         $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));
-        redirect(site_url().'backend/queue');
+        //redirect(site_url().'backend/queue');
     }
 
     public function test()
