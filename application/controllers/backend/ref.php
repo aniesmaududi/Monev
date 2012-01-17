@@ -5,6 +5,7 @@ if (!defined('BASEPATH'))
 
 class Ref extends CI_Controller
 {
+
     function __construct()
     {
         parent::__construct();
