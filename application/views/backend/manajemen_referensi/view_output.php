@@ -1,8 +1,8 @@
 			<h1><?php echo $title;?></h1>
                         <h3><?php
 						if ($table_name=='dept'){ echo 'Daftar Kementrian';}
-							else if ($table_name=='satker'){ echo 'Daftar Satuan Kerja';}
-							else if ($table_name=='unit'){ echo 'Daftar Unit Eselon';}
+							else if ($table_name=='output'){ echo 'Output';}
+							else if ($table_name=='unit'){ echo 'Daftar Unit';}
 							else
 							 echo $table_name;?></h3>
 			<div id="search-box" style="min-height:400px;overflow:auto;">				
@@ -14,21 +14,26 @@
 					<table class="backend-table">
 						<thead>
                                                     <th>No</th>
-                                                    <th>Nama Kementerian</th>
+                                                    <th>Nama Output</th>
+                                                    <th>Nama Kegiatan</th>
+                                                    <th>Nama Satuan</th>
                                                     <th>Opsi</th>
                                                                                                       
 						</thead>
 						<?php $i=1; foreach($table as $data):?>
 						<tr>
                         	<td><?php echo $i;?></td>
-                            <td><?php echo $data->nmdept;?></td>
-                            <td><?php echo anchor('backend/ref/editdept/dept/'.$data->kddept,'Ubah','class="btn"');?></td>
+                            <td><?php echo $data->NMOUTPUT;?></td>
+                            <td><?php echo $data->NMGIAT;?></td>
+                            <td><?php echo $data->SAT;?></td>
+                            <td><?php echo anchor('backend/ref/editoutput/output/'.$data->KDGIAT.'/'.$data->KDOUTPUT,'Ubah','class="btn"');?></td>
                         </tr>
 						<?php $i++; endforeach;?>
 						
 					</table>
 			</div>
 			<div id="nav-box">
-				<?php //echo $page; ?>
+				<?php echo $page; ?>
 				<div class="clearfix"></div>
 			</div>
+           
