@@ -137,7 +137,7 @@ class User extends CI_Controller
 	{
 		$userid = abs((int)$this->uri->segment(4));
 		
-		//$this->form_validation->set_message('required', 'harus diisi dengan benar');
+		$this->form_validation->set_message('required', 'harus diisi dengan benar');
 		if(!empty($userid)):
 			$this->form_validation->set_rules('userid', 'Username', 'required');
 			$this->form_validation->set_rules('nama', 'Nama', 'required');
@@ -150,6 +150,7 @@ class User extends CI_Controller
 				$this->data['user'] 	= $this->admin->get_user($userid);
 				$this->data['title'] 	= 'Edit Data Pengguna';
 				$this->data['template'] = 'user/edit';
+				
 				$this->load->view('backend/index', $this->data);
 			else:
 				$posts = $this->input->post();
@@ -159,11 +160,14 @@ class User extends CI_Controller
 					endif;
 				endforeach;
 				
+				if($this->input->post('passwd')==$this->input->post('passwd2'))
+				{
 				$this->admin->update_user($data,$this->input->post('id'));
 				$this->session->set_flashdata('message_type', 'success');
 				$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
+				}
 				
-				if($this->input->post('passwd') && $this->input->post('passwd')!='' && $this->input->post('passwd2') && $this->input->post('passwd2')!=''):
+				else if($this->input->post('passwd') && $this->input->post('passwd')!='' && $this->input->post('passwd2') && $this->input->post('passwd2')!=''):
 					if($this->input->post('passwd')==$this->input->post('passwd2')):
 						$datapasswd = array('passwd'=>md5(sanitize_string($this->input->post('passwd'))));
 						$this->admin->update_user($datapasswd,$this->input->post('id'));
@@ -173,9 +177,9 @@ class User extends CI_Controller
 						$this->session->set_flashdata('message_type', 'error');
 						$this->session->set_flashdata('message', 'Password tidak valid');
 					endif;
-				
-						//$this->session->set_flashdata('message_type', 'error');
-						//$this->session->set_flashdata('message', 'Password tidak valid');
+				else:
+						$this->session->set_flashdata('message_type', 'error');
+						$this->session->set_flashdata('message', 'Password tidak valid');
 				endif;
 				redirect('backend/user');
 			endif;
@@ -196,5 +200,5 @@ class User extends CI_Controller
 			redirect('backend/user');	
 		endif;
 	}
-  		
+		
 }
