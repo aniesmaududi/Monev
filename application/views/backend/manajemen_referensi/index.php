@@ -7,14 +7,22 @@
 				?>
 					<table class="backend-table" style="overflow:auto;">
 						<thead>
-							<th>Table</th>
+							<th>Daftar Referensi</th>
 							<th class="option-table">Option</th>
 						</thead>
 						<?php foreach($tables as $table):?>
 						<tr>
-							<td><?php echo $table['table_name'];?></td>							
 							<td>
-                                                            <a href="<?php echo site_url('backend/ref/view/'.$table['table_name'])?>" class="btn">Lihat</a>
+                            <?php 
+							if ($table['table_name']=='t_dept'){ echo 'Kementrian'; $param = 'dept';}
+							else if ($table['table_name']=='t_unit'){ echo 'Unit Eselon'; $param = 'unit';}
+							else if ($table['table_name']=='t_satker'){ echo 'Satuan Kerja'; $param = 'satker';}
+							
+							else {
+							 echo $table['table_name']; $param = $table['table_name'];}?>
+                            </td>							
+							<td>
+                                                            <a href="<?php echo site_url('backend/ref/view/'.$param)?>" class="btn">Lihat</a>
                                                             <!--<a href="" class="btn error">Hapus</a>-->
                                                         </td>
 						</tr>
