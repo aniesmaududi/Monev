@@ -1,4 +1,4 @@
-			<h1><?php echo $title;?></h1>
+ 			<h1><?php echo $title;?></h1>
                         <h3><?php
 						if ($table_name=='dept'){ echo 'Daftar Kementrian';}
 							else if ($table_name=='output'){ echo 'Output';}

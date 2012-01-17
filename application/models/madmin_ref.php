@@ -5,7 +5,7 @@ class Madmin_ref extends CI_Model
     {        
         $this->load->database();
     }
-    
+     
     public function get_tables()
     {
         $query = $this->db->query('select table_name '.
