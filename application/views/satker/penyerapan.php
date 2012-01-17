@@ -10,17 +10,17 @@
 						<tr>
 							<td width="180px">Kementrian Negara / Lembaga</td>
 							<td>:</td>
-							<td colspan="4">Kementrian Keuangan</td>
+							<td colspan="4"><?php echo $nmdept;?></td>
 						</tr>
 						<tr>
 							<td>Unit / Eselon I</td>
 							<td>:</td>
-							<td colspan="4">Badan Pendidikan dan Pelatihan Keuangan</td>
+							<td colspan="4"><?php echo $nmunit;?></td>
 						</tr>
 						<tr>
 							<td>Nama Program</td>
 							<td>:</td>
-							<td colspan="4">Program Pendidikan dan Pelatihan Aparatur Kementrian Keuangan</td>
+							<td colspan="4"><?php echo (isset($nmprogram))? $nmprogram: 'Tidak Ada Kegiatan';?></td>
 						</tr>
 						<tr>
 							<td>Tahun Anggaran</td>
