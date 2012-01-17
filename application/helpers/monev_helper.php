@@ -240,31 +240,3 @@ function get_kppn()
 	
 	return $kppn = $ci->db->get('t_kppn')->result();
 }
-//jabatan
-function get_jabid()
-{
-	$ci = & get_instance();
-	$ci->load->database();
-	return $dept = $ci->db->get('tb_jabatan')->result();
-}
-function get_satker()
-{
-	$ci = & get_instance();
-	$ci->load->database();
-	return $satker = $ci->db->get('t_satker',100)->result();
-}   
-
-function get_giat()
-{
-	$ci = & get_instance();
-	$ci->load->database();
-	
-	return $giat = $ci->db->get('t_giat')->result();
-}
-function get_program()
-{
-	$ci = & get_instance();
-	$ci->load->database();
-	
-	return $program = $ci->db->get('t_program')->result();
-}

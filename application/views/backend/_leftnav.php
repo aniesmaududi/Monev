@@ -1,27 +1,11 @@
 		<div id="content-left">
-			<div id="navigation-title">Navigasi</div>
-			<div id="navigation-list">
-				<ul>
-					<li><a href="<?php echo site_url('backend/user')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Data Pengguna</a></li>
-					<li><a href="<?php echo site_url('backend/access_management')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen Akses</a></li>
-						<ul>
-								<li><a href="#">Bappenas</a></li>
-								<li><a href="<?php echo site_url('backend/akses_kl')?>">K/L</a></li>
-								<li><a href="#">Intern DJA</a></li>
-						</ul>
-					<li><a href="<?php echo site_url('backend/user_management')?>"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Manajemen User</a></li>
-						<ul>
-								<li><a href="<?php echo site_url('backend/user_bappenas')?>">Bappenas</a></li>
-								<li><a href="#">K/L</a></li>
-								<li><a href="<?php echo site_url('backend/user_dja')?>">Intern DJA</a></li>
-						</ul>
-                    <li><a href="<?php echo site_url('backend/monitoring_upload')?>">Monitor</a></li>
-                    <li><a href="<?php echo site_url('backend/sms/inbox')?>">SMS Masuk</a></li>
-                    <li><a href="<?php echo site_url('backend/sms/outbox')?>">SMS Keluar</a></li>
-                    <li><a href="<?php echo site_url('backend/jadwal')?>">Jadwal User</a></li>
-                    <li><a href="<?php echo site_url('backend/audit')?>">Audit Trail</a></li>
-                    <li><a href="<?php echo site_url('backend/ref')?>">Pemeliharaan Referensi</a></li>
-                    <li><a href="<?php echo site_url('backend/queue')?>">Antrian</a></li>
-				</ul>
-			</div><!-- end of navigation-list -->
+			<a class="navigation-top" href="<?php echo site_url('backend')?>" <?php if($this->uri->segment(2) == ''):echo 'id="active-main"';endif;?>>Dashboard</a>
+			<a class="navigation-title" href="<?php echo site_url('backend/user')?>" style="border-bottom:none;" <?php if($this->uri->segment(2) == 'user'):echo 'id="active-main"';endif;?>>Manajemen Administrator</a>
+			<a class="navigation-title" href="<?php echo site_url('backend/access_management')?>" style="border-bottom:none;" <?php if($this->uri->segment(2) == 'access_management'):echo 'id="active-main"';endif;?>>Manajemen Akses</a>
+			<a class="navigation-title" href="<?php echo site_url('backend/sms/outbox')?>" style="border-bottom:none" <?php if($this->uri->segment(2) == 'sms'):echo 'id="active-main"';endif;?>>Broadcast SMS</a>
+			<a class="navigation-title" href="<?php echo site_url('backend/ref')?>" style="border-bottom:none;" <?php if($this->uri->segment(2) == 'ref'):echo 'id="active-main"';endif;?>>Pemeliharaan Referensi</a>
+			<a class="navigation-title" href="<?php echo site_url('backend/audit')?>" <?php if($this->uri->segment(2) == 'audit'):echo 'id="active-main"';endif;?>>Audit Trail</a>
+			<a class="navigation-bottom" href="<?php echo site_url('backend/queue')?>" <?php if($this->uri->segment(2) == 'queue'):echo 'id="active-main"';endif;?>>Antrian</a>			
+
 		</div><!-- end of content-left -->
+		

@@ -122,7 +122,7 @@
 					</table>
 					
 					<h3>Grafik Konsistensi Penyerapan Anggaran</h3>
-					<table class="chart-line2" style="display:none; height:300px;" >
+					<table class="chart-line accessHide" >
 						<caption>Grafik Konsistensi Penyerapan Anggaran</caption>
 						<thead>
 							<tr>

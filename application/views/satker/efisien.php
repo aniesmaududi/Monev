@@ -1,35 +1,7 @@
-			<table>
-			<tr>
-				<td valign="top">Satuan Kerja</td>
-				<td valign="top"> : </td>
-				<td width="500"><?php echo $nmsatker;?></td>
-			</tr>			
-			<tr>
-				<td valign="top">Unit / Eselon I </td>
-				<td valign="top"> : </td>
-				<td><?php echo $nmunit;?></td>
-			</tr>
-			<tr>
-				<td valign="top">Kementrian / Lembaga</td>
-				<td valign="top"> : </td>
-				<td><?php echo $nmdept;?></td>
-			</tr>
-			</table>		
+					
 			<div id="search-box">
 				Program
-				<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">					
-					<select name="program" onchange="this.form.submit();">
-						<option value="0" selected="selected">Pilih Program</option>
-					<?php
-					foreach ($program as $program_item):
-						if($kdprogram == $program_item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
-					?>
-						<option value="<?php echo $program_item['kdprogram'];?>" <?php echo $selected;?>>
-						<?php echo $program_item['nmprogram'];?>
-						</option>				
-					<?php endforeach ?>
-					</select>					
-				</form>
+				
 				<?php
 				if($kdprogram != 0){
 				?>
@@ -50,7 +22,70 @@
 				</form>
 				<?php } ?>
 			</div>
-			<div>
+			<div id="nav-box">
+				<span class="custom-button-span"></span>
+				<div class="clearfix"></div>
+				<div class="box-content box-report">
+					<div class="filter-option-box">
+						<table>
+							<tr>
+								<td width="150" valign="top" class="bold">Kementrian / Lembaga</td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmdept;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Unit / Eselon I </td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmunit;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Satuan Kerja</td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmsatker;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Program</td>
+								<td valign="top"> : </td>
+								<td>
+									<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">					
+										<select name="program" onchange="this.form.submit();" class="chzn-select info-table"  data-placeholder="Pilih Program" tabindex="1">
+											<option value="0" selected="selected">Pilih Program</option>
+											<?php
+											foreach ($program as $program_item):
+												if($kdprogram == $program_item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
+											?>
+											<option value="<?php echo $program_item['kdprogram'];?>" <?php echo $selected;?>>
+											<?php echo $program_item['nmprogram'];?>
+											</option>				
+											<?php endforeach ?>
+										</select>					
+									</form>
+								</td>
+							</tr>
+							<?php if($kdprogram != 0): ?>
+							<tr>
+								<td valign="top" class="bold">Kegiatan</td>
+								<td valign="top"> : </td>
+								<td>
+									<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">
+										<input type="hidden" name="program" value="<?php echo $kdprogram;?>"/>
+										<select name="kegiatan" onchange="this.form.submit();" class="chzn-select info-table"  data-placeholder="Pilih Kegiatan" tabindex="2">
+											<option value="0" selected="selected">Pilih Kegiatan</option>
+											<?php
+											foreach ($kegiatan as $kegiatan_item):
+												if($kdgiat == $kegiatan_item['kdgiat']){ $selected = 'selected';} else { $selected = "";}
+											?>
+											<option value="<?php echo $kegiatan_item['kdgiat'];?>" <?php echo $selected;?>>
+											<?php echo $kegiatan_item['nmgiat'];?>
+											</option>				
+										<?php endforeach ?>
+										</select>					
+									</form>
+								</td>
+							</tr>
+							<?php endif;?>
+						</table>
+					</div>
 			<?php if($kdprogram != 0 && $kdgiat != 0){ ?>
 				<?php echo form_open('satker/do_real_efisien');?>				
 				<p id="total"><img src="<?php echo ASSETS_DIR_IMG.'notdone.png';?>" class="notify"/>Daftar Output yang harus diisikan nilai realisasinya.</p>
@@ -151,4 +186,5 @@
 				<input type="hidden" class="realisasi" name="n" value="<?php echo $n;?>"/>				
 				</form>
 			<?php } ?>
+				</div>
 			</div>
