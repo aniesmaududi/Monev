@@ -1,6 +1,8 @@
 			<h1><?php echo(isset($title))?$title:'Dashboard DJA';?></h1>
-			<div id="search-box" style="min-height:400px;">
+			<div id="search-box">
+				
 				<div class="filter-option-box">
+					<!-- combo box semua kementrian -->
 					<form name="form1" action="<?php echo site_url('dja');?>" method="POST">					
 						<select name="kddept" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
 							<option value="0" selected="selected">SEMUA KEMENTERIAN</option>
@@ -14,6 +16,8 @@
 							<?php endforeach; ?>
 						</select>					
 					</form>
+					
+					<!-- combo box semua eselon -->
 					<?php if(isset($kddept) && $kddept != 0): ?>				
 					<form name="form2" action="<?php echo site_url('dja');?>" method="POST">
 						<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
@@ -31,6 +35,7 @@
 					</form>
 					<?php endif;?>
 					
+					<!-- combo box semua program -->
 					<?php if((isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0)): ?>				
 					<form name="form3" action="<?php echo site_url('dja');?>" method="POST">
 						<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
@@ -48,6 +53,8 @@
 						</select>					
 					</form>
 					<?php endif; ?>
+					
+					<!-- this part is tombol tampilkan -->
 					<span class="form-tampilkan">
 					<form name="form4" action="<?php echo site_url('dja');?>" method="POST">
 						<?php if(isset($kddept)) { ?><input type="hidden" name="kddept" value="<?php echo $kddept;?>"/><?php } ?>
@@ -55,11 +62,16 @@
 						<?php if(isset($kdprogram)) { ?><input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/><?php } ?>
 						<input type="submit" name="submit-pk" value="Tampilkan" class="custom" />					
 					</form>
-					</span>
-				</div>
+					</span>	
+				</div><!-- end of filter-option-box -->
 				
-				<h3 class="header-graph">Grafik Penyerapan Anggaran</h3>
-				<table class="chart-line accessHide" >
+				</div><!-- end of search-box -->
+				<div id="nav-box">
+				
+				<h2>Grafik Penyerapan Anggaran</h2>
+				
+				<div class="box-content">
+				<table class="chart-line" style="display:none; height:300px;" >
 					<caption>Grafik Penyerapan Anggaran</caption>
 					<thead>
 						<tr>
@@ -85,7 +97,7 @@
 								($i<10) ? $bulan='0'.$i : $bulan=$i;
 								$rpd = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
 							?>
-							<td><?php echo ($rpd) ? substr($rpd->rpd, 0, -6) : '0';?></td>
+							<td><?php echo ($rpd) ? pembulatan_juta($rpd->rpd) : '0';?></td>
 							<?php endfor;?>
 						</tr>
 						<tr>
@@ -94,14 +106,18 @@
 								($i<10) ? $bulan='0'.$i : $bulan=$i;
 								$realisasi = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
 							?>
-							<td><?php echo ($realisasi) ? substr($realisasi->realisasi, 0, -6) : '0';?></td>
+							<td><?php echo ($realisasi) ? pembulatan_juta($realisasi->realisasi) : '0';?></td>
 							<?php endfor;?>
 						</tr>
 					</tbody>
 				</table>
-				<br>
-				<h3 class="header-graph">Grafik Indikator Kerja</h3>
-				<table class="chart-bar accessHide" >
+				</div><!-- end of box-content -->
+				
+				<br/>
+				<h2>Grafik Indikator Kerja</h2>
+				
+				<div class="box-content">
+				<table class="chart-bar" style="display:none; height:200px;" >
 					<caption>Grafik Indikator Kerja</caption>
 					<thead>
 						<tr>
@@ -132,6 +148,6 @@
 						</tr>		
 					</tbody>
 				</table>
-			</div>
-			<div id="nav-box">
-			</div>
+				</div><!-- end of box-content -->
+			</div><!-- end of nav-box -->
+			

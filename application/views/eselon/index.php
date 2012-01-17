@@ -1,6 +1,8 @@
             <h1><?php echo(isset($title))?$title:'Dashboard Eselon';?></h1>
-			<div id="search-box" style="min-height:400px;">
+            
+			<div id="search-box">
 				<div class="filter-option-box">
+					<!-- combo box program -->
 					<?php if((isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0)): ?>				
 					<form name="form3" action="<?php echo site_url('eselon');?>" method="POST">
 						<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
@@ -18,6 +20,8 @@
 						</select>					
 					</form>
 					<?php endif; ?>
+					
+					<!-- button tampilkan -->
 					<span class="form-tampilkan">
 					<form name="form4" action="<?php echo site_url('eselon');?>" method="POST">
 						<?php if(isset($kddept)) { ?><input type="hidden" name="kddept" value="<?php echo $kddept;?>"/><?php } ?>
@@ -26,10 +30,15 @@
 						<input type="submit" name="submit-pk" value="Tampilkan" class="custom" />					
 					</form>
 					</span>
+					
 				</div>
+			</div><!-- end of search-box -->
+			
+			<div id="nav-box">
+				<h2>Grafik Penyerapan Anggaran</h2>
 				
-				<h3 class="header-graph">Grafik Penyerapan Anggaran</h3>
-				<table class="chart-line accessHide" >
+				<div class="box-content">
+				<table class="chart-line" style="display:none; height: 300px;" >
 					<caption>Grafik Penyerapan Anggaran</caption>
 					<thead>
 						<tr>
@@ -69,9 +78,13 @@
 						</tr>
 					</tbody>
 				</table>
-				<br>
-				<h3 class="header-graph">Grafik Indikator Kerja</h3>
-				<table class="chart-bar accessHide" >
+				</div><!-- end of box-content -->
+				
+				<br/>
+				<h2>Grafik Indikator Kerja</h2>
+				
+				<div class="box-content">
+				<table class="chart-bar" style="display:none; height:200px;" >
 					<caption>Grafik Indikator Kerja</caption>
 					<thead>
 						<tr>
@@ -102,9 +115,5 @@
 						</tr>		
 					</tbody>
 				</table>
-			</div>
-			<div id="nav-box">
-				
-				
-				
-			</div>
+				</div><!-- end of box-content -->
+			</div><!-- end of nav-box -->
