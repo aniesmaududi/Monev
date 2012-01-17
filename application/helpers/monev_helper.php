@@ -252,4 +252,4 @@ function get_satker()
 	$ci = & get_instance();
 	$ci->load->database();
 	return $satker = $ci->db->get('t_satker',100)->result();
-}
+}   

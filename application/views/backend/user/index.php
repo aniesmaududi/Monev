@@ -1,4 +1,4 @@
-			<h1><?php echo $title;?></h1>
+			<h1><?php echo $title;?></h1>   
 		<?php echo form_open('backend/user/vtambahdata/'); echo form_submit('','Tambah'); ?>
 			<div id="search-box" style="min-height:400px;">
 				<?php if(count($users)>0):?>

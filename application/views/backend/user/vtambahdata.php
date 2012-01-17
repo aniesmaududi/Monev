@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'jquery.min.js'?>"> </script>
-<script type="text/javascript">
+<script type="text/javascript">   
 $(document).ready(function(){ 	
 	document.getElementById('jabid').selectedIndex=0;
 
