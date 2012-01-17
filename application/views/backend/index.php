@@ -35,7 +35,8 @@
 		
 		</div><!-- end of container -->
 		<!-- javascript load below -->
-		 <script src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
+		<script src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
+		 <script src="<?php echo ASSETS_DIR_JS.'chosen.jquery.min.js'?>"></script>
 		<script src="<?php echo ASSETS_DIR_JS.'bootstrap-alerts.js'?>"></script>
 	</body>
 </html>

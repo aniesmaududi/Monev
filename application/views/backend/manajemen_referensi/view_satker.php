@@ -15,7 +15,7 @@
 						<thead>
                                                     <th>No</th>
                                                     <th>Nama Satker</th>
-                                                    <th>Nama Eselon</th>
+                                                    <th>Nama Unit Eselon</th>
                                                     <th>Nama Kementerian</th>
                                                     <th>Opsi</th>
                                                                                                       
@@ -26,7 +26,7 @@
                             <td><?php echo $data->nmsatker;?></td>
                             <td><?php echo $data->nmunit;?></td>
                             <td><?php echo $data->nmdept;?></td>
-                            <td><?php echo anchor('backend/ref/editsatker/satker/'.$data->kdsatker,'Ubah','class="btn"');?></td>
+                            <td><?php echo anchor('backend/ref/editsatker/satker/'.$data->kddept.'/'.$data->kdunit.'/'.$data->kdsatker,'Ubah','class="btn"');?></td>
                         </tr>
 						<?php $i++; endforeach;?>
 						
