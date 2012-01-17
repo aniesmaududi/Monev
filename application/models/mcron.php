@@ -105,27 +105,17 @@ class Mcron extends CI_Model
     {
         //Get RPD from m_trktrm by kddept, kdunit
         if(!isset($kddept) && !isset($kdunit) && !isset($kdprogram) && !isset($kdsatker) && !isset($bulan) ):
-			$sql = 'select kddept,kdunit,kdprogram,kdsatker 
+			$sql = 'select kddept,kdunit,kdprogram,kdsatker, sum(jml01) as jml01, sum(jml02) as jml02, sum(jml03) as jml03, sum(jml04) as jml04, sum(jml05) as jml05, sum(jml06) as jml06, sum(jml07) as jml07, sum(jml08) as jml08, sum(jml09) as jml09, sum(jml10) as jml10, sum(jml11) as jml11, sum(jml12) as jml12  
 				from m_trktrm 
 				where thang='.$thang.' 
 				and kddept!="" 
 				and kdunit!=""
 				and kdsatker!="" 
 				and kdprogram!=""
-				group by kddept,kdunit,kdprogram,kdsatker';
+				group by thang,kddept,kdunit,kdprogram,kdsatker';
 		else:
 			if(isset($bulan)):
-				$sum = '';
-				for($i=1;$i<=$bulan;$i++):
-					$bulan_i = $i;
-					if($i<=9):
-						$bulan_i = '0'.$i;
-					endif;
-					if($i!=1):
-						$sum .='+';
-					endif;
-					$sum .= 'jml'.$bulan_i;
-				endfor;
+				$sum = 'jml'.$bulan;
 				$sql = 'select kddept,kdunit,kdprogram,kdsatker,sum('.$sum.') as jmlrpd '.
 				'from m_trktrm '.
 				'where thang = '.$thang;
@@ -146,6 +136,7 @@ class Mcron extends CI_Model
 			if(isset($kdsatker)):
 				$sql .= ' and kdsatker = '.$kdsatker;
 			endif;
+			$group = ' group by thang,kddept,kdunit,kdprogram,kdsatker';
 		endif;
 		
         return $this->db->query($sql);
@@ -155,21 +146,10 @@ class Mcron extends CI_Model
     {
         //Get monthly Realisasi from table r_2011_cur
 		if(isset($bulan)):
-			$sum = '';
-			for($i=1;$i<=$bulan;$i++):
-				$bulan_i = $i;
-				if($i<=9):
-					$bulan_i = '0'.$i;
-				endif;
-				if($i!=1):
-					$sum .=',';
-				endif;
-				$sum .= $bulan_i;
-			endfor;
 			$sql = 'select kddept,kdunit,kdprogram,kdsatker, substring(tgldok1,1,4) as thang, substring(tgldok1,6,2) as bulan, sum(jmlrealiasi) as jmlrealisasi 
 				from r_'.$thang.'_cur 
 				where substring(tgldok1,1,4) = '.$thang.' 
-				and (substring(tgldok1,6,2) in ('.$sum.')) 
+				and substring(tgldok1,6,2) = '.$bulan.'  
 				and kddept!="" 
 				and kdunit!="" 
 				and kdsatker!="" 
@@ -186,7 +166,7 @@ class Mcron extends CI_Model
 			if(isset($kdsatker)):
 				$sql .= ' and kdsatker = '.$kdsatker;
 			endif;
-			$sql .= ' group by kddept, kdunit, kdprogram, kdsatker';
+			$sql .= ' group by substring(tgldok1,1,4), substring(tgldok1,6,2), kddept, kdunit, kdprogram, kdsatker';
 			return $this->db->query($sql);
 		endif;
     }
@@ -216,14 +196,13 @@ class Mcron extends CI_Model
 		if($data_bulanan):
 			$i = 1;
 			foreach($data_bulanan as $konsistensi):
+				$jmlrealisasi = 0;
 				for($bulan=1;$bulan<=12;$bulan++):
-					
-					
-					$jmlrealisasi = 0;
-					$rpd = $this->get_rpd($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
-					$realisasi = $this->get_realisasi_bulanan($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
+					//$rpd = $this->get_rpd($thang, format_bulan($bulan), $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
+					$rpd = ($konsistensi->jml.format_bulan($bulan)) ? $konsistensi->jml.format_bulan($bulan) : 0;
+					$realisasi = $this->get_realisasi_bulanan($thang, format_bulan($bulan), $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
 					if($realisasi):
-						$jmlrealisasi = $realisasi->jmlrealisasi;
+						$jmlrealisasi += $realisasi->jmlrealisasi;
 					endif;
 					$k = round($jmlrealisasi/$rpd->jmlrpd*100,2);
 					$data = array(

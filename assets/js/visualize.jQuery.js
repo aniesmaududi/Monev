@@ -28,7 +28,7 @@ $.fn.visualize = function(options, container){
 			lineWeight: 4, //for line and area - stroke weight
 			barGroupMargin: 10,
 			barMargin: 1, //space around bars in bar chart (added to both sides of bar)
-			yLabelInterval: 30 //distance between y labels
+			yLabelInterval: 20 //distance between y labels
 		},options);
 		
 		//reset width, height to numbers
