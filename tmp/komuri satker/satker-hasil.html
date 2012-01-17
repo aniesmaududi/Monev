@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>MONEV</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="css/style.css" rel="stylesheet" type="text/css">
+		<link href="css/chosen.css" rel="stylesheet" type="text/css">
+		<link rel="icon" type="image/png" href="images/favicon.png"/>
+	</head>
+	
+	<body id="penyerapan">
+		<div id="container">
+		
+		<div id="content">
+		
+		<img src="img/title.png" id="logo"/>
+		
+		<input type="button" class="custom floatright" id="logout" value="logout"/>
+		
+		<div id="position">SATKER</div>
+		<div id="user">BPK RI PERWAKILAN PROVINSI DAERAH ISTIMEWA YOGYAKARTA</div>
+		
+		<div class="clearfix"></div>
+		
+		<div id="content-left">
+			<a class="navigation-top" href="satker-dashboard.html">Dashboard</a>
+			<a class="navigation-title" href="satker-kegiatan.html">Kegiatan</a>
+			<div class="navigation-list">
+				<ul>
+					<li><a href="satker-kegiatan.html"><img src="img/arrow.png"/> Semua Kegiatan</a></li>
+					<li><a href="satker-revisi.html"><img src="img/arrow.png"/> Perlu Perbaikan (5)</a></li>
+				</ul>
+			</div><!-- end of navigation-list -->
+			<a class="navigation-title" href="satker-laporan.html" id="active-main">Laporan</a>
+			<div class="navigation-list">
+				<ul>
+					<li><a href="satker-penyerapan.html"><img src="img/arrow.png"/> Penyerapan Anggaran</a></li>
+					<li><a href="satker-ketepatan.html"><img src="img/arrow.png"/> Ketepatan Waktu</a></li>
+					<li><a href="satker-keluaran.html"><img src="img/arrow.png"/> Pencapaian Keluaran</a></li>
+					<li><a href="satker-efisiensi.html"><img src="img/arrow.png"/> Efisiensi</a></li>
+					<li id="active-list"><a href="satker-hasil.html"><img src="img/arrow.png"/> Pencapaian Hasil</a></li>
+					<li><a href="satker-evaluasi.html"><img src="img/arrow.png"/> Evaluasi Kerja</a></li>
+				</ul>
+			</div><!-- end of navigation-list -->
+			<a class="navigation-title" href="satker-monitoring.html">Monitoring</a>
+			<div class="navigation-list">
+				<ul>
+					<li><a href="satker-mpenyerapan.html"><img src="img/arrow.png"/> Penyerapan Anggaran</a></li>
+					<li><a href="satker-mketepatan.html"><img src="img/arrow.png"/> Ketepatan Waktu</a></li>
+					<li><a href="satker-mkeluaran.html"><img src="img/arrow.png"/> Pencapaian Keluaran</a></li>
+					<li><a href="satker-mevaluasi.html"><img src="img/arrow.png"/> Evaluasi Kerja</a></li>
+				</ul>
+			</div><!-- end of navigation-list -->
+			<a class="navigation-bottom bordertop" href="satker-upload.html"> Unggah Berkas</a>			
+
+			
+		</div><!-- end of content-left -->
+		
+		<div id="content-right">
+			<h1>Pengukuran Pencapaian Hasil</h1>
+			<div id="search-box">
+				<p>Diberikan pada tanggal 15 Agustus 2011, 17:24:00.</p>
+			</div>
+			<div id="nav-box">
+				<input type="button" class="blackbg" value="pdf" style="margin-top:-2px; width:70px;"/>
+				<input type="button" class="blackbg" value="excel" style="margin-top:-2px; width:70px;"/>
+				<div class="clearfix"></div>
+				<div class="box-content box-report">
+					<table>
+						<tr>
+							<td width="180px">Kementrian Negara / Lembaga</td>
+							<td>:</td>
+							<td colspan="4">Kementrian Keuangan</td>
+						</tr>
+						<tr>
+							<td>Unit / Eselon I</td>
+							<td>:</td>
+							<td colspan="4">Badan Pendidikan dan Pelatihan Keuangan</td>
+						</tr>
+						<tr>
+							<td>Nama Program</td>
+							<td>:</td>
+							<td colspan="4">Program Pendidikan dan Pelatihan Aparatur Kementrian Keuangan</td>
+						</tr>
+						<tr>
+							<td>Tahun Anggaran</td>
+							<td>:</td>
+							<td width="200px">
+								<select data-placeholder="Pilih Tahun Anggaran" class="chzn-select" style="width:100%;" tabindex="2">
+						          <option value=""></option> 
+						          <option value="2011">2011</option> 
+						          <option value="2010">2010</option>
+						          <option value="2010">2009</option>
+						        </select>
+							</td>
+							<td>Bulan</td>
+							<td>:</td>
+							<td>
+								<select data-placeholder="Pilih Bulan" class="chzn-select" style="width:100%;" tabindex="2">
+						          <option value=""></option> 
+						          <option value="Januari">Januari</option> 
+						          <option value="Februari">Februari</option>
+						          <option value="Maret">Maret</option>
+						          <option value="April">April</option> 
+						          <option value="Mei">Mei</option>
+						          <option value="Juni">Juni</option>
+						        </select>
+							</td>
+						</tr>
+						<tr>
+							<td>Nama Kegiatan</td>
+							<td>:</td>
+							<td colspan="4">
+								<select data-placeholder="Pilih Kegiatan" class="chzn-select" style="width:100%;" tabindex="2">
+						          <option value=""></option> 
+						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
+						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
+						        </select>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<table id="report">
+						<tr class="align-middle">
+							<td width="400"><strong>IKU</strong></td>
+							<td width="80"><strong>Target</strong></td>
+							<td width="80"><strong>Realisasi</strong></td>
+							<td><strong>Tingkat Capaian IKU</strong></td>
+						</tr>
+						<tr class="align-middle">
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+							<td>4</td>
+						</tr>
+						<tr class="align-right">
+							<td class="align-left">Prosentase Program Diklat yang Berkontribusi Terhadap Peningkatan Kompetensi</td>
+							<td>100%</td>
+							<td>90%</td>
+							<td class="yellow">95%</td>
+						</tr>
+						<tr class="align-right">
+							<td class="align-left">Prosentase Jam Pelatihan terhadap Jam Kerja Pegawai Kementrian Keuangan</td>
+							<td>100%</td>
+							<td>90%</td>
+							<td class="yellow">95%</td>
+						</tr>
+						<tr class="align-right">
+							<td class="align-left">Prosentase Lulusan Diklat Kementrian Keuangan dengan Predikat Minimal Baik</td>
+							<td>100%</td>
+							<td>90%</td>
+							<td class="yellow">95%</td>
+						</tr>
+					</table>
+					<br/>
+				</div><!-- end of box-content -->
+			</div><!-- end of nav-box -->
+		</div><!-- end of content-right -->
+		
+		<div class="clearfix"></div>
+		
+		</div><!-- end of content -->
+		<p id="copyright">Copyright &copy; 2011 Kementerian Keuangan RI - DJA - 2011</p>
+		</div><!-- end of container -->
+	</body>
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/chosen.jquery.js" type="text/javascript"></script>	
+	<script type="text/javascript">
+		$(".chzn-select").chosen(); 
+		$(".chzn-select-deselect").chosen({allow_single_deselect:true});	
+	</script>
+	
+</html>
