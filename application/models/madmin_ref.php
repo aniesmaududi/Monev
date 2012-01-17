@@ -11,7 +11,7 @@ class Madmin_ref extends CI_Model
         $query = $this->db->query('select table_name '.
                                   'from information_schema.tables '.
                                   'where table_schema = "db_monev" '.
-                                  'and table_name in ("t_dept","t_unit","t_satker","t_output","t_iku","t_program")) ');
+                                  'and table_name in ("t_dept","t_unit","t_satker","t_output","t_iku","t_program") ');
         
         return $query->result_array();
     }
