@@ -5,13 +5,13 @@ class Madmin_ref extends CI_Model
     {        
         $this->load->database();
     }
-     
+    
     public function get_tables()
     {
         $query = $this->db->query('select table_name '.
                                   'from information_schema.tables '.
                                   'where table_schema = "db_monev" '.
-                                  'and table_name in ("t_dept","t_unit","t_satker","t_output","t_iku","t_program") ');
+                                  'and table_name in ("t_dept","t_unit","t_satker","t_output","t_iku","t_program","t_giat") ');
         
         return $query->result_array();
     }
@@ -21,43 +21,77 @@ class Madmin_ref extends CI_Model
         return $this->db->list_fields($table_name);
     }
     
-    public function get_table_detail($table_name,$limit=FALSE, $offset=FALSE)
+    public function get_table_detail($table_name,$limit=FALSE, $offset=FALSE, $cari=FALSE)
     {
 		if ($table_name=='satker'){
-			$sql = 'SELECT s.kdsatker, s.nmsatker, s.kddept, s.kdunit, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
+			if ($cari == ""){
+		$sql = 'SELECT s.kdsatker, s.nmsatker, s.kddept, s.kdunit, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
 		WHERE s.kddept = d.kddept
 				AND s.kdunit = u.kdunit
 				AND s.kddept = u.kddept ';
-			
+			}
+			else {
+				$sql = 'SELECT s.kdsatker, s.nmsatker, s.kddept, s.kdunit, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
+		WHERE s.kddept = d.kddept
+				AND s.kdunit = u.kdunit
+				AND s.kddept = u.kddept AND nmsatker LIKE "%'.$cari.'%" ';
+			}
 			if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
+			$sql .='limit '.$offset.','.$limit.' ';
 			endif;
 			$query = $this->db->query($sql);
 		}
 		
 		
 		elseif ($table_name=='dept'){
-		$query = $this->db->query( 'SELECT kddept, nmdept FROM t_dept');
+			if ($cari == ""){
+		$sql = 'SELECT kddept, nmdept FROM t_dept ';
+			}
+			else {
+				$sql = 'SELECT kddept, nmdept FROM t_dept WHERE nmdept LIKE "%'.$cari.'%" ';
+			}
+			if($limit):
+			$sql .='limit '.$offset.','.$limit.' ';
+			endif;
+			$query = $this->db->query($sql);
 		}
 		elseif ($table_name=='unit'){
-		$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
+			if ($cari == ""){
+				$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
 		FROM t_dept d, t_unit u
 		WHERE d.kddept = u.kddept ';
+			}
+			else {
+		$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
+		FROM t_dept d, t_unit u
+		WHERE d.kddept = u.kddept AND nmunit LIKE "%'.$cari.'%" ';}
 		if($limit):
 				$sql .='limit '.$offset.','.$limit.' ';
 			endif;
 			$query = $this->db->query($sql);
 		}
 		elseif ($table_name=='output'){
+		
+		
+		if ($cari == ""){
 		$sql = 'SELECT o.KDOUTPUT, o.NMOUTPUT, g.KDGIAT, g.NMGIAT, o.SAT
 		FROM t_giat g, t_output o
 		WHERE g.kdgiat = o.KDGIAT ';
+			}
+			else {
+				$sql = 'SELECT o.KDOUTPUT, o.NMOUTPUT, g.KDGIAT, g.NMGIAT, o.SAT
+		FROM t_giat g, t_output o
+		WHERE g.kdgiat = o.KDGIAT AND o.NMOUTPUT LIKE "%'.$cari.'%" ';
+			}
 		if($limit):
 				$sql .='limit '.$offset.','.$limit.' ';
 			endif;
 			$query = $this->db->query($sql);
 		}
 		elseif ($table_name=='iku'){
+		
+				
+				if ($cari == ""){
 		$sql = 'SELECT i.kdiku, i.kddept, i.kdunit, i.nmiku, i.kdprogram, p.nmprogram
 		FROM t_iku i, t_program p, t_dept d, t_unit u
 		WHERE i.kdprogram = p.kdprogram
@@ -66,6 +100,17 @@ class Madmin_ref extends CI_Model
 		AND i.kddept = d.kddept
 		AND i.kdunit = u.kdunit
 		AND i.kddept = u.kddept ';
+			}
+			else {
+				$sql = 'SELECT i.kdiku, i.kddept, i.kdunit, i.nmiku, i.kdprogram, p.nmprogram
+		FROM t_iku i, t_program p, t_dept d, t_unit u
+		WHERE i.kdprogram = p.kdprogram
+		AND i.kddept = p.kddept
+		AND i.kdunit = p.kdunit 
+		AND i.kddept = d.kddept
+		AND i.kdunit = u.kdunit
+		AND i.kddept = u.kddept AND nmiku LIKE "%'.$cari.'%" ';
+			}
 				
 		if($limit):
 				$sql .='limit '.$offset.','.$limit.' ';
@@ -74,11 +119,30 @@ class Madmin_ref extends CI_Model
 		}
 		
 		elseif ($table_name=='program'){
+		
+		if ($cari == ""){
 		$sql = 'SELECT kddept, kdunit, kdprogram, nmprogram, uroutcome FROM t_program ';
+			}
+			else {
+				$sql = 'SELECT kddept, kdunit, kdprogram, nmprogram, uroutcome FROM t_program  WHERE nmprogram LIKE "%'.$cari.'%" ';
+			}
 		if($limit):
 				$sql .='limit '.$offset.','.$limit.' ';
 			endif;
 			$query = $this->db->query($sql);
+		}
+		elseif ($table_name=='giat'){
+			if ($cari == ""){
+		$sql = 'SELECT  kdgiat, 	nmgiat, 	kddept, 	kdunit, 	kdprogram FROM t_giat ';
+			}
+			else {
+				$sql = 'SELECT  kdgiat, nmgiat, kddept, kdunit, kdprogram FROM t_giat WHERE nmgiat LIKE "%'.$cari.'%" ';
+			}
+		if($limit):
+				$sql .='limit '.$offset.','.$limit.' ';
+			endif;
+			$query = $this->db->query($sql);
+			
 		}
 		else {
         $query = $this->db->query('select * '.
@@ -191,6 +255,22 @@ class Madmin_ref extends CI_Model
 				$data = $this->db->query('
 					select kddept, kdunit, kdprogram, nmprogram, uroutcome, kdsasaran, kdjnsprog, kdupdate from t_program
 					where kdprogram = '.$id.' AND kddept = '.$praid1.' AND kdunit = '.$praid2.'	');
+			endif;
+			return $data->row();
+		else:
+		
+		endif;
+	}
+	
+	public function get_data_detailgiat($param = FALSE, $id = FALSE)
+	{
+		if($param && $id):
+			if($param=='giat'):
+				$data = $this->db->query('
+					select kdgiat, 	nmgiat, 	kddept, 	kdunit, 	kdprogram
+					from t_giat
+					where kdgiat = '.$id.' 
+				');
 			endif;
 			return $data->row();
 		else:
@@ -337,4 +417,20 @@ class Madmin_ref extends CI_Model
 		   $this->db->where('kdprogram', $kdprogram);
 	       $this->db->update('t_program', $data);
 	  }
+	   function ubahgiat(){
+	$kddept = $this->input->post('kddept');
+	$kdunit = $this->input->post('kdunit');
+	$kdprogram = $this->input->post('kdprogram');
+	$kdgiat = $this->input->post('kdgiat');
+	$nmgiat = $this->input->post('nmgiat');
+		$data = array(
+					  'kddept' => $kddept,
+					  'kdunit' => $kdunit,
+	'kdprogram' => $kdprogram,
+	'nmgiat' => $nmgiat,
+			);
+		   $this->db->where('kdgiat', $kdgiat);
+	       $this->db->update('t_giat', $data);
+	  }
+	  
 }

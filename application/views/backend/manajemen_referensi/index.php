@@ -20,6 +20,7 @@
 							else if ($table['table_name']=='t_output'){ echo 'Output'; $param = 'output';}
 							else if ($table['table_name']=='t_iku'){ echo 'Indeks Kinerja Utama'; $param = 'iku';}
 							else if ($table['table_name']=='t_program'){ echo 'Program'; $param = 'program';}
+							else if ($table['table_name']=='t_giat'){ echo 'Kegiatan'; $param = 'giat';}
 							
 							else {
 							 echo $table['table_name']; $param = $table['table_name'];}?>

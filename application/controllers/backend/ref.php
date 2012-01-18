@@ -29,6 +29,7 @@ class Ref extends CI_Controller
     {
         $this->data['title'] = 'Pemeliharaan Referensi';
 		$param = $this->uri->segment(4);
+		$this->data['cari'] = $this->input->post('cari');
         $this->data['table_name'] = $param;
         //$this->data['field'] = $this->madmin_ref->get_table_field($this->data['table_name']);
         
@@ -41,11 +42,12 @@ class Ref extends CI_Controller
 		$this->pagination->initialize($config);
 		
 		$this->data['page'] 	= $this->pagination->create_links();
-		$this->data['table'] 	= $this->madmin_ref->get_table_detail($this->data['table_name'], $config['per_page'], $config['cur_page']);
+		$this->data['table'] 	= $this->madmin_ref->get_table_detail($this->data['table_name'], $config['per_page'], $config['cur_page'], $this->data['cari']);
         $this->data['template'] = 'manajemen_referensi/view_'.$param;
         $this->load->view('backend/index', $this->data);
 		
     }
+	
     
     function editsatker()
     {
@@ -114,6 +116,16 @@ class Ref extends CI_Controller
         $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
         $this->load->view('backend/index', $this->data);
     }
+	
+	function editgiat()
+    {
+        $this->data['title'] = 'Pemeliharaan Referensi';
+		$this->data['param'] = $this->uri->segment(4);
+		$this->data['id'] = $this->uri->segment(5);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailgiat($this->data['param'],$this->data['id']);
+        $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
+        $this->load->view('backend/index', $this->data);
+    }
     
 	 function ubahdept() {
 		 $kode=$this->input->post('kddept');
@@ -150,6 +162,11 @@ class Ref extends CI_Controller
 		         $this->load->model('madmin_ref');
 	           $this->madmin_ref->ubahprogram();
 	           redirect('backend/ref/view/program'); 
+	}
+	function ubahgiat() {
+		         $this->load->model('madmin_ref');
+	           $this->madmin_ref->ubahgiat();
+	           redirect('backend/ref/view/giat'); 
 	}
 	
 }
