@@ -18,16 +18,8 @@
 								<td>:</td>
 								<td>
 								<form name="form1" action="" method="POST">					
-									<select name="kddept" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
-										<option value="0" selected="selected">SEMUA KEMENTERIAN</option>
-										<?php					
-										foreach ($dept as $item):
-											if($kddept == $item['kddept']){ $selected = 'selected';} else { $selected = "";}
-										?>
-											<option value="<?php echo $item['kddept'];?>" <?php echo $selected;?>>
-											<?php echo $item['kddept'];?> &mdash; <?php echo $item['nmdept'];?>
-											</option>				
-										<?php endforeach; ?>
+									<select name="kddept" onchange="this.form.submit();" disabled=disabled class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
+										<option value="<?php echo $kddept?>"><?php echo get_detail_data('t_dept',array('kddept'=>$kddept),'nmdept');?></option>
 									</select>					
 								</form>
 								</td>
@@ -43,10 +35,10 @@
 										<option value="0" selected="selected">SEMUA ESELON</option>
 										<?php
 										foreach ($unit as $item):
-											if($kdunit == $item['kdunit']){ $selected = 'selected';} else { $selected = "";}
+											if($kdunit == $item->kdunit){ $selected = 'selected';} else { $selected = "";}
 										?>
-										<option value="<?php echo $item['kdunit'];?>" <?php echo $selected;?>>
-										<?php echo $item['kdunit'];?> &mdash; <?php echo $item['nmunit'];?>
+										<option value="<?php echo $item->kdunit;?>" <?php echo $selected;?>>
+										<?php echo $item->kdunit;?> &mdash; <?php echo $item->nmunit;?>
 										</option>				
 									<?php endforeach ?>
 									</select>					
@@ -66,10 +58,10 @@
 										<option value="0" selected="selected">SEMUA PROGRAM</option>
 										<?php
 										foreach ($program as $item):
-											if($kdprogram == $item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
+											if($kdprogram == $item->kdprogram){ $selected = 'selected';} else { $selected = "";}
 										?>
-										<option value="<?php echo $item['kdprogram'];?>" <?php echo $selected;?>>
-										<?php echo $item['kdprogram'];?> &mdash; <?php echo $item['nmprogram'];?>
+										<option value="<?php echo $item->kdprogram;?>" <?php echo $selected;?>>
+										<?php echo $item->kdprogram;?> &mdash; <?php echo $item->nmprogram;?>
 										</option>				
 									<?php endforeach ?>
 									</select>					

@@ -11,23 +11,6 @@ class Dja extends CI_Controller
         //get user DJA model
         $this->load->model('mdja');
 		$this->data['dashboard_menu_link'] =  base_url().'dja/';
-        $this->data['nav_title'] = 'Laporan';
-        $this->data['nav_menu'] = array(
-                                        0 => 'Penyerapan Anggaran',
-                                        1 => 'Konsistensi',
-                                        2 => 'Pencapaian Keluaran',
-                                        3 => 'Efisiensi',
-                                        4 => 'Pencapaian Hasil',
-                                        5 => 'Evaluasi Kinerja',
-                                        );
-        $this->data['nav_menu_link'] = array(
-                                        0 => base_url().'dja/penyerapan_table',
-                                        1 => base_url().'dja/konsistensi_table',
-                                        2 => base_url().'dja/keluaran_table',
-                                        3 => base_url().'dja/efisiensi_table',
-                                        4 => base_url().'dja/capaian_hasil',
-                                        5 => base_url().'dja/aspek_evaluasi',
-                                        );
         
         //keperluan chart
         $this->_kdunit = "11"; // 11
@@ -39,8 +22,7 @@ class Dja extends CI_Controller
     function index()
     {
 		$this->data['title'] = 'Dashboard DJA';
-		
-		$this->data['dept'] = $this->mdja->get_dept();
+		$this->data['dept'] = get_departemen();
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;
@@ -51,20 +33,19 @@ class Dja extends CI_Controller
 		
 		if(isset($_POST['kddept']) && $_POST['kddept'] != 0):
             $this->data['kddept'] = $_POST['kddept'];
-            $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
+            $this->data['unit'] = get_eselon($this->data['kddept']);
         endif;
 		
 		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0)):
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
         endif;
 		
         if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0)):
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
             $this->data['kdprogram'] = $_POST['kdprogram'];
-            //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         endif;
 		
 		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
@@ -77,7 +58,7 @@ class Dja extends CI_Controller
     }
     
     /*------------------------------------------- Penyerapan Anggaran ----------------------*/
-    function penyerapan_table()
+    public function penyerapan()
     {
         $this->data['title'] = 'Pengukuran Penyerapan Anggaran';        
         $this->data['dept'] = $this->mdja->get_dept();
@@ -120,7 +101,7 @@ class Dja extends CI_Controller
     }
     
     /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
-    function konsistensi_table()
+    public function konsistensi()
     {
         $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
         $this->data['pengukuran'] = 'konsistensi';
@@ -174,7 +155,7 @@ class Dja extends CI_Controller
     }
     
     /*-------------------------------- Pengukuran Volume Keluaran -----------------------------------------*/
-    public function keluaran_table()
+    public function keluaran()
     {
 		$this->data['title'] = 'Tingkat Pencapaian Keluaran';
         $this->data['dept'] = $this->mdja->get_dept();
@@ -215,11 +196,9 @@ class Dja extends CI_Controller
 			$this->data['kdgiat'] = $_POST['kdgiat'];
         }
 		
-		
-		$limit = 10;
 		$this->load->library('pagination');
 		$this->data['halaman']	= abs((int)$this->uri->segment(3));
-		$config['base_url'] 	= base_url().'dja/keluaran_table/';
+		$config['base_url'] 	= base_url().'dja/keluaran/';
 		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
 		$config['per_page'] 	= 15; 
 		$config['cur_page'] 	= $this->data['halaman'];
@@ -232,7 +211,7 @@ class Dja extends CI_Controller
     }
     
     /*-------------------------------------- Pengukuran Efisiensi ----------------------------------*/
-    public function efisiensi_table()
+    public function efisiensi()
     {
         $this->data['title'] = 'Pengukuran Efisiensi';    
         $this->data['dept'] = $this->mdja->get_dept();

@@ -159,6 +159,67 @@ function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 	endif;
 	return $ci->db->query($sql)->row();
 }
+/* helper get detail */
+function get_detail_data($table_name,$where,$return_data)
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$result = $ci->db->get_where($table_name,$where)->row();
+	if($result):
+		return $result->$return_data;
+	else:
+		return false;
+	endif;
+}
+function get_departemen()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$query = $ci->db->query('select kddept, nmdept '.
+							  'from t_dept '.
+							  'order by kddept');
+	if($query->result()):
+		return $query->result();
+	else:
+		return false;
+	endif;
+}
+function get_eselon($kddept)
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$query = $ci->db->query('select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit '.
+							  'from t_dept dept, t_unit unit '.
+							  'where dept.kddept=unit.kddept '.
+							  'and unit.kddept='.$kddept.'
+							  order by kdunit
+							  '
+							  );
+	if($query->result()):
+		return $query->result();
+	else:
+		return false;
+	endif;
+}
+function get_program($kddept, $kdunit)
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$query = $ci->db->query('select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram '.
+								'from t_program program, t_dept dept, t_unit unit '.
+								'where program.kddept = dept.kddept '.
+								'and program.kdunit = unit.kdunit '.
+								'and unit.kddept = dept.kddept '.
+								'and program.kddept='.$kddept.' '.
+								'and program.kdunit='.$kdunit.'
+								order by kdprogram'
+								);
+	if($query->result()):
+		return $query->result();
+	else:
+		return false;
+	endif;
+}
 
 // untuk ambil data konsistensi perbulan dari tb_konsistensi
 function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null,$return_data='rpd')

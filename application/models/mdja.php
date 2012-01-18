@@ -26,7 +26,9 @@ class Mdja extends CI_Model
         $query = $this->db->query('select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit '.
                                   'from t_dept dept, t_unit unit '.
                                   'where dept.kddept=unit.kddept '.
-                                  'and unit.kddept='.$kddept
+                                  'and unit.kddept='.$kddept.'
+								  order by kdunit
+								  '
                                   );
         return $query->result_array();
     }
@@ -40,7 +42,8 @@ class Mdja extends CI_Model
                                     'and program.kdunit = unit.kdunit '.
                                     'and unit.kddept = dept.kddept '.
                                     'and program.kddept='.$kddept.' '.
-                                    'and program.kdunit='.$kdunit
+                                    'and program.kdunit='.$kdunit.'
+									order by kdprogram'
                                     );        
         
         return $query->result_array();
@@ -55,7 +58,8 @@ class Mdja extends CI_Model
                                     'and satker.kdunit = unit.kdunit '.
                                     'and unit.kddept = dept.kddept '.
                                     'and satker.kddept='.$kddept.' '.
-                                    'and satker.kdunit='.$kdunit
+                                    'and satker.kdunit='.$kdunit.'
+									order by kdsatker'
                                     );        
         
         return $query->result_array();

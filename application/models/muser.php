@@ -1,5 +1,5 @@
 <?php
-class muser extends CI_Model
+class Muser extends CI_Model
 {
 	function cekuser()
 	{
