@@ -97,7 +97,7 @@ function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 }
 
 // untuk ambil data konsistensi dari tb_konsistensi
-function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
+function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null,$detail=false)
 {
 	$ci = & get_instance();
 	$ci->load->database();
@@ -105,7 +105,6 @@ function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null
 	$sql = 'select round(avg(k),2) as k
 	from tb_konsistensi
 	where thang='.$thang.' ';
-	
 	if(isset($kddept)):
 		$sql .= 'and kddept='.$kddept.' ';
 	endif;
@@ -115,6 +114,7 @@ function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
 	endif;
+	
 	return $ci->db->query($sql)->row();
 }
 
@@ -161,7 +161,7 @@ function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 }
 
 // untuk ambil data konsistensi perbulan dari tb_konsistensi
-function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
+function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null,$return_data='rpd')
 {
 	$ci = & get_instance();
 	$ci->load->database();
@@ -191,7 +191,12 @@ function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit
 	endif;
 	
 	$sql .=' GROUP BY thang, bulan'.$group;
-	return $ci->db->query($sql)->row();
+	$konsistensi = $ci->db->query($sql)->row();
+	if($konsistensi):
+		return $konsistensi->$return_data;
+	else:
+		return 0;
+	endif;
 }
 
 /* helper untuk backend */

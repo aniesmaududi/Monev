@@ -4,8 +4,7 @@
 			<div id="nav-box">
 				<span class="custom-button-span">
 					<?php
-					$konsistensi = get_konsistensi_perbulan($thang,null,$kddept,$kdunit,$kdprogram);
-					if(isset($konsistensi->rpd)):
+					if($konsistensi):
 					?>
 					<a type="button" class="custom-button" /><span class="icon pdf"></span>pdf</a>
 					<a type="button" class="custom-button" /><span class="icon excel"></span>excel</a>
@@ -81,8 +80,7 @@
 							<?php endif; ?>
 						</table>
 					</div>
-					<?php
-					if(isset($konsistensi->rpd)):?>
+					<?php if($konsistensi):?>
 					<table id="report">
 						<thead>
 							<th width="140">Tahun Anggaran</th>
@@ -94,70 +92,28 @@
 						<tbody>
 							<?php 
 								$total_k = 0;
-								for($i=1;$i<=12;$i++):
-								$rpd = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
-								$realisasi = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
-								$k = get_konsistensi_perbulan($thang,format_bulan($i),$kddept,$kdunit,$kdprogram);
-								$nilai_k = ($k) ? $k->konsistensi : 0;
+								$i = 1;
+								foreach($konsistensi as $konsistensi):
+								$nilai_k = $konsistensi->konsistensi;
 							?>
 							<tr>
 								<?php if($i==1):?>
 								<td rowspan="12" align="center"><?php echo $thang?></td>
 								<?php endif;?>
 								<td><?php echo format_bulan($i,'long');?></td>
-								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo ($rpd) ? number_format($rpd->rpd): 0;?></span></td>
-								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo ($realisasi) ? number_format($realisasi->realisasi) : 0;?></span></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format($konsistensi->jmlrpd);?></span></td>
+								<td align="right"><span class="rupiah">Rp.</span><span class="rupiah_number"><?php echo number_format($konsistensi->jmlrealisasi);?></span></td>
 								<td align="center"><?php echo $nilai_k;?>%</td>
 							</tr>
 							<?php 
 								$total_k += $nilai_k;
-								endfor;
+								$i++;
+								endforeach;
 								$rata_k = round($total_k/12,2);
 							?>
 							<tr>
 								<td align="right" colspan="4" class="row-grey"><b>Rata-rata</b></td>
 								<td align="center" class="row-grey"><?php echo $rata_k?>%</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<h3>Grafik Konsistensi Penyerapan Anggaran</h3>
-					<table class="chart-line accessHide" >
-						<caption>Grafik Konsistensi Penyerapan Anggaran</caption>
-						<thead>
-							<tr>
-								<td></td>
-								<th scope="col">Jan</th>
-								<th scope="col">Feb</th>
-								<th scope="col">Mar</th>
-								<th scope="col">Apr</th>
-								<th scope="col">Mei</th>
-								<th scope="col">Jun</th>
-								<th scope="col">Jul</th>
-								<th scope="col">Agu</th>
-								<th scope="col">Sep</th>
-								<th scope="col">Okt</th>
-								<th scope="col">Nov</th>
-								<th scope="col">Des</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Rencana Penarikan Anggaran(Juta)</th>
-								<?php for($i=1;$i<=12;$i++):
-									$rpd = get_konsistensi_perbulan('2011',format_bulan($i),$kddept,$kdunit,$kdprogram);
-								?>
-								<td><?php echo ($rpd) ? pembulatan_juta($rpd->rpd) : '0';?></td>
-								<?php endfor;?>
-							</tr>
-							<tr>
-								<th scope="row">Realisasi Anggaran(Juta)</th>
-								<?php for($i=1;$i<=12;$i++):
-									($i<10) ? $bulan='0'.$i : $bulan=$i;
-									$realisasi = get_konsistensi_perbulan('2011',format_bulan($i),$kddept,$kdunit,$kdprogram);
-								?>
-								<td><?php echo ($realisasi) ? pembulatan_juta($realisasi->realisasi) : '0';?></td>
-								<?php endfor;?>
 							</tr>
 						</tbody>
 					</table>

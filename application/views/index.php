@@ -13,7 +13,8 @@
         <!-- styles load below -->
         <link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="images/favicon.png"/>
-		
+		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
+		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'highcharts.js'?>"></script>
     </head>
     <body>
 		<!-- template load below -->
@@ -38,8 +39,9 @@
 		<p id="copyright">Copyright &copy; <?php echo date('Y');?> Kementerian Keuangan RI - DJA</p>
 		</div><!-- end of container -->
 		<!-- javascript load below -->
-		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
+		
 		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'chosen.jquery.min.js'?>"></script>
+		
 		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'enhance.js'?>"></script>
 		<script type="text/javascript">
 			// Run capabilities test

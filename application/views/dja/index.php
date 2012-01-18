@@ -1,3 +1,118 @@
+			<script type="text/javascript">
+				var chart1;
+				var chart2;
+				$(document).ready(function() {
+					chart1 = new Highcharts.Chart( {
+						chart: {
+							renderTo: 'chart-container-1',
+							defaultSeriesType: 'line',
+							marginRight: 0,
+							marginBottom: 25
+						},
+						title: {
+							text: 'Grafik Penyerapan Anggaran',
+							x: -20 //center
+						},
+						subtitle: {
+							text: 'Tahun Anggaran: '+<?php echo $thang?>,
+							x: -20
+						},
+						xAxis: {
+							categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 
+								'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des']
+						},
+						yAxis: {
+							title: {
+								text: ' '
+							},
+							plotLines: [ {
+								value: 0,
+								width: 1,
+								color: '#808080'
+							} ]
+						},
+						tooltip: {
+							formatter: function() {
+									return '<b>'+ this.series.name +'</b><br/>'+
+									this.x +': Rp. '+ FormatNumber(this.y) +'';
+							}
+						},
+						legend: {
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'top',
+							x: 0,
+							y: -5,
+							borderWidth: 0
+						},
+						series: [ {
+							name: 'Rencana Penarikan Anggaran',
+							data: [
+								<?php for($i=1;$i<=12;$i++):
+								echo get_konsistensi_perbulan('2011',format_bulan($i),$kddept,$kdunit,$kdprogram);
+								echo ($i<12) ? ',':'';
+								endfor;?> 
+								]
+						}, {
+							name: 'Realisasi Anggaran',
+							data: [
+								<?php for($i=1;$i<=12;$i++):
+								echo get_konsistensi_perbulan('2011',format_bulan($i),$kddept,$kdunit,$kdprogram,'realisasi');
+								echo ($i<12) ? ',':'';
+								endfor;?> 
+								]
+						} ]
+					} );
+					
+					chart2 = new Highcharts.Chart( {
+						chart: {
+							renderTo: 'chart-container-2',
+							defaultSeriesType: 'column',
+							marginRight: 0,
+							marginBottom: 25
+						},
+						title: {
+							text: 'Grafik Pencapaian Kinerja',
+							x: -20 //center
+						},
+						subtitle: {
+							text: 'Tahun Anggaran: '+<?php echo $thang?>,
+							x: -20
+						},
+						xAxis: {
+							categories: ['Penyerapan', 'Konsistensi', 'Keluaran', 'Nilai Efisiensi', 'Manfaat']
+						},
+						yAxis: {
+							title: {
+								text: ' '
+							},
+							plotLines: [ {
+								value: 0,
+								width: 1,
+								color: '#808080'
+							} ]
+						},
+						tooltip: {
+							formatter: function() {
+									return '<b>'+this.x +':</b> '+ FormatNumber(this.y) +' %';
+							}
+						},
+						legend: {
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'top',
+							x: 0,
+							y: -5,
+							borderWidth: 0
+						},
+						series: [ 
+						{
+							name: 'Prosentase Pencapaian Kinerja',
+							data: [ <?php echo $penyerapan->p;?>, <?php echo $konsistensi->k;?>, <?php echo $keluaran->pk;?>, <?php echo (50+(($efisiensi->e/20)*50));?>]
+						} ]
+					} );
+				});
+			</script>
 			<h1><?php echo(isset($title))?$title:'Dashboard DJA';?></h1>
 			<div id="search-box">
 				
@@ -61,79 +176,9 @@
 						</form>
 						</span>
 					</div>
-					<h3 class="header-graph">Grafik Penyerapan Anggaran</h3>
-					<table class="chart-line accessHide">
-						<caption>Grafik Penyerapan Anggaran</caption>
-						<thead>
-							<tr>
-								<td></td>
-								<th scope="col">Jan</th>
-								<th scope="col">Feb</th>
-								<th scope="col">Mar</th>
-								<th scope="col">Apr</th>
-								<th scope="col">Mei</th>
-								<th scope="col">Jun</th>
-								<th scope="col">Jul</th>
-								<th scope="col">Agu</th>
-								<th scope="col">Sep</th>
-								<th scope="col">Okt</th>
-								<th scope="col">Nov</th>
-								<th scope="col">Des</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Rencana Penarikan Anggaran(Juta)</th>
-								<?php for($i=1;$i<=12;$i++):
-									($i<10) ? $bulan='0'.$i : $bulan=$i;
-									$rpd = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
-								?>
-								<td><?php echo ($rpd) ? pembulatan_juta($rpd->rpd) : '0';?></td>
-								<?php endfor;?>
-							</tr>
-							<tr>
-								<th scope="row">Realisasi Anggaran(Juta)</th>
-								<?php for($i=1;$i<=12;$i++):
-									($i<10) ? $bulan='0'.$i : $bulan=$i;
-									$realisasi = get_konsistensi_perbulan('2011',$bulan,$kddept,$kdunit,$kdprogram);
-								?>
-								<td><?php echo ($realisasi) ? pembulatan_juta($realisasi->realisasi) : '0';?></td>
-								<?php endfor;?>
-							</tr>
-						</tbody>
-					</table>
-					<br>
-					<h3 class="header-graph">Grafik Indikator Kerja</h3>
-					<table class="chart-bar accessHide" >
-						<caption>Grafik Indikator Kerja</caption>
-						<thead>
-							<tr>
-								<td></td>
-								<th scope="col">Penyerapan</th>
-								<th scope="col">Konsistensi</th>
-								<th scope="col">Keluaran</th>
-								<th scope="col">Efisiensi</th>
-								<th scope="col">Manfaat</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Bobot Total</th>
-								<td>9.7</td>
-								<td>18.2</td>
-								<td>43.5</td>
-								<td>28.6</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<th scope="row">Pencapaian</th>
-								<td><?php echo round($penyerapan->p/100*9.7,2);?></td>
-								<td><?php echo round($konsistensi->k/100*18.2,2);?></td>
-								<td><?php echo round($keluaran->pk/100*43.5,2);?></td>
-								<td><?php echo round($efisiensi->e/100*28.6,2);?></td>
-								<td>0</td>
-							</tr>		
-						</tbody>
-					</table>
+					
+					<div id="chart-container-1" class="chart-container"  style="width: 100%; height: 350px; margin: 0 auto 30px"></div>
+					
+					<div id="chart-container-2" class="chart-container"  style="width: 100%; height: 350px; margin: 0 auto"></div>
 				</div>
 			</div>

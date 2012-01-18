@@ -373,4 +373,40 @@ class Mdja extends CI_Model
 		
 		return $this->db->query($sql.$group);
 	}
+	
+	public function get_report_konsistensi($thang=null,$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null)
+	{
+		$sql = '
+			SELECT 
+				thang,
+				bulan,
+				sum(jmlrpd) AS jmlrpd, 
+				sum(jmlrealisasi) AS jmlrealisasi,
+				round(( sum( jmlrealisasi ) / sum( jmlrpd ) ) *100, 2) AS konsistensi
+			FROM tb_konsistensi
+			WHERE 
+				thang='.$thang.'
+			';
+		$group = ' GROUP BY thang, bulan';
+		$order = ' ORDER BY thang, bulan, kddept, kdunit, kdprogram, kdsatker';
+		
+		if(isset($kddept)){ 
+			$sql .= ' and kddept='.$kddept.' ';
+			$group .= ', kddept';
+		}
+		if(isset($kdunit)){
+			$sql .= ' and kdunit='.$kdunit.' ';
+			$group .= ', kdunit';
+		}
+		if(isset($kdprogram)){
+			$sql .= ' and kdprogram='.$kdprogram.' ';
+			$group .= ', kdprogram';
+		}
+		if(isset($kdsatker)){
+			$sql .= ' and kdsatker='.$kdsatker.' ';
+			$group .= ', kdsatker';
+		}
+		return $this->db->query($sql.$group.$order)->result();
+	}
+	
 }

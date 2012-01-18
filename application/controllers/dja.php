@@ -44,6 +44,11 @@ class Dja extends CI_Controller
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;
+		$this->data['thang'] = '2011';
+		if(isset($_POST['thang']) && $_POST['thang'] != 0):
+			$this->data['thang'] = $_POST['thang'];
+		endif;
+		
 		if(isset($_POST['kddept']) && $_POST['kddept'] != 0):
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
@@ -62,10 +67,10 @@ class Dja extends CI_Controller
             //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         endif;
 		
-		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		
         $this->data['template'] = 'dja/index';
         $this->load->view('index', $this->data);
@@ -124,10 +129,16 @@ class Dja extends CI_Controller
         {
             $thang = '2011';
         }
+		$this->data['thang'] = $thang;
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
-        $this->data['kdprogram'] = null;                
+        $this->data['kdprogram'] = null; 
+		$this->data['kdsatker'] = null;		
         
+		if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
 		if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
             $this->data['kddept'] = $_POST['kddept'];
@@ -147,68 +158,7 @@ class Dja extends CI_Controller
         }
 		
 		
-		$this->data['submitK'] = 1;
-		
-		$thang = $this->input->post('thang');
-		if(empty($thang))
-		{
-			$thang = '2011';
-		}
-		$this->data['thang'] = $thang;
-		$kddept = $this->data['kddept'];
-		$kdunit = $this->data['kdunit'];
-		$kdprogram = $this->data['kdprogram'];
-		
-		if(empty($kddept)){
-			$rpd = $this->mdja->get_rpd($thang, null, null, null);
-			$this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, null, null, null);
-		}
-		elseif(isset($kddept) && empty($kdunit))
-		{
-			$rpd = $this->mdja->get_rpd($thang, $this->data['kddept'], null, null);
-			$this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $this->data['kddept'], null, null);                
-		}            
-		elseif(isset($kddept) && isset($kdunit) && empty($kdprogram))
-		{
-			$rpd = $this->mdja->get_rpd($thang, $this->data['kddept'], $this->data['kdunit'], null);
-			$this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $this->data['kddept'], $this->data['kdunit'], null);            
-		}            
-		elseif(isset($kddept) && isset($kdunit) && isset($kdprogram))
-		{
-			$rpd = $this->mdja->get_rpd($thang, $kddept, $kdunit, $kdprogram);
-			$this->data['realisasi'] = $this->mdja->get_realisasi_bulanan($thang, $kddept, $kdunit, $kdprogram);
-		}
-		
-		if(count($rpd) > 0)
-		{ 
-			$this->data['jml'] = "jml";                
-			$this->data['jml1'] = $rpd['jml01'];
-			$this->data['jml2'] = $rpd['jml02'];
-			$this->data['jml3'] = $rpd['jml03'];
-			$this->data['jml4'] = $rpd['jml04'];
-			$this->data['jml5'] = $rpd['jml05'];
-			$this->data['jml6'] = $rpd['jml06'];
-			$this->data['jml7'] = $rpd['jml07'];
-			$this->data['jml8'] = $rpd['jml08'];
-			$this->data['jml9'] = $rpd['jml09'];
-			$this->data['jml10'] = $rpd['jml10'];
-			$this->data['jml11'] = $rpd['jml11'];
-			$this->data['jml12'] = $rpd['jml12'];
-		} else {
-			$this->data['jml'] = 0;   
-			$this->data['jml1'] = 0;
-			$this->data['jml2'] = 0;
-			$this->data['jml3'] = 0;
-			$this->data['jml4'] = 0;
-			$this->data['jml5'] = 0;
-			$this->data['jml6'] = 0;
-			$this->data['jml7'] = 0;
-			$this->data['jml8'] = 0;
-			$this->data['jml9'] = 0;
-			$this->data['jml10'] = 0;
-			$this->data['jml11'] = 0;
-			$this->data['jml12'] = 0;
-		}  
+		$this->data['konsistensi'] = $this->mdja->get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
                 
         $this->data['template'] = 'dja/konsistensi';            
         
