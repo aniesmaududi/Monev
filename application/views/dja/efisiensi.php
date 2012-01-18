@@ -77,31 +77,36 @@
 					<table id="report">
 						<thead>
 							<tr>
-								<th>Keluaran</th>
-								<th>Target</th>
-								<th>Realisasi</th>
-								<th width="100">Pagu Anggaran</th>
-								<th width="100">Realisasi Anggaran</th>
-								<th>Efisiensi</th>
+								<th rowspan="2">Keluaran</th>
+								<th colspan="2">Volume</th>
+								<th colspan="2">Anggaran</th>
+								<th rowspan="2" width="50">Efisiensi</th>
+							</tr>
+							<tr>
+								<th width="80">Target</th>
+								<th width="80">Realisasi</th>
+								<th width="100">Pagu</th>
+								<th width="100">Realisasi</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php $total_ek = 0; foreach($output as $output_item): ?>					
 							<tr style="font-size:12px;" valign="top">					
-								<td><?php echo $output_item['nmoutput'].'<br>
-									<span class="gray small-text">('.$output_item['sat'].')</span>';?></td>
-								<td align="right"><?php $TVK = $output_item['tvk']; echo $TVK; ?></td>
-								<td align="right"><?php $RVK = $output_item['rvk']; echo $RVK; ?></td>
+								<td><?php echo $output_item->nmoutput;?></td>
+								<td align="center"><?php $TVK = $output_item->tvk; echo $TVK.'<br>
+									<span class="gray small-text">('.$output_item->sat.')</span>'; ?></td>
+								<td align="center"><?php $RVK = $output_item->rvk; echo $RVK.'<br>
+									<span class="gray small-text">('.$output_item->sat.')</span>'; ?></td>
 								<td align="right">
 									<?php 
-									$pagu = $this->mdja->get_pagu_anggaran_keluaran($output_item['kddept'], $output_item['kdunit'], $output_item['kdsatker'], $output_item['kdprogram'], $output_item['kdgiat'], $output_item['kdoutput']);
+									$pagu = $this->mdja->get_pagu_anggaran_keluaran($output_item->kddept, $output_item->kdunit, $output_item->kdsatker, $output_item->kdprogram, $output_item->kdgiat, $output_item->kdoutput);
 									$PAK = $pagu['pagu'];
 									echo number_format($PAK);
 									?>
 								</td>
 								<td align="right">
 									<?php
-									$realisasi = $this->mdja->get_realisasi_anggaran_keluaran($output_item['kddept'], $output_item['kdunit'], $output_item['kdsatker'], $output_item['kdprogram'], $output_item['kdgiat'], $output_item['kdoutput']);
+									$realisasi = $this->mdja->get_realisasi_anggaran_keluaran($output_item->kddept, $output_item->kdunit, $output_item->kdsatker, $output_item->kdprogram, $output_item->kdgiat, $output_item->kdoutput);
 									$RAK = $realisasi['total'];
 									echo number_format($RAK);
 									?>
@@ -115,8 +120,8 @@
 								</td>					
 							</tr>								
 							<?php $total_ek += $ek; endforeach;?>
-							<tr style="font-size:12px;">
-								<td colspan="5"><b>Efisiensi</b></td>
+							<tr class="row-grey">
+								<td colspan="5" align="right"><b>Efisiensi</b></td>
 								<td align="right"><b>
 								<?php						
 								if(count($output) > 0):

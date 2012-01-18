@@ -182,10 +182,12 @@ class Dja extends CI_Controller
         {
             $thang = '2011';
         }
+		
 		$this->data['thang'] = $thang;
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
-        $this->data['kdprogram'] = null;                
+        $this->data['kdprogram'] = null;      
+		$this->data['kdgiat'] = null; 		
         
         if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
@@ -202,15 +204,29 @@ class Dja extends CI_Controller
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];            
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['giat'] = $this->mdja->get_giat($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
         }
-        
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
 		
-		$this->data['output'] = $this->mdja->get_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'])->result();
-
 		
-		$this->data['n'] = count($this->data['output']);
-        
+		$limit = 10;
+		$this->load->library('pagination');
+		$this->data['halaman']	= abs((int)$this->uri->segment(3));
+		$config['base_url'] 	= base_url().'dja/keluaran_table/';
+		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
+		$config['per_page'] 	= 15; 
+		$config['cur_page'] 	= $this->data['halaman'];
+		$this->pagination->initialize($config);
+		$this->data['page'] 	= $this->pagination->create_links();
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		
         $this->data['template'] = 'dja/keluaran';                 
         $this->load->view('index', $this->data);
     }

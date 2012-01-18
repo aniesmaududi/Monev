@@ -61,6 +61,25 @@ class Mdja extends CI_Model
         return $query->result_array();
     }
     
+	public function get_giat($thang, $kddept, $kdunit, $kdprogram)
+	{
+		$sql = '
+			select tro.kdgiat,tg.nmgiat
+			from t_giat tg,tb_real_output tro
+			where year(tgldok) = '.$thang.'
+			and tro.kddept='.$kddept.' 
+			and tro.kdunit='.$kdunit.' 
+			and tro.kdprogram='.$kdprogram.' 
+			and tro.kddept=tg.kddept
+			and tro.kdunit=tg.kdunit
+			and tro.kdprogram=tg.kdprogram
+			and tro.kdgiat=tg.kdgiat
+			group by tg.kdgiat
+			order by tg.kdgiat
+		';
+		return $this->db->query($sql)->result();
+	}
+	
     public function get_program_detail($kddept, $kdunit, $kdprogram)
     {
         //Get program detail from table t_program by kddept, kdunit, kdprogram
@@ -164,12 +183,12 @@ class Mdja extends CI_Model
         return $query->row_array();
     }
     
-    public function get_volume_keluaran($thang, $kddept=null, $kdunit=null, $kdprogram=null, $list=FALSE)
+    public function get_volume_keluaran($thang, $kddept=null, $kdunit=null, $kdprogram=null, $kdgiat=null, $limit=false, $offset=false)
     {
         //Get calculation of Volume Keluaran from tb_real_output
         $sql = 'select output.kdoutput, output.nmoutput, output.sat, sr.kddept, dept.nmdept, sr.kdunit, unit.nmunit, sr.kdsatker, satker.nmsatker, sr.kdprogram, program.nmprogram, sr.kdgiat, giat.nmgiat, sr.tvk, sr.rvk '.
                 'from tb_real_output sr, t_dept dept, t_unit unit, t_satker satker, t_program program, t_giat giat, t_output output '.
-                'where substring(tgldok,1,4) = '.$thang. ' ';
+                'where year(tgldok) = '.$thang. ' ';
         
         if(isset($kddept)){                          
         $sql .= 'and sr.kddept='.$kddept.' ';
@@ -179,6 +198,9 @@ class Mdja extends CI_Model
         }
         if(isset($kdprogram)){
         $sql .= 'and sr.kdprogram='.$kdprogram.' ';
+        }
+		if(isset($kdgiat)){
+        $sql .= 'and sr.kdgiat='.$kdgiat.' ';
         }
         
         $sql .= 'and sr.kddept=dept.kddept '.
@@ -197,11 +219,12 @@ class Mdja extends CI_Model
                 'and sr.kdoutput=output.kdoutput '.
                 'and sr.kdgiat=output.kdgiat '.
                 ' ';
-        if($list):
-			$sql .=' group by sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat';
+		$sql .= ' group by sr.kddept,sr.kdunit,sr.kdprogram,sr.kdgiat';
+        if($limit):
+			$sql .=' limit '.$offset.','.$limit;
 		endif;
         $query = $this->db->query($sql);
-        return $query->result_array();
+        return $query->result();
     }
     
     public function get_pagu_anggaran_keluaran($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat, $kdoutput)
@@ -350,7 +373,7 @@ class Mdja extends CI_Model
 		return $this->db->query($sql.$group);
 	}
 	
-	public function get_keluaran($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null)
+	public function get_keluaran($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$limit=false,$offset=false)
 	{
 		$sql = '
 			SELECT 
@@ -385,8 +408,30 @@ class Mdja extends CI_Model
 			$sql .= 'and k.kdprogram='.$kdprogram.' ';
 			$group .= ', k.kdprogram';
 		}
-		
-		return $this->db->query($sql.$group);
+		if(isset($kdsatker)){
+			$sql .= 'and k.kdsatker='.$kdsatker.' ';
+			$group .= ', k.kdsatker';
+		}
+		$sql_limit = '';
+		if($limit):
+			$sql_limit .= ' limit '.$offset.','.$limit;
+		endif;
+		return $this->db->query($sql.$group.$sql_limit);
+	}
+	
+	public function get_keluaran_kegiatan($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$kdgiat=null)
+	{
+		$sql = '
+			select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk 
+				from tb_real_output sr
+				where year(tgldok) = '.$thang.'
+				and sr.kddept='.$kddept.' 
+				and sr.kdunit='.$kdunit.' 
+				and sr.kdprogram='.$kdprogram.' 
+				and sr.kdsatker='.$kdsatker.' 
+				and sr.kdgiat='.$kdgiat.' 
+		';
+		return $this->db->query($sql);
 	}
 	
 	public function get_report_konsistensi($thang=null,$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null)

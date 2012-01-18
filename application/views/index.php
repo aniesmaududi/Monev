@@ -27,7 +27,6 @@
 				$this->view($this->uri->segment(1).'/leftnav');
 			?>
 			
-		
 			<div id="content-right">
 				<!-- change this with parameter from controller -->
 				<?php $this->view($template);?>

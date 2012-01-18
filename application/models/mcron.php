@@ -219,11 +219,11 @@ class Mcron extends CI_Model
 		if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat) && !isset($kdoutput)):
 			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
                 'from tb_real_output sr '.
-                'where substring(tgldok,1,4) = '.$thang. ' ';
+                'where year(tgldok) = '.$thang. ' ';
 		else:
 			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
                 'from tb_real_output sr '.
-                'where substring(tgldok,1,4) = '.$thang. ' ';
+                'where year(tgldok) = '.$thang. ' ';
 		endif;
 		
         if(isset($bulan)):
@@ -273,13 +273,10 @@ class Mcron extends CI_Model
 	public function cron_keluaran($thang)
 	{
 		for($bulan=1;$bulan<=12;$bulan++):
-			$bulan_ke = $bulan;
-			if($bulan<10):
-				$bulan_ke = '0'.$bulan;
-			endif;
+			
 			$total_persen = 0;
 			$i = 0;
-			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, $bulan_ke)->result();
+			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, format_bulan($bulan))->result();
 			if($data_bulanan):
 				foreach($data_bulanan as $keluaran):
 					$i++;
@@ -289,7 +286,7 @@ class Mcron extends CI_Model
 				endforeach;
 				$data = array(
 					'thang' => $thang,
-					'bulan' => $bulan_ke,
+					'bulan' => format_bulan($bulan),
 					'pk' => round($total_persen/$i,2),
 					'kddept' => $keluaran->kddept,
 					'kdunit' => $keluaran->kdunit,

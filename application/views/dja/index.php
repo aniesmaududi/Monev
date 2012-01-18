@@ -11,11 +11,11 @@
 						},
 						title: {
 							text: 'Grafik Penyerapan Anggaran',
-							x: -20 //center
+							x: 20 //center
 						},
 						subtitle: {
 							text: 'Tahun Anggaran: '+<?php echo $thang?>,
-							x: -20
+							x: 20
 						},
 						xAxis: {
 							categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 
@@ -42,7 +42,7 @@
 							align: 'right',
 							verticalAlign: 'top',
 							x: 0,
-							y: -5,
+							y: 305,
 							borderWidth: 0
 						},
 						series: [ {
@@ -73,14 +73,14 @@
 						},
 						title: {
 							text: 'Grafik Pencapaian Kinerja',
-							x: -20 //center
+							x: 20 //center
 						},
 						subtitle: {
 							text: 'Tahun Anggaran: '+<?php echo $thang?>,
-							x: -20
+							x: 20
 						},
 						xAxis: {
-							categories: ['Penyerapan', 'Konsistensi', 'Keluaran', 'Nilai Efisiensi', 'Manfaat']
+							categories: ['Penyerapan', 'Konsistensi', 'Keluaran', 'Efisiensi']
 						},
 						yAxis: {
 							title: {
@@ -100,15 +100,14 @@
 						legend: {
 							layout: 'vertical',
 							align: 'right',
-							verticalAlign: 'top',
 							x: 0,
-							y: -5,
+							y: 100,
 							borderWidth: 0
 						},
 						series: [ 
 						{
 							name: 'Prosentase Pencapaian Kinerja',
-							data: [ <?php echo $penyerapan->p;?>, <?php echo $konsistensi->k;?>, <?php echo $keluaran->pk;?>, <?php echo (50+(($efisiensi->e/20)*50));?>]
+							data: [ <?php echo ($penyerapan->p) ? $penyerapan->p: 0;?>, <?php echo ($konsistensi->k)? $konsistensi->k:0;?>, <?php echo ($keluaran->pk)?$keluaran->pk:0;?>, <?php echo ($efisiensi->e) ? (50+(($efisiensi->e/20)*50)) : 0;?>]
 						} ]
 					} );
 				});
@@ -118,6 +117,7 @@
 				
 			</div>
 			<div id="nav-box">
+				<span class="custom-button-span"></span>
 				<div class="box-content box-report">
 					<div class="filter-option-box">
 						<form name="form1" action="<?php echo site_url('dja');?>" method="POST">					
@@ -176,9 +176,10 @@
 						</form>
 						</span>
 					</div>
+					<div class="clearfix">
+					<div id="chart-container-1" class="chart-container"  style="width: 50%; float:left; height: 300px; margin: 0;left:-20px;position:relative"></div>
 					
-					<div id="chart-container-1" class="chart-container"  style="width: 100%; height: 350px; margin: 0 auto 30px"></div>
-					
-					<div id="chart-container-2" class="chart-container"  style="width: 100%; height: 350px; margin: 0 auto"></div>
+					<div id="chart-container-2" class="chart-container"  style="width: 50%; float:left; height: 300px; margin: 0"></div>
+					</div>
 				</div>
 			</div>
