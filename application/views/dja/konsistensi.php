@@ -78,6 +78,30 @@
 								</td>
 							</tr>
 							<?php endif; ?>
+							<?php if((isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
+							<tr>
+								<td width="150" class="bold">Satuan Kerja</td>
+								<td>:</td>
+								<td>
+								<form name="form3" action="<?php echo site_url('dja/konsistensi_table');?>" method="POST">
+									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
+									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
+									<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>
+									<select name="kdsatker" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
+										<option value="0" selected="selected">SEMUA SATKER</option>
+										<?php
+										foreach ($satker as $item):
+											if($kdsatker == $item['kdsatker']){ $selected = 'selected';} else { $selected = "";}
+										?>
+										<option value="<?php echo $item['kdsatker'];?>" <?php echo $selected;?>>
+										<?php echo $item['kdsatker'];?> &mdash; <?php echo $item['nmsatker'];?>
+										</option>				
+									<?php endforeach ?>
+									</select>					
+								</form>
+								</td>
+							</tr>
+							<?php endif;?>
 						</table>
 					</div>
 					<?php if($konsistensi):?>

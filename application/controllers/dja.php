@@ -155,7 +155,15 @@ class Dja extends CI_Controller
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
             $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['satker'] = $this->mdja->get_satker($this->data['kddept'], $this->data['kdunit']);
         }
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
+        {
+			$this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['kdsatker'] = $_POST['kdsatker'];
+		}
 		
 		
 		$this->data['konsistensi'] = $this->mdja->get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);

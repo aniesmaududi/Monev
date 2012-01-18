@@ -45,6 +45,21 @@ class Mdja extends CI_Model
         
         return $query->result_array();
     }
+	
+	public function get_satker($kddept, $kdunit)
+    {
+        //Get program list from table t_program by kddept, kdunit
+        $query = $this->db->query('select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, satker.kdsatker, satker.nmsatker '.
+                                    'from t_satker satker, t_dept dept, t_unit unit '.
+                                    'where satker.kddept = dept.kddept '.
+                                    'and satker.kdunit = unit.kdunit '.
+                                    'and unit.kddept = dept.kddept '.
+                                    'and satker.kddept='.$kddept.' '.
+                                    'and satker.kdunit='.$kdunit
+                                    );        
+        
+        return $query->result_array();
+    }
     
     public function get_program_detail($kddept, $kdunit, $kdprogram)
     {
