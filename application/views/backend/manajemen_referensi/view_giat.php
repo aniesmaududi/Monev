@@ -1,37 +1,33 @@
 			<h1><?php echo $title;?></h1>
-            
-                     <h3><?php
-						if ($table_name=='program'){ echo 'Daftar Program';}
-							else if ($table_name=='iku'){ echo 'Daftar Indeks Kinerja Utama';}
-							else if ($table_name=='unit'){ echo 'Daftar Unit';}
-							else
-							 echo $table_name;?></h3>
+            <h3><?php
+			echo 'Daftar Kegiatan';?></h3>
 			<div id="search-box" style="min-height:400px;overflow:auto;">				
-				<form action="<?php echo site_url();?>backend/ref/view/program" class="backend-form" method="post">
+			 <form action="<?php echo site_url();?>backend/ref/view/giat" class="backend-form" method="post">
             <center>
             <input type="text" name="cari" />
             <input type="submit" value="Cari" class="btn primary">
             </center>
             </form>
-             <br />  <?php
+            <br />	<?php
 				if($this->session->flashdata('message')):
 					echo flash_message($this->session->flashdata('message_type'));
 				endif;
+				
 				if (count($table)>0){?>
 					<table class="backend-table">
 						<thead>
                                                     <th>No</th>
-                                                    <th>Kode Program</th>
-                                                    <th>Nama Program</th>
+                                                    <th>Kode Kegiatan</th>
+                                                    <th>Nama Kegiatan</th>
                                                     <th>Opsi</th>
                                                                                                       
 						</thead>
 						<?php $i=$this->uri->segment(5)+1; foreach($table as $data):?>
 						<tr>
                         	<td><?php echo $i;?></td>
-                            <td><?php echo $data->kdprogram;?></td>
-                            <td><?php echo $data->nmprogram;?></td>
-                            <td><?php echo anchor('backend/ref/editprogram/program/'.$data->kddept.'/'.$data->kdunit.'/'.$data->kdprogram,'Detail/Ubah','class="btn"');?></td>
+                            <td><?php echo $data->kdgiat;?></td>
+                            <td><?php echo $data->nmgiat;?></td>
+                            <td><?php echo anchor('backend/ref/editgiat/giat/'.$data->kdgiat,'Detail/Ubah','class="btn"');?></td>
                         </tr>
 						<?php $i++; endforeach;?>
 						

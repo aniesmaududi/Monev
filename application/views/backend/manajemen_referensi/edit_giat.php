@@ -1,6 +1,6 @@
 			<h1><?php echo $title;?></h1>
 			<div id="search-box" style="min-height:400px;">				
-				<form action="<?php echo site_url();?>backend/ref/ubahiku" class="backend-form" method="post">
+				<form action="<?php echo site_url();?>backend/ref/ubahgiat" class="backend-form" method="post">
 			   
 
 					<div class="clearfix">
@@ -19,29 +19,21 @@
                     <?php endforeach;?>
                     </select>
 					</div>
-                   <div class="clearfix">
-					<label>Nama IKU</label>
-                    <input type="text" name="nmiku" value="<?php echo $detail->nmiku?>" />
-					</div>
-
                     <div class="clearfix">
 					<label>Nama Program</label>
                     <select name="kdprogram">
                     	<?php foreach(get_program() as $program): ?>
-                     <option value="<?php echo $program->kdprogram;?>" <?php echo ($program->kdunit == $detail->kdunit && $program->kddept == $detail->kddept && $program->kdprogram == $detail->kdprogram)? 'selected=selected':'';?>><?php echo $program->nmprogram;?></option>
+                     <option value="<?php echo $program->kdprogram;?>" <?php echo ($unit->kdunit == $detail->kdunit && $unit->kddept == $detail->kddept )? 'selected=selected':'';?>><?php echo $program->nmprogram;?></option>
                         <?php endforeach;?>
                     </select>
 					</div>
-					<div class="clearfix">
-					<label>Kode Update</label>
-                    <input type="text" name="kdupdate" value="<?php echo $detail->kdupdate?>" />
-					</div>					
+                    <div class="clearfix">
+					<label>Nama Kegiatan</label>
+                    <input type="text" name="nmgiat" value="<?php echo $detail->nmgiat?>" />
+					</div>				
 					<div class="clearfix">
 						<label>&nbsp;</label>
-                        <input type="hidden" name="kdiku" value="<?php echo $detail->kdiku?>" />
-                        <input type="hidden" name="praid1" value="<?php echo $praid1;?>">
-                        <input type="hidden" name="praid2" value="<?php echo $praid2;?>">
-                        <input type="hidden" name="praid3" value="<?php echo $praid3;?>">
+                        <input type="hidden" name="kdgiat" value="<?php echo $detail->kdgiat?>" />
 						<input type="hidden" name="table_name" value="<?php echo $param;?>">
 						<input type="submit" value="Simpan" class="btn primary">
 						atau

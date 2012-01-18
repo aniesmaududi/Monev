@@ -7,21 +7,23 @@ class Queue extends CI_Controller
         is_adminlogin();
         $this->data['now'] = date("Y-m-d H:i:s");
         $this->load->model('admin_model', 'admin');
+		$this->load->model('mqueue');
         $this->load->library('form_validation');
+		$this->load->helper('download');
         $this->load->dbforge();
         error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
     }
 
     function index()
     {
-        $sql = 'select u.id, u.is_done, u.kdsatker, unit.kdunit, unit.nmunit, dept.kddept, dept.nmdept '.
-                'from tb_upload u, t_unit unit, t_dept dept '.
+        $sql = 'select u.id, u.is_done, satker.kdsatker, satker.nmsatker, unit.kdunit, unit.nmunit, dept.kddept, dept.nmdept '.
+                'from tb_upload u, t_satker satker, t_unit unit, t_dept dept '.
                 'where u.kddept = dept.kddept '.
                 'and u.kddept = unit.kddept '.
                 'and u.kdunit = unit.kdunit '.
-//              'and u.kddept = satker.kddept '.
-//              'and u.kdunit = satker.kdunit '.
-//              'and u.kdsatker = satker.kdsatker '.
+                'and u.kddept = satker.kddept '.
+                'and u.kdunit = satker.kdunit '.
+                'and u.kdsatker = satker.kdsatker '.
                 'and u.is_done is null '.
                 'ORDER BY id ASC';
         
@@ -49,6 +51,10 @@ class Queue extends CI_Controller
         $this->_extract($path . $filename, $path . $row->code);
 
         $dir = scandir($path . $row->code);
+        //echo 'path : '.$path.'<br>';
+        //echo 'filename : '.$filename.'<br>';
+        //echo 'row code : '.$row->code.'<br>';
+        //print_r($dir);
         
         require_once('./prodigy-dbf.php');
         /* load the required classes */
@@ -57,12 +63,14 @@ class Queue extends CI_Controller
         require_once "phpxbase/Table.class.php";
         
         $sql = $sql2 = '';
-        $this->db->query('USE db_staging_monev');
+        $this->db->query('USE staging_monev');
         $nullflags = 0;
 
+        //foreach ($dir as $v) {
+        //echo count($dir);
         for($i=2;$i<count($dir);$i++){            
             $exploded = explode($row->code, $dir[$i]);
-                    
+            //echo ' <br> dudi : '.$exploded[0];            
             /* buat object table dan buka */
             if(substr($exploded[0], -3) != "FPT" && $exploded[0] != "t_versi.DBF"){
                 $table = new XBaseTable('tmp/' . $row->code . '/' . $exploded[0] . $row->code);            
@@ -89,17 +97,19 @@ class Queue extends CI_Controller
                     }
                 }
                 $create_table .= ");";
-                
+                //echo $create_table;
                 $this->db->query($create_table);
-                                                
-                while ($record = $table->nextRecord()) {                                
+                                
+                //insert data of table X
+                while ($record = $table->nextRecord()) {
+                    //$field = $table->getColumns();                
                     $data = $record->choppedData;
                     $value_of_field = "'".$data[0]."'";
                     for($val=1;$val<count($data);$val++)
                     {
-                        $value_of_field .= ',"'.$data[$val].'"';                            
+                        $value_of_field .= ",'".$data[$val]."'";                            
                     }
-                    $sql = 'INSERT INTO '.$exploded[0].' VALUES ('.$value_of_field.');';
+                    $sql = "INSERT INTO ".$exploded[0]." VALUES ($value_of_field);";
                     $this->db->query($sql);
                 //echo $sql;
                 } //end while
@@ -107,13 +117,14 @@ class Queue extends CI_Controller
                 $table->close();     
             }                                    
         }
-        $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));        
+        $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));
+        //redirect(site_url().'backend/queue');
     }
 
     public function test()
     {
         require_once('./prodigy-dbf.php');
-        $Test = new Prodigy_DBF(base_url()."/tmp/");
+        $Test = new Prodigy_DBF(base_url()."/tmp/0250810418198.12/d_giat0250810418198.12", base_url()."/tmp/0250810418198.12/d_giat0250810418198.FPT");
         while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
             print_r($Record);
         }
@@ -122,21 +133,58 @@ class Queue extends CI_Controller
     public function _extract($filename, $path = './', $password = 'B1040VQ')
     {
         $command = sprintf("unrar x -y -p{$password} %s %s", $filename, $path);
-        exec($command, $output);        
+        exec($command, $output);
+        // echo $command;
+        // print_r(output);
     }
 
-    function proses()
+    function write2fs($filename)
     {
-        $id = abs((int)$this->uri->segment(4));
-        $this->load->model('mqueue');            
-        //$this->mqueue->set_status($id);
-        redirect('backend/queue/proses1');
+
 
     }
-    function proses1()
-    {
-        $id = abs((int)$this->uri->segment(4));
-        $this->load->model('mqueue');
-        redirect('backend/queue');
-    }
+
+	function proses()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$this->load->model('mqueue');
+		
+		$this->mqueue->set_status($id);
+		redirect('backend/queue/proses1');
+	}
+	
+	function done()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/done';
+		$this->data['rows'] = $this->mqueue->list_done();
+        $this->load->view('backend/index', $this->data);
+	}
+
+	function success()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/success';
+		$this->data['rows'] = $this->mqueue->list_success();
+        $this->load->view('backend/index', $this->data);
+	}
+
+	function fail()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/failed';
+		$this->data['rows'] = $this->mqueue->list_fail();
+        $this->load->view('backend/index', $this->data);
+	}
+	
+	function get_file()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$name = $this->uri->segment(5);
+		echo $id;
+		if($name==true)
+		$this->mqueue->download($id);
+		else
+		redirect('backend/queue/fail');
+	}
 }
