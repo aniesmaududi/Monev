@@ -19,9 +19,9 @@ class Queue extends CI_Controller
                 'where u.kddept = dept.kddept '.
                 'and u.kddept = unit.kddept '.
                 'and u.kdunit = unit.kdunit '.
-//                'and u.kddept = satker.kddept '.
-//                'and u.kdunit = satker.kdunit '.
-//                'and u.kdsatker = satker.kdsatker '.
+//              'and u.kddept = satker.kddept '.
+//              'and u.kdunit = satker.kdunit '.
+//              'and u.kdsatker = satker.kdsatker '.
                 'and u.is_done is null '.
                 'ORDER BY id ASC';
         
@@ -49,10 +49,6 @@ class Queue extends CI_Controller
         $this->_extract($path . $filename, $path . $row->code);
 
         $dir = scandir($path . $row->code);
-        //echo 'path : '.$path.'<br>';
-        //echo 'filename : '.$filename.'<br>';
-        //echo 'row code : '.$row->code.'<br>';
-        //print_r($dir);
         
         require_once('./prodigy-dbf.php');
         /* load the required classes */
@@ -64,11 +60,9 @@ class Queue extends CI_Controller
         $this->db->query('USE db_staging_monev');
         $nullflags = 0;
 
-        //foreach ($dir as $v) {
-        //echo count($dir);
         for($i=2;$i<count($dir);$i++){            
             $exploded = explode($row->code, $dir[$i]);
-            //echo ' <br> dudi : '.$exploded[0];            
+                    
             /* buat object table dan buka */
             if(substr($exploded[0], -3) != "FPT" && $exploded[0] != "t_versi.DBF"){
                 $table = new XBaseTable('tmp/' . $row->code . '/' . $exploded[0] . $row->code);            
@@ -95,12 +89,10 @@ class Queue extends CI_Controller
                     }
                 }
                 $create_table .= ");";
-                //echo $create_table;
+                
                 $this->db->query($create_table);
-                                
-                //insert data of table X
-                while ($record = $table->nextRecord()) {
-                    //$field = $table->getColumns();                
+                                                
+                while ($record = $table->nextRecord()) {                                
                     $data = $record->choppedData;
                     $value_of_field = "'".$data[0]."'";
                     for($val=1;$val<count($data);$val++)
@@ -115,8 +107,7 @@ class Queue extends CI_Controller
                 $table->close();     
             }                                    
         }
-        $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));
-        //redirect(site_url().'backend/queue');
+        $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));        
     }
 
     public function test()
@@ -131,36 +122,21 @@ class Queue extends CI_Controller
     public function _extract($filename, $path = './', $password = 'B1040VQ')
     {
         $command = sprintf("unrar x -y -p{$password} %s %s", $filename, $path);
-        exec($command, $output);
-        // echo $command;
-        // print_r(output);
+        exec($command, $output);        
     }
 
-    function write2fs($filename)
+    function proses()
     {
-
+        $id = abs((int)$this->uri->segment(4));
+        $this->load->model('mqueue');            
+        //$this->mqueue->set_status($id);
+        redirect('backend/queue/proses1');
 
     }
-	function proses()
-	{
-		$id = abs((int)$this->uri->segment(4));
-		$this->load->model('mqueue');
-		
-//			$this->session->set_flashdata('message_type', 'success');
-	//		$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
-
-//		$this->load->view('backend/queue/index',$data);
-		//$this->mqueue->set_status($id);
-		redirect('backend/queue/proses1');
-
-	}
-	function proses1()
-	{
-		$id = abs((int)$this->uri->segment(4));
-		$this->load->model('mqueue');
-		redirect('backend/queue');
-//		$this->load->view('backend/queue/index',$data);
-//		$this->mqueue->set_status($id);
-
-	}
+    function proses1()
+    {
+        $id = abs((int)$this->uri->segment(4));
+        $this->load->model('mqueue');
+        redirect('backend/queue');
+    }
 }
