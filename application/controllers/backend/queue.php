@@ -125,18 +125,46 @@ class Queue extends CI_Controller
         exec($command, $output);        
     }
 
-    function proses()
-    {
-        $id = abs((int)$this->uri->segment(4));
-        $this->load->model('mqueue');            
-        //$this->mqueue->set_status($id);
-        redirect('backend/queue/proses1');
+	function proses()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$this->load->model('mqueue');
+		
+		$this->mqueue->set_status($id);
+		redirect('backend/queue/proses1');
+	}
+	
+	function done()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/done';
+		$this->data['rows'] = $this->mqueue->list_done();
+        $this->load->view('backend/index', $this->data);
+	}
 
-    }
-    function proses1()
-    {
-        $id = abs((int)$this->uri->segment(4));
-        $this->load->model('mqueue');
-        redirect('backend/queue');
-    }
+	function success()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/success';
+		$this->data['rows'] = $this->mqueue->list_success();
+        $this->load->view('backend/index', $this->data);
+	}
+
+	function fail()
+	{
+        $this->data['title'] = 'Antrian Expor berkas Satker';
+        $this->data['template'] = 'queue/failed';
+		$this->data['rows'] = $this->mqueue->list_fail();
+        $this->load->view('backend/index', $this->data);
+	}
+	
+	function get_file()
+	{
+		$id = abs((int)$this->uri->segment(4));
+		$name = abs((int)$this->uri->segment(5));
+		if($name==true)
+		$this->mqueue->download($id);
+		else
+		redirect('backend/queue/fail');
+	}
 }
