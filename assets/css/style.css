@@ -1,5 +1,5 @@
 @import url('backend.css');
-@import url(chosen.css);
+@import url('chosen.css');
 html
 {
 	margin: 0px;
@@ -7,7 +7,7 @@ html
 	border:0px;
 }
 
-body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset,
+body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset
 {
 	margin: 0px;
 	padding: 0px;
@@ -952,20 +952,6 @@ input.locked
   	box-shadow:inset 0px 1px 1px #999;
 }
 
-input.locked
-{
-	padding: 3px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-  	border-radius: 5px;
-  	border: 1px solid #a6a6a6;	
-  	width: 120px;
-  	margin: 0px;
-  	color: #454545;
-  	background: #f5f5f5;
-  	box-shadow:inset 0px 1px 1px #999;
-}
-
 input:focus
 {
 	outline: none;
@@ -991,8 +977,8 @@ p#copyright
 	color: #dddddd;
 	font-size: 11px;
 	float: right;
+	margin:10px 0;
 }
-
 
 table tr td
 {

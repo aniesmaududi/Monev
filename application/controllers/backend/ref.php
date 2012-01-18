@@ -36,7 +36,7 @@ class Ref extends CI_Controller
 		$this->data['halaman'] 	= abs((int)$this->uri->segment(5));
 		$config['base_url']		= base_url().'backend/ref/view/'.$param.'/';
 		$config['total_rows'] 	= count($this->madmin_ref->get_table_detail($this->data['table_name']));
-		$config['per_page'] 	= 25; 
+		$config['per_page'] 	= 10; 
 		$config['cur_page'] 	= $this->data['halaman'];
 		$this->pagination->initialize($config);
 		
@@ -51,8 +51,10 @@ class Ref extends CI_Controller
     {
         $this->data['title'] = 'Pemeliharaan Referensi';
 		$this->data['param'] = $this->uri->segment(4);
-		$this->data['id'] = $this->uri->segment(5);
-		$this->data['detail'] = $this->madmin_ref->get_data_detailsatker($this->data['param'],$this->data['id']);
+		$this->data['praid1'] = $this->uri->segment(5);
+		$this->data['praid2'] = $this->uri->segment(6);
+		$this->data['id'] = $this->uri->segment(7);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailsatker($this->data['param'],$this->data['praid1'],$this->data['praid2'],$this->data['id']);
         $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
         $this->load->view('backend/index', $this->data);
     }
@@ -71,12 +73,47 @@ class Ref extends CI_Controller
     {
         $this->data['title'] = 'Pemeliharaan Referensi';
 		$this->data['param'] = $this->uri->segment(4);
-		$this->data['id'] = $this->uri->segment(5);
-		$this->data['detail'] = $this->madmin_ref->get_data_detailunit($this->data['param'],$this->data['id']);
+		$this->data['praid'] = $this->uri->segment(5);
+		$this->data['id'] = $this->uri->segment(6);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailunit($this->data['param'],$this->data['praid'],$this->data['id']);
         $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
         $this->load->view('backend/index', $this->data);
     }
-    
+    function editoutput()
+    {
+        $this->data['title'] = 'Pemeliharaan Referensi';
+		$this->data['param'] = $this->uri->segment(4);
+		$this->data['praid'] = $this->uri->segment(5);
+		$this->data['id'] = $this->uri->segment(6);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailoutput($this->data['param'],$this->data['praid'],$this->data['id']);
+        $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
+		$this->load->view('backend/index', $this->data);
+    }
+	
+	function editiku()
+    {
+        $this->data['title'] = 'Pemeliharaan Referensi';
+		$this->data['param'] = $this->uri->segment(4);
+		$this->data['praid1'] = $this->uri->segment(5);
+		$this->data['praid2'] = $this->uri->segment(6);
+		$this->data['praid3'] = $this->uri->segment(7);
+		$this->data['id'] = $this->uri->segment(8);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailiku($this->data['param'],$this->data['praid1'],$this->data['praid2'],$this->data['praid3'],$this->data['id']);
+        $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
+        $this->load->view('backend/index', $this->data);
+    }
+	
+	function editprogram()
+    {
+        $this->data['title'] = 'Pemeliharaan Referensi';
+		$this->data['param'] = $this->uri->segment(4);
+		$this->data['praid1'] = $this->uri->segment(5);
+		$this->data['praid2'] = $this->uri->segment(6);
+		$this->data['id'] = $this->uri->segment(7);
+		$this->data['detail'] = $this->madmin_ref->get_data_detailprogram($this->data['param'],$this->data['praid1'],$this->data['praid2'],$this->data['id']);
+        $this->data['template'] = 'manajemen_referensi/edit_'.$this->data['param'];
+        $this->load->view('backend/index', $this->data);
+    }
     
 	 function ubahdept() {
 		 $kode=$this->input->post('kddept');
@@ -86,17 +123,33 @@ class Ref extends CI_Controller
 	}
 	
 	 function ubahunit() {
-		 $kode=$this->input->post('kdunit');
 		         $this->load->model('madmin_ref');
 	           $this->madmin_ref->ubahunit();
 	           redirect('backend/ref/view/unit'); 
 	}
 	
 	 function ubahsatker() {
-		 $kode=$this->input->post('kdsatker');
 		         $this->load->model('madmin_ref');
 	           $this->madmin_ref->ubahsatker();
 	           redirect('backend/ref/view/satker'); 
+	}
+	function ubahoutput() {
+		 $kode=$this->input->post('KDOUTPUT');
+		         $this->load->model('madmin_ref');
+	           $this->madmin_ref->ubahoutput();
+	           redirect('backend/ref/view/output'); 
+	}
+	function ubahiku() {
+		 $kode=$this->input->post('kdiku');
+		         $this->load->model('madmin_ref');
+	           $this->madmin_ref->ubahiku();
+	           redirect('backend/ref/view/iku'); 
+	}
+	function ubahprogram() {
+		 $kode=$this->input->post('kdprogram');
+		         $this->load->model('madmin_ref');
+	           $this->madmin_ref->ubahprogram();
+	           redirect('backend/ref/view/program'); 
 	}
 	
 }

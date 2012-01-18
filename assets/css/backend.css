@@ -183,6 +183,11 @@ form.backend-form h4 span{
 	display:inline-block;
 	padding-right:10px;
 }
+/* nav */
+a.navigation-title.first{
+	border-bottom:none;
+}
+
 /*dropdown filter data*/
 span.custom-button-span{
 	display:block;
@@ -226,7 +231,6 @@ span.icon{
 	width:16px;
 	height:16px;
 	display:inline-block;
-	line-height:0;
 	float:left;
 	margin-right:5px;
 }
@@ -241,6 +245,7 @@ span.icon{
 	margin-bottom:10px;
 	border-bottom:none;
 	padding-bottom:10px;
+	line-height:22px;
 }
 .filter-option-box select{
 	margin-bottom:5px;
@@ -269,13 +274,19 @@ table#report th, table#report .row-grey {
 	-moz-box-shadow:0 1px #ffffff inset;
 	box-shadow:0 1px #ffffff inset;
 	text-shadow:0 1px #ffffff;
+	padding:8px 5px;
+	border: 1px solid #acacac;
 }
 .box-report .visualize{
 	position:relative;
-	left:20px;
+	left:-20px;
 }
 .box-report h3{
 	margin-top:20px;
 	text-align:center;
 	padding-top:10px;
 }
+.info-table{
+	width:519px;
+}
+table.accessHide { position: absolute; left: -999999px; }

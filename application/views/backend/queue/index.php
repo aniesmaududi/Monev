@@ -63,15 +63,9 @@ $change="<div class='flash'>$nama</div>";
 
 
 
-<script type="text/javascript" src="<?php echo ASSETS_DIR_JS.'flash/jquery.min.js'?>"></script>
 <script type="text/javascript" >
 function reloadpage()
 {
-//$(document).ready(function()
-	//{
-
-//		window.location=
-	//	alert(window.location);
 		document.getElementById("flash"+<?php echo $temp?>).style.backgroundColor="#0f0";
 		setTimeout(function()
 		{
@@ -80,7 +74,6 @@ function reloadpage()
 				$(".flash").remove();
 			}); 
 		}, 5000);
-	//}	); 
 	}
 	window.onload = setupRefresh;
 	function setupRefresh(){

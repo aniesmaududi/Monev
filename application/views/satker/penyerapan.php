@@ -1,5 +1,6 @@
 <h1>Pengukuran Penyerapan Anggaran</h1>
 			<div id="search-box">
+				<p>Diberikan pada tanggal 15 Agustus 2011, 17:24:00.</p>
 			</div>
 			<div id="nav-box">
 				<input type="button" class="blackbg" value="pdf" style="margin-top:-2px; width:70px;"/>
@@ -10,17 +11,17 @@
 						<tr>
 							<td width="180px">Kementrian Negara / Lembaga</td>
 							<td>:</td>
-							<td colspan="4"><?php echo $nmdept;?></td>
+							<td colspan="4">Kementrian Keuangan</td>
 						</tr>
 						<tr>
 							<td>Unit / Eselon I</td>
 							<td>:</td>
-							<td colspan="4"><?php echo $nmunit;?></td>
+							<td colspan="4">Badan Pendidikan dan Pelatihan Keuangan</td>
 						</tr>
 						<tr>
 							<td>Nama Program</td>
 							<td>:</td>
-							<td colspan="4"><?php echo (isset($nmprogram))? $nmprogram: 'Tidak Ada Kegiatan';?></td>
+							<td colspan="4">Program Pendidikan dan Pelatihan Aparatur Kementrian Keuangan</td>
 						</tr>
 						<tr>
 							<td>Tahun Anggaran</td>

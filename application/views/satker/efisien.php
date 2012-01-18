@@ -1,130 +1,190 @@
-<h1>Pengukuran Tingkat Efisiensi</h1>
+					
 			<div id="search-box">
+				Program
+				
+				<?php
+				if($kdprogram != 0){
+				?>
+				Kegiatan
+				<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">
+					<input type="hidden" name="program" value="<?php echo $kdprogram;?>"/>
+					<select name="kegiatan" onchange="this.form.submit();" style="width:650px;">
+						<option value="0" selected="selected">Pilih Kegiatan</option>
+					<?php
+					foreach ($kegiatan as $kegiatan_item):
+						if($kdgiat == $kegiatan_item['kdgiat']){ $selected = 'selected';} else { $selected = "";}
+					?>
+						<option value="<?php echo $kegiatan_item['kdgiat'];?>" <?php echo $selected;?>>
+						<?php echo $kegiatan_item['nmgiat'];?>
+						</option>				
+					<?php endforeach ?>
+					</select>					
+				</form>
+				<?php } ?>
 			</div>
 			<div id="nav-box">
-				<input type="button" class="blackbg" value="pdf" style="margin-top:-2px; width:70px;"/>
-				<input type="button" class="blackbg" value="excel" style="margin-top:-2px; width:70px;"/>
+				<span class="custom-button-span"></span>
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
-					<table>
-						<tr>
-							<td width="180px">Kementrian Negara / Lembaga</td>
-							<td>:</td>
-							<td colspan="4"><?php echo $nmdept;?></td>
-						</tr>
-						<tr>
-							<td>Unit / Eselon I</td>
-							<td>:</td>
-							<td colspan="4"><?php echo $nmunit;?></td>
-						</tr>
-						<tr>
-							<td>Nama Program</td>
-							<td>:</td>
-							<td colspan="4"><?php echo (isset($nmprogram))? $nmprogram: 'Tidak Ada Kegiatan';?></td>
-						</tr>
-						<tr>
-							<td>Tahun Anggaran</td>
-							<td>:</td>
-							<td width="200px">
-								<select data-placeholder="Pilih Tahun Anggaran" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="2011">2011</option> 
-						          <option value="2010">2010</option>
-						          <option value="2010">2009</option>
-						        </select>
-							</td>
-							<td>Bulan</td>
-							<td>:</td>
-							<td>
-								<select data-placeholder="Pilih Bulan" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="Januari">Januari</option> 
-						          <option value="Februari">Februari</option>
-						          <option value="Maret">Maret</option>
-						          <option value="April">April</option> 
-						          <option value="Mei">Mei</option>
-						          <option value="Juni">Juni</option>
-						        </select>
-							</td>
-						</tr>
-						<tr>
-							<td>Nama Kegiatan</td>
-							<td>:</td>
-							<td colspan="4">
-								<select data-placeholder="Pilih Kegiatan" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
-						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
-						        </select>
-							</td>
-						</tr>
+					<div class="filter-option-box">
+						<table>
+							<tr>
+								<td width="150" valign="top" class="bold">Kementrian / Lembaga</td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmdept;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Unit / Eselon I </td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmunit;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Satuan Kerja</td>
+								<td valign="top"> : </td>
+								<td><?php echo $nmsatker;?></td>
+							</tr>
+							<tr>
+								<td valign="top" class="bold">Program</td>
+								<td valign="top"> : </td>
+								<td>
+									<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">					
+										<select name="program" onchange="this.form.submit();" class="chzn-select info-table"  data-placeholder="Pilih Program" tabindex="1">
+											<option value="0" selected="selected">Pilih Program</option>
+											<?php
+											foreach ($program as $program_item):
+												if($kdprogram == $program_item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
+											?>
+											<option value="<?php echo $program_item['kdprogram'];?>" <?php echo $selected;?>>
+											<?php echo $program_item['nmprogram'];?>
+											</option>				
+											<?php endforeach ?>
+										</select>					
+									</form>
+								</td>
+							</tr>
+							<?php if($kdprogram != 0): ?>
+							<tr>
+								<td valign="top" class="bold">Kegiatan</td>
+								<td valign="top"> : </td>
+								<td>
+									<form name="form-outcome" action="<?php echo base_url();?>satker/efisien" method="POST">
+										<input type="hidden" name="program" value="<?php echo $kdprogram;?>"/>
+										<select name="kegiatan" onchange="this.form.submit();" class="chzn-select info-table"  data-placeholder="Pilih Kegiatan" tabindex="2">
+											<option value="0" selected="selected">Pilih Kegiatan</option>
+											<?php
+											foreach ($kegiatan as $kegiatan_item):
+												if($kdgiat == $kegiatan_item['kdgiat']){ $selected = 'selected';} else { $selected = "";}
+											?>
+											<option value="<?php echo $kegiatan_item['kdgiat'];?>" <?php echo $selected;?>>
+											<?php echo $kegiatan_item['nmgiat'];?>
+											</option>				
+										<?php endforeach ?>
+										</select>					
+									</form>
+								</td>
+							</tr>
+							<?php endif;?>
+						</table>
+					</div>
+			<?php if($kdprogram != 0 && $kdgiat != 0){ ?>
+				<?php echo form_open('satker/do_real_efisien');?>				
+				<p id="total"><img src="<?php echo ASSETS_DIR_IMG.'notdone.png';?>" class="notify"/>Daftar Output yang harus diisikan nilai realisasinya.</p>
+				<input type="submit" name="submit" value="Simpan" class="blackbg"/>
+				<input type="submit" name="submit" value="Proses" id="incomplete" class="blackbg"/>
+				<div class="clearfix"></div>
+				
+				<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
+				<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
+				<input type="hidden" name="kdsatker" value="<?php echo $kdsatker;?>"/>
+				<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>				
+				<input type="hidden" name="kdgiat" value="<?php echo $kdgiat;?>"/>
+				
+				<table border="1" cellspacing="0" cellpadding="2" width="100%" style="border:1px solid #eee;">
+					<thead>
+						<th>Output</th>
+						<th>Target</th>
+						<th>Realisasi</th>
+						<th>PAK</th>
+						<th>RAK</th>
+						<th>Status</th>
+					</thead>
+					<tbody>
+						
+				<?php				
+				$i = 1;
+				$notif = "";
+				foreach($efisien as $output_item):
+				?>
+					<tr>
+						<td>
+						<input type="hidden" class="realisasi" name="kdoutput_<?php echo $i;?>" value="<?php echo $output_item['kdoutput'];?>"/>
+						<?php echo $output_item['nmoutput'];?>
+						</td>
+						<td>
+						<input type="hidden" class="realisasi" name="tvk_<?php echo $i;?>" value="<?php echo $output_item['tvk'];?>"/>
+						<?php echo $output_item['tvk'].' '.$output_item['sat'];?>	
+						</td>
+						<td>
+						<?php
+						if($output_item['accsatker'] == 1 && $output_item['accunit'] == 1){
+							if(isset($output_item['rvk'])) echo $output_item['rvk'].' '.$output_item['sat'];
+						}
+						else
+						{
+						?>
+						<input type="hidden" class="realisasi" name="sat_<?php echo $i;?>" value="<?php if(isset($output_item['sat'])) echo $output_item['sat'];?>"/>
+						<input type="hidden" class="realisasi" name="rvk_<?php echo $i;?>" value="<?php if(isset($output_item['rvk'])) echo $output_item['rvk'];?>"/>
+						<?php echo $output_item['rvk'];?>
+						<?php echo $output_item['sat'];?>
+						<?php } ?>	
+						</td>
+						<td>
+						<input type="hidden" class="realisasi" name="pak_<?php echo $i;?>" value="<?php echo $output_item['pak'];?>"/>
+						<?php echo $this->msatker->formatMoney($output_item['pak']);?>	
+						</td>
+						<td>
+						<input type="hidden" class="realisasi" name="rak_<?php echo $i;?>" value="<?php echo $output_item['rak'];?>"/>
+						<input type="text" class="realisasi" name="rak_<?php echo $i;?>" value="<?php if(isset($output_item['rak'])) echo $output_item['rak'];?>"/>
+						</td>
+						<td>
+						<?php
+						if($output_item['accsatker'] == 1 && $output_item['accunit'] == 0){
+						  echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
+						<p style="font-size:9px;">[Dalam proses : Eselon I]</p>';	
+						}
+						
+						elseif($output_item['accsatker'] == 1 && $output_item['accunit'] == 1 && $output_item['accdept'] == 0)
+						{ echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
+						<p style="font-size:9px;">[Dalam proses : K/L]</p>'; }
+						
+						elseif($output_item['accsatker'] == 1 && $output_item['accunit'] == 1 && $output_item['accdept'] == 1)
+						{ echo '<img src="'.ASSETS_DIR_IMG.'done.png"> <br>
+						<p style="font-size:9px;">[FINAL]</p>'; }
+						
+						else
+						{
+							if($output_item['accsatker_date'] == "0")
+							{ $notif = "Isi Realisasi";}
+							elseif($output_item['accunit_date'] != "0000-00-00 00:00:00" && $output_item['accdept_date'] != "0000-00-00 00:00:00")
+							{ $notif = "Dikembalikan oleh K/L"; }
+							elseif($output_item['accunit_date'] != "0000-00-00 00:00:00" && $output_item['accdept_date'] == "0000-00-00 00:00:00")
+							{ $notif = "Dikembalikan oleh Eselon I"; }							
+							
+							echo '<img src="'.ASSETS_DIR_IMG.'notdone.png"><br>
+							<p style="font-size:9px;">'.$notif.'</p>';
+						}
+						?>
+						</td>
+					</tr>
+				<?php
+				$i++;
+				endforeach;				
+				$n = $i-1;				
+				?>
+					</tbody>
 					</table>
-					<br/>
-					<table id="report">
-						<tr class="align-middle">
-							<td width="150" rowspan="2"><strong>Keluaran</strong></td>
-							<td colspan="2"><strong>Volume</strong></td>
-							<td colspan="2"><strong>Kualitas</strong></td>
-							<td colspan="2"><strong>Anggaran</strong></td>
-							<td rowspan="2"><strong>Tingkat Pencapaian Keluaran</strong></td>
-						</tr>
-						<tr class="align-middle">
-							<td width="50">Target</td>
-							<td width="50">Realisasi</td>
-							<td width="50">Target</td>
-							<td width="50">Realisasi</td>
-							<td width="110">Pagu</td>
-							<td width="110">Realisasi</td>
-						</tr>
-						<tr class="align-middle">
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
-							<td>4</td>
-							<td>5</td>
-							<td>6</td>
-							<td>7</td>
-							<td>8</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 1 (Orang)</td>
-							<td>50</td>
-							<td>40</td>
-							<td>100%</td>
-							<td>100%</td>
-							<td>4.000.000.000</td>
-							<td>3.800.000.000</td>
-							<td>-17,28%</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 2 (Laporan)</td>
-							<td>3</td>
-							<td>3</td>
-							<td>100%</td>
-							<td>95%</td>
-							<td>1.000.000.000</td>
-							<td>975.000.000</td>
-							<td>2,50%</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 3 (Sistem)</td>
-							<td>1</td>
-							<td>1</td>
-							<td>100%</td>
-							<td>95%</td>
-							<td>5.000.000.000</td>
-							<td>4.725.000.000</td>
-							<td>3.57%</td>
-						</tr>
-						<tr>
-							<td colspan="7" class="align-middle">Efisiensi</td>
-							<td class="align-right">90%</td>
-						</tr>
-						<tr>
-							<td colspan="7">Tingkat Efisiensi</td>
-							<td class="align-right yellow">90%</td>
-						</tr>
-					</table>
-					<br/>
-				</div><!-- end of box-content -->
-			</div><!-- end of nav-box -->
+				<input type="hidden" class="realisasi" name="n" value="<?php echo $n;?>"/>				
+				</form>
+			<?php } ?>
+				</div>
+			</div>
