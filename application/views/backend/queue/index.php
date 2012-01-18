@@ -82,7 +82,7 @@ function reloadpage()
 		}, 5000);
 	//}	); 
 	}
-	//window.onload = setupRefresh;
+	window.onload = setupRefresh;
 	function setupRefresh(){
 	setTimeout("refreshPage();",10000);
 	}
