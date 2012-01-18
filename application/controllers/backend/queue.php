@@ -14,14 +14,14 @@ class Queue extends CI_Controller
 
     function index()
     {
-        $sql = 'select u.id, u.is_done, satker.kdsatker, satker.nmsatker, unit.kdunit, unit.nmunit, dept.kddept, dept.nmdept '.
-                'from tb_upload u, t_satker satker, t_unit unit, t_dept dept '.
+        $sql = 'select u.id, u.is_done, u.kdsatker, unit.kdunit, unit.nmunit, dept.kddept, dept.nmdept '.
+                'from tb_upload u, t_unit unit, t_dept dept '.
                 'where u.kddept = dept.kddept '.
                 'and u.kddept = unit.kddept '.
                 'and u.kdunit = unit.kdunit '.
-                'and u.kddept = satker.kddept '.
-                'and u.kdunit = satker.kdunit '.
-                'and u.kdsatker = satker.kdsatker '.
+//                'and u.kddept = satker.kddept '.
+//                'and u.kdunit = satker.kdunit '.
+//                'and u.kdsatker = satker.kdsatker '.
                 'and u.is_done is null '.
                 'ORDER BY id ASC';
         
@@ -61,7 +61,7 @@ class Queue extends CI_Controller
         require_once "phpxbase/Table.class.php";
         
         $sql = $sql2 = '';
-        $this->db->query('USE staging_monev');
+        $this->db->query('USE db_staging_monev');
         $nullflags = 0;
 
         //foreach ($dir as $v) {
@@ -105,9 +105,9 @@ class Queue extends CI_Controller
                     $value_of_field = "'".$data[0]."'";
                     for($val=1;$val<count($data);$val++)
                     {
-                        $value_of_field .= ",'".$data[$val]."'";                            
+                        $value_of_field .= ',"'.$data[$val].'"';                            
                     }
-                    $sql = "INSERT INTO ".$exploded[0]." VALUES ($value_of_field);";
+                    $sql = 'INSERT INTO '.$exploded[0].' VALUES ('.$value_of_field.');';
                     $this->db->query($sql);
                 //echo $sql;
                 } //end while
@@ -122,7 +122,7 @@ class Queue extends CI_Controller
     public function test()
     {
         require_once('./prodigy-dbf.php');
-        $Test = new Prodigy_DBF(base_url()."/tmp/0250810418198.12/d_giat0250810418198.12", base_url()."/tmp/0250810418198.12/d_giat0250810418198.FPT");
+        $Test = new Prodigy_DBF(base_url()."/tmp/");
         while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
             print_r($Record);
         }
@@ -150,7 +150,7 @@ class Queue extends CI_Controller
 	//		$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
 
 //		$this->load->view('backend/queue/index',$data);
-		$this->mqueue->set_status($id);
+		//$this->mqueue->set_status($id);
 		redirect('backend/queue/proses1');
 
 	}
