@@ -270,10 +270,7 @@ table#report th, table#report .row-grey {
 	box-shadow:0 1px #ffffff inset;
 	text-shadow:0 1px #ffffff;
 }
-.box-report .visualize{
-	position:relative;
-	left:20px;
-}
+
 .box-report h3{
 	margin-top:20px;
 	text-align:center;
