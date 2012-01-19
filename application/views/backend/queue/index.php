@@ -33,6 +33,7 @@ $change="<div class='flash'>$nama</div>";
         <th>Eselon</th>
         <th>Satker</th>
         <th>Status</th>
+        <th>Aksi</th>        
         </thead>
 
         <tbody>
@@ -45,7 +46,7 @@ $change="<div class='flash'>$nama</div>";
             <td><?php echo $value->kdsatker.' -- '.$value->nmsatker ?></td>            
             <td><?php if($value->is_done == 1){ echo "sukses"; } else { echo "belum diproses"; } ?></td>
 			<?php $nama=$value->kddept.' -- '.$value->nmdept.' -- '.$value->kdunit.' -- '.$value->nmunit.' -- '.$value->kdsatker.' -- '.$value->nmsatker;?>
-            <!--<td><?php if($value->is_done != 1){  ?><input type="hidden" value="<?php echo $nama ?>" name="nama"><input class="proses" type="button" value="Proses" onclick="OnClickButton(<? echo $value->id; ?>)"><?php } else { echo "-";}?></td>-->
+            <td><?php if($value->is_done != 1){  ?><input type="hidden" value="<?php echo $nama ?>" name="nama"><input class="proses" type="button" value="Proses" onclick="OnClickButton(<? echo $value->id; ?>)"><?php } else { echo "-";}?></td>
             <!--<td><?php// if($value->is_done != 1){ echo anchor('/backend/queue/proses/' . $value->id, 'Proses','class=.flash'); } else { echo "-";}?></td>-->
 			<?php if($temp==0)
 			$temp=$value->id; ?>
@@ -82,7 +83,7 @@ function reloadpage()
 		}, 5000);
 	//}	); 
 	}
-	//window.onload = setupRefresh;
+	window.onload = setupRefresh;
 	function setupRefresh(){
 	setTimeout("refreshPage();",10000);
 	}

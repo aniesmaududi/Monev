@@ -10,7 +10,7 @@ class Madmin_ref extends CI_Model
     {
         $query = $this->db->query('select table_name '.
                                   'from information_schema.tables '.
-                                  'where table_schema = "db_monev" '.
+                                  'where table_schema = "monev_db" '.
                                   'and table_name in ("t_dept","t_unit","t_satker") ');
         
         return $query->result_array();
