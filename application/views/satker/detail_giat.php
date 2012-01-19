@@ -11,13 +11,28 @@
 					<div class="column5">Realisasi</div>
 					<div class="clearfix"></div>
 				</div><!-- end of box-title -->
+				<?php echo form_open('satker/do_real_output');?>
 				
-				<?php foreach($output as $row):?>
+				<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>				
+				<input type="hidden" name="kdgiat" value="<?php echo $kdgiat;?>"/>
 				
-				<div class="box-normal box-end">
+				<?php
+				$i = 1;
+				$notif = "";
+				foreach($output as $row):
+				?>
+				<!-- data kdoutput, tvk, dan satuan -->
+				<input type="hidden" name="kdoutput_<?php echo $i;?>" value="<?php echo $row['kdoutput'];?>"/>
+				<input type="hidden" name="tvk_<?php echo $i;?>" value="<?php echo $row['vol'];?>"/>
+				<input type="hidden" name="sat_<?php echo $i;?>" value="<?php if(isset($row['sat'])) echo $row['sat'];?>"/>				
+				
+				<div class="box-normal box-end">					
 					<div class="column6"><?php echo $row['nmoutput'].' ('.$row['sat'].')';?></div>
 					<div class="column2"><?php echo $row['vol'];?></div>
-					<div class="column5"><input type="text" class="realisasi" value=""/></div>
+					<div class="column5">
+						<!-- data rvk -->
+						<input type="text" name="rvk_<?php echo $i;?>" class="realisasi" value=""/>
+					</div>
 					<div class="clearfix"></div>
 				</div><!-- end of box-content -->
 				
@@ -31,16 +46,22 @@
 					<div class="clearfix"></div>
 				</div><!-- end of box-content -->
 				
-				<?php endforeach;?><!-- end of ikk foreach -->
-				<?php endforeach;?><!-- end of output foreach-->
-					
+				<?php endforeach; // end of ikk foreach
+				$i++;
+				endforeach; // end of output foreach
+				$n = $i-1;	
+				?>
+				<input type="hidden" name="n" value="<?php echo $n;?>"/>
+				<input type="submit" name="submit" value="Proses" id="incomplete" class="blackbg"/>
+				<input type="submit" name="submit" value="Simpan" class="blackbg"/>				
+				</form>
 				<br/>
-				
+				<!--
 				<div class="box-subset-title">Catatan Satker : </div>
 				<div class="box-content box-end">
 					<textarea id="comment"></textarea>
 				</div>
-			
+				-->
 				<script src="<?php echo ASSETS_DIR_JS.'jquery.autoresize.js'?>"></script>
 				<script>
 
@@ -56,5 +77,10 @@
 				
 				
 				<div class="clearfix"></div>
-				
+				<?php if($this->session->flashdata('message')):?>
+				<div class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">
+						<a class="close" href="#">&times;</a>
+						<p><?php echo $this->session->flashdata('message')?></p>
+				</div>
+				<?php endif;?>
 			</div>
