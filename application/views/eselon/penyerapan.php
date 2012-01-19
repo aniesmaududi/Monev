@@ -18,7 +18,7 @@
 								<td>:</td>
 								<td>
 								<form name="form1" action="" method="POST">					
-									<select name="kddept" onchange="this.form.submit();" disabled=disabled class="chzn-select" style="width:519px" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
+									<select name="kddept" onchange="this.form.submit();" disabled=disabled style="width:519px" class="chzn-select" style="width:519px" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
 										<option value="<?php echo $kddept?>"><?php echo get_detail_data('t_dept',array('kddept'=>$kddept),'nmdept');?></option>
 									</select>					
 								</form>
@@ -31,7 +31,7 @@
 								<td>
 								<form name="form2" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
-									<select name="kdunit" onchange="this.form.submit();" disabled=disabled class="chzn-select" style="width:519px" data-placeholder="PILIH ESELON" tabindex="2">
+									<select name="kdunit" onchange="this.form.submit();" disabled=disabled style="width:519px" class="chzn-select" style="width:519px" data-placeholder="PILIH ESELON" tabindex="2">
 										<option value="<?php echo $kdunit?>"><?php echo get_detail_data('t_unit',array('kddept'=>$kddept,'kdunit'=>$kdunit),'nmunit');?></option>
 									</select>					
 								</form>
