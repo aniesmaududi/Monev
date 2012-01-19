@@ -35,6 +35,7 @@ class Satker extends CI_Controller
     /*------------------------------- Penyerapan Anggaran ----------------------*/
     function penyerapan()
     {
+	// menunggu dari MNH
         $this->data['template'] = 'satker/penyerapan';
     	$this->load->view('index',$this->data);
     }
@@ -42,7 +43,7 @@ class Satker extends CI_Controller
     /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
     function konsistensi()
     {
-        // menunggu dari MNH
+        // menunggu dari MNH 
     }
 
     /*----------------------------- Pengukuran Volume Keluaran ----------------------*/
@@ -130,11 +131,13 @@ class Satker extends CI_Controller
     /*-------------------------------- IKK ---------------------------------*/
     function ikk()
     {
-        // belum diaplikasikan, karena data antara Output dan IKK belum bisa berelasi
+        // belum diaplikasikan, karena data antara Output dan IKK belum bisa berelasi [anies]
     }
 
     public function do_real_ikk()
     {
+	// belum diaplikasikan, karena data antara Output dan IKK belum bisa berelasi [anies]
+	/*
         $do = $this->input->post('submit');
         $this->msatker->set_real_ikk($do);
 
@@ -152,60 +155,10 @@ class Satker extends CI_Controller
         $this->data['message'] = $message;
         $this->data['template'] = 'satker/realisasi_status';
         $this->load->view('index', $this->data);
+	*/
     }
 
-    /*-------------------------------- Entri Efisiensi ---------------------------------*/
-    function efisien()
-    {
-        $this->data['kdsatker'] = $this->kdsatker;
-        $this->data['satker_identity'] = $this->msatker->get_satker_identity($this->data['kdsatker']);
-        $this->data['nmsatker'] = $this->data['satker_identity']['nmsatker'];
-        $this->data['nmunit'] = $this->data['satker_identity']['nmunit'];
-        $this->data['nmdept'] = $this->data['satker_identity']['nmdept'];
-        $this->data['kdunit'] = $this->data['satker_identity']['kdunit'];
-        $this->data['kddept'] = $this->data['satker_identity']['kddept'];
-
-        //fungsi untuk menampilkan daftar program
-        $this->data['program'] = $this->msatker->get_satker_program($this->data['kddept'], $this->data['kdunit'], $this->data['kdsatker']);
-        $this->data['kdprogram'] = 0;
-        $this->data['kdgiat'] = 0;
-
-        if (isset($_POST['program'])) {
-            $this->data['kdprogram'] = $this->input->post('program');
-            $this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->data['kddept'], $this->data['kdunit'], $this->data['kdsatker'], $this->data['kdprogram']);
-        }
-
-        if (isset($_POST['kegiatan'])) {
-            $this->data['kdprogram'] = $this->input->post('program');
-            $this->data['kdgiat'] = $this->input->post('kegiatan');
-            $this->data['efisien'] = $this->msatker->get_efisien($this->data['kddept'], $this->data['kdunit'], $this->data['kdsatker'], $this->data['kdprogram'], $this->data['kdgiat']);
-        }
-
-        $this->data['template'] = 'satker/efisien';
-        $this->load->view('index', $this->data);
-    }
-
-    public function do_real_efisien()
-    {
-        $do = $this->input->post('submit');
-        $this->msatker->set_real_efisien($do);
-
-        $kdsatker = $this->input->post('kdsatker');
-        $this->data['satker_identity'] = $this->msatker->get_satker_identity($kdsatker);
-        $this->data['nmsatker'] = $this->data['satker_identity']['nmsatker'];
-        $this->data['nmunit'] = $this->data['satker_identity']['nmunit'];
-        $this->data['nmdept'] = $this->data['satker_identity']['nmdept'];
-
-        if ($do == 'Simpan') {
-            $message = "Data realisasi Efisiensi telah disimpan, tetapi belum dieskalasi ke Eselon I. Anda dapat mengubahnya kembali.";
-        } elseif ($do == 'Proses') {
-            $message = "Data realisasi Efisiensi telah dieskalasi ke Eselon I.";
-        }
-        $this->data['message'] = $message;
-        $this->data['template'] = 'satker/realisasi_status';
-        $this->load->view('index', $this->data);
-    }
-
+    /*-------------------------------- Upload ---------------------------------*/
     public function upload()
     {
         $config['upload_path'] = './tmp/';
