@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+			<?php $this->view('_charts');?>
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 			<h1><?php echo(isset($title))?$title:'Dashboard DJA';?></h1>
 			<div id="search-box">
 				

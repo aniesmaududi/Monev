@@ -14,6 +14,7 @@ class Satker extends CI_Controller
         $this->load->model('muser');
         $this->kdsatker = $this->session->userdata('kdsatker');
 		$this->data['dashboard_menu_link'] =  base_url().'satker/';
+<<<<<<< HEAD
         $this->data['kdunit'] = $this->session->userdata('kdunit'); // 11
 		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
 		$this->data['kdprogram'] = null;
@@ -21,15 +22,25 @@ class Satker extends CI_Controller
         
         
 
+=======
+        $this->data['kdunit'] = $this->session->userdata('kdunit');
+		$this->data['kddept'] = $this->session->userdata('kddept');
+		$this->data['kdsatker'] = $this->session->userdata('kddept');
+		$this->data['kdprogram'] = null;
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
     }
 
     function index()
     {
         $this->data['title'] = 'Dashboard Satker';
-		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit']);
+		$this->data['thang'] = '2011';
+		if(isset($_POST['thang']) && $_POST['thang'] != 0):
+			$this->data['thang'] = $_POST['thang'];
+		endif;
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		
         $this->data['template'] = 'satker/index';
         $this->load->view('index', $this->data);

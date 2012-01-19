@@ -52,7 +52,8 @@ class Kementrian extends CI_Controller {
 						7 => base_url().'kementrian/',
 						);
 		//keperluan chart
-		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
+		$this->data['kddept'] = $this->session->userdata('kddept');
+		$this->data['kdsatker'] = null;
 		$this->_iskl = FALSE;
 	}
 	
@@ -78,10 +79,17 @@ class Kementrian extends CI_Controller {
             //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         endif;
 		
+<<<<<<< HEAD
 		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+=======
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 		
 		$this->data['template'] = 'kementrian/index';
 		$this->load->view('index', $this->data);
@@ -315,6 +323,7 @@ class Kementrian extends CI_Controller {
 	/*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
 	function konsistensi()
 	{
+<<<<<<< HEAD
 	    // $sess = $this->session->userdata;
 		    // pre($sess);
 		    $this->data['title'] = 'Dashboard';
@@ -535,11 +544,51 @@ class Kementrian extends CI_Controller {
 		
 		$this->data['template'] = 'laporan/laporan_k_kl';
 		$this->load->view('index', $this->data);
+=======
+	    $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
+        $this->data['pengukuran'] = 'konsistensi';
+		$this->data['unit'] = get_eselon($this->data['kddept']);
+        if(empty($thang))
+        {
+            $thang = '2011';
+        }
+		$this->data['thang'] = $thang;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null; 
+		$this->data['kdsatker'] = null;		
+        
+		if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
+        if(isset($_POST['kdunit']) && $_POST['kdunit'] != 0)
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['satker'] = get_satker($this->data['kddept'], $this->data['kdunit']);
+        }
+		if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['kdsatker'] = $_POST['kdsatker'];
+		}
+		
+		$this->data['konsistensi'] = get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+        $this->data['template'] = 'kementrian/konsistensi';
+        $this->load->view('index', $this->data);
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 	}
 	
 	/*------------------------------------------- Pengukuran Volume Keluaran ----------------------*/
 	public function keluaran()
 	{
+<<<<<<< HEAD
 	    // $sess = $this->session->userdata;
 		    // pre($sess);
 		    $this->data['title'] = 'Dashboard';
@@ -757,6 +806,49 @@ class Kementrian extends CI_Controller {
 		}
 		
 		// --------- PIE PROGRAM --------- //
+=======
+	    $this->data['title'] = 'Tingkat Pencapaian Keluaran';
+        $this->data['unit'] = get_eselon($this->data['kddept']);
+        if(empty($thang))
+        {
+            $thang = '2011';
+        }
+		$this->data['thang'] = $thang;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;      
+		$this->data['kdgiat'] = null; 		
+        
+        if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['giat'] = get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+        }
+		if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
+		
+		$this->load->library('pagination');
+		$this->data['halaman']	= abs((int)$this->uri->segment(3));
+		$config['base_url'] 	= base_url().'kementrian/keluaran/';
+		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
+		$config['per_page'] 	= 15; 
+		$config['cur_page'] 	= $this->data['halaman'];
+		$this->pagination->initialize($config);
+		$this->data['page'] 	= $this->pagination->create_links();
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 		
 		$this->data['template'] = 'laporan/laporan_pk_kl';
 		$this->load->view('index', $this->data);
@@ -981,10 +1073,15 @@ class Kementrian extends CI_Controller {
 			$this->data['graph_PPRO']  = renderChart($graph_swfFile_PiePro, $graph_title_PKL, $strXML_P, "PIEPRO" , $graph_width_PKL, $graph_height_PKL);
 		}
 		
+<<<<<<< HEAD
 		// --------- PIE PROGRAM --------- //
 		
 		$this->data['template'] = 'laporan/laporan_e_kl';
 		$this->load->view('index', $this->data);
+=======
+        $this->data['template'] = 'kementrian/efisiensi';    
+        $this->load->view('index', $this->data);
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 	}
 	
 	/*------------------------------------------- Capaian Hasil ----------------------*/

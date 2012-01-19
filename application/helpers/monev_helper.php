@@ -80,7 +80,7 @@ function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 {
 	$ci = & get_instance();
 	$ci->load->database();
-	$sql = 'select round(avg(p),2) as p
+	$sql = 'select round(( sum( realisasi ) / sum( pagu ) ) *100, 2) as p
 	from tb_penyerapan_anggaran
 	where thang='.$thang.' ';
 	
@@ -97,12 +97,16 @@ function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 }
 
 // untuk ambil data konsistensi dari tb_konsistensi
+<<<<<<< HEAD
 function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
+=======
+function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null)
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 {
 	$ci = & get_instance();
 	$ci->load->database();
 	
-	$sql = 'select round(avg(k),2) as k
+	$sql = 'select round(( sum( jmlrealisasi ) / sum( jmlrpd ) ) *100, 2) AS k
 	from tb_konsistensi
 	where thang='.$thang.' ';
 	
@@ -115,11 +119,18 @@ function get_konsistensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
 	endif;
+<<<<<<< HEAD
+=======
+	if(isset($kdsatker)):
+		$sql .= 'and kdsatker='.$kdsatker.' ';
+	endif;
+	
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 	return $ci->db->query($sql)->row();
 }
 
 // untuk ambil data keluaran dari tb_keluaran
-function get_keluaran($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
+function get_keluaran($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$kdgiat=null)
 {
 	$ci = & get_instance();
 	$ci->load->database();
@@ -136,11 +147,17 @@ function get_keluaran($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
 	endif;
+	if(isset($kdsatker)):
+		$sql .= 'and kdsatker='.$kdsatker.' ';
+	endif;
+	if(isset($kdgiat)):
+		$sql .= 'and kdgiat='.$kdgiat.' ';
+	endif;
 	return $ci->db->query($sql)->row();
 }
 
 // untuk ambil data efisiensi dari tb_efisiensi
-function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
+function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$kdgiat=null)
 {
 	$ci = & get_instance();
 	$ci->load->database();
@@ -157,11 +174,21 @@ function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
 	endif;
+	if(isset($kdsatker)):
+		$sql .= 'and kdsatker='.$kdsatker.' ';
+	endif;
+	if(isset($kdgiat)):
+		$sql .= 'and kdgiat='.$kdgiat.' ';
+	endif;
 	return $ci->db->query($sql)->row();
 }
 
 // untuk ambil data konsistensi perbulan dari tb_konsistensi
+<<<<<<< HEAD
 function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null)
+=======
+function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$return_data='rpd')
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 {
 	$ci = & get_instance();
 	$ci->load->database();
@@ -188,6 +215,10 @@ function get_konsistensi_perbulan($thang="2011",$bulan=null,$kddept=null,$kdunit
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
 		$group .= ', kdprogram';
+	endif;
+	if(isset($kdsatker)):
+		$sql .= 'and kdsatker='.$kdsatker.' ';
+		$group .= ', kdsatker';
 	endif;
 	
 	$sql .=' GROUP BY thang, bulan'.$group;

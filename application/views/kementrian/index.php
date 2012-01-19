@@ -1,4 +1,9 @@
+<<<<<<< HEAD
             <h1><?php echo(isset($title))?$title:'Dashboard Kementrian';?></h1>
+=======
+			<?php $this->view('_charts');?>
+			<h1><?php echo(isset($title))?$title:'Dashboard Kementerian';?></h1>
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 			<div id="search-box">
 				<div class="filter-option-box">
 					<?php if(isset($kddept) && $kddept != 0): ?>				

@@ -10,6 +10,7 @@ class Dja extends CI_Controller
         $this->data['title'] = '';
         //get user DJA model
         $this->load->model('mdja');
+<<<<<<< HEAD
 		$this->data['dashboard_menu_link'] =  base_url().'dja/';
         $this->data['nav_title'] = 'Laporan';
         $this->data['nav_menu'] = array(
@@ -34,6 +35,8 @@ class Dja extends CI_Controller
         $this->_kddept = "018"; // 015
         $this->_iskl = FALSE;
 		
+=======
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
     }
     
     function index()
@@ -44,6 +47,15 @@ class Dja extends CI_Controller
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;
+<<<<<<< HEAD
+=======
+		$this->data['kdsatker'] = null;
+		$this->data['thang'] = '2011';
+		if(isset($_POST['thang']) && $_POST['thang'] != 0):
+			$this->data['thang'] = $_POST['thang'];
+		endif;
+		
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 		if(isset($_POST['kddept']) && $_POST['kddept'] != 0):
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
@@ -62,10 +74,17 @@ class Dja extends CI_Controller
             //$this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         endif;
 		
+<<<<<<< HEAD
 		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
 		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+=======
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+>>>>>>> 632013b0353ed3beebd36dfa26dc508698a933b9
 		
         $this->data['template'] = 'dja/index';
         $this->load->view('index', $this->data);

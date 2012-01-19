@@ -14,6 +14,7 @@
         
 </div>
 <div id="upload2-box">
-	<input type="submit" value="unggah berkas" class="custom"/>
-        </form>
+	<form action="" method="POST">
+	<input type="submit" value="unggah berkas" class="custom-button2"/>
+    </form>
 </div>
