@@ -97,6 +97,13 @@
 									return '<b>'+this.x +':</b> '+ FormatNumber(this.y) +' %';
 							}
 						},
+						plotOptions: {
+							column: {
+								dataLabels: {
+								   enabled: true
+								}
+							}
+						},
 						legend: {
 							layout: 'vertical',
 							align: 'right',
@@ -107,7 +114,7 @@
 						series: [ 
 						{
 							name: 'Prosentase Pencapaian Kinerja',
-							data: [ <?php echo ($penyerapan->p) ? $penyerapan->p: 0;?>, <?php echo ($konsistensi->k)? $konsistensi->k:0;?>, <?php echo ($keluaran->pk)?$keluaran->pk:0;?>, <?php echo ($efisiensi->e) ? (50+(($efisiensi->e/20)*50)) : 0;?>]
+							data: [ <?php echo ($penyerapan->p) ? $penyerapan->p: 0;?>, <?php echo ($konsistensi->k)? $konsistensi->k:0;?>, <?php echo ($keluaran->pk)?$keluaran->pk:0;?>, <?php echo ($efisiensi->e) ? round((50+(($efisiensi->e/20)*50)),2) : 0;?>]
 						} ]
 					} );
 				});

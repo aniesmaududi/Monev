@@ -226,6 +226,17 @@ span.custom-button-span{
     -webkit-box-shadow:0px 1px #F7F9FC inset;
     box-shadow:0px 1px #F7F9FC inset;
 }
+#incomplete.custom-button{
+	text-shadow:0 1px #aaaaaa;
+	-moz-box-shadow:0 1px #aaaaaa inset;
+    -webkit-box-shadow:0 1px #aaaaaa inset;
+    box-shadow:0 1px #aaaaaa inset;
+}
+#incomplete.custom-button:hover{
+	-moz-box-shadow:0 1px #aaaaaa inset;
+    -webkit-box-shadow:0 1px #aaaaaa inset;
+    box-shadow:0 1px #aaaaaa inset;
+}
 .custom-button2{
 	margin-left:5px;
 	font-weight:bold;

@@ -72,19 +72,85 @@ class Satker extends CI_Controller
     /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
     function konsistensi()
     {
-        // menunggu dari MNH 
+        $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
+        $this->data['pengukuran'] = 'konsistensi';
+		$this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+		$this->data['kdprogram'] = null;
+        $thang = $this->input->post('thang');
+		if(empty($thang)) { $thang = '2011'; }
+		$this->data['thang'] = $thang;
+       
+        if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+        }
+		
+		$this->data['konsistensi'] = get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+        $this->data['template'] = 'satker/konsistensi';
+        $this->load->view('index', $this->data);
     }
 
     /*----------------------------- Pengukuran Volume Keluaran ----------------------*/
     public function keluaran()
     {
-        // menunggu dari MNH
+        $this->data['title'] = 'Tingkat Pencapaian Keluaran';
+        $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        $thang = $this->input->post('thang');
+		if(empty($thang)) { $thang = '2011'; }
+		$this->data['thang'] = $thang;
+        $this->data['kdprogram'] = null;      
+		$this->data['kdgiat'] = null; 		
+        
+        if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['giat'] = get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+        }
+		if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
+		
+		$this->load->library('pagination');
+		$this->data['halaman']	= abs((int)$this->uri->segment(3));
+		$config['base_url'] 	= base_url().'satker/keluaran/';
+		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
+		$config['per_page'] 	= 15; 
+		$config['cur_page'] 	= $this->data['halaman'];
+		$this->pagination->initialize($config);
+		$this->data['page'] 	= $this->pagination->create_links();
+		$this->data['output'] 	= $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		
+        $this->data['template'] = 'satker/keluaran';                 
+        $this->load->view('index', $this->data);
     }
 
     /*----------------------------- Pengukuran Efisiensi ----------------------*/
     public function efisiensi()
     {
-        // menunggu dari MNH
+        $this->data['title'] = 'Pengukuran Efisiensi';    
+        $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        $thang = $this->input->post('thang');
+		if(empty($thang)) { $thang = '2011'; }
+		$this->data['thang'] = $thang;
+        $this->data['kdprogram'] = null;                
+        
+        if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['giat'] = get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);			
+        }
+		if((isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kdgiat'] = $_POST['kdgiat'];
+		}
+        
+		//get volume keluaran
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker']);
+		
+        $this->data['template'] = 'satker/efisiensi';    
+        $this->load->view('index', $this->data);
     }
 
     /*----------------------------- Capaian Hasil ----------------------*/
@@ -191,7 +257,7 @@ class Satker extends CI_Controller
     function catatan()
     {
         // untuk menulis catatan dari satker ke eselon terkait proses input, kendala, dan lain-lain
-	$this->data['template'] = 'satker/catatan';
+		$this->data['template'] = 'satker/catatan';
     	$this->load->view('index',$this->data);
     }
 

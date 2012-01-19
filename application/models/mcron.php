@@ -41,16 +41,17 @@ class Mcron extends CI_Model
         return $query->row();
     }
 	
-	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker)
+	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker, $kdgiat)
 	{
 		$query = $this->db->query('
-			select thang,kddept,kdunit,kdprogram,kdsatker
+			select thang,kddept,kdunit,kdprogram,kdsatker,kdgiat
 				from tb_penyerapan_anggaran
 				where thang='.$thang.'
 				and kddept='.$kddept.'
 				and kdunit='.$kdunit.'
 				and kdprogram='.$kdprogram.'
-				and kdsatker='.$kdsatker.'
+				and kdsatker='.$kdsatker.' 
+				and kdgiat='.$kdgiat.'
 		');
 		if(count($query->row()) > 0):
 			return $query->row();

@@ -52,8 +52,10 @@
 				$n = $i-1;	
 				?>
 				<input type="hidden" name="n" value="<?php echo $n;?>"/>
-				<input type="submit" name="submit" value="Proses" id="incomplete" class="blackbg"/>
-				<input type="submit" name="submit" value="Simpan" class="blackbg"/>				
+				<span style="padding:10px;display:block;">
+				<input type="submit" name="submit" value="Proses" id="incomplete" class="custom-button"/>
+				<input type="submit" name="submit" value="Simpan" class="custom-button"/>
+				</span>
 				</form>
 				<br/>
 				<!--

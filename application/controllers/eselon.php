@@ -37,7 +37,7 @@ class Eselon extends CI_Controller {
             $this->data['kdprogram'] = $_POST['kdprogram'];
         endif;
 		
-		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
@@ -139,12 +139,12 @@ class Eselon extends CI_Controller {
 		$this->load->library('pagination');
 		$this->data['halaman']	= abs((int)$this->uri->segment(3));
 		$config['base_url'] 	= base_url().'eselon/keluaran/';
-		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
+		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']));
 		$config['per_page'] 	= 15; 
 		$config['cur_page'] 	= $this->data['halaman'];
 		$this->pagination->initialize($config);
 		$this->data['page'] 	= $this->pagination->create_links();
-		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
 		
         $this->data['template'] = 'eselon/keluaran';                 
         $this->load->view('index', $this->data);

@@ -139,7 +139,8 @@ class Kementrian extends CI_Controller {
         }
 		$this->data['thang'] = $thang;
         $this->data['kdunit'] = null;
-        $this->data['kdprogram'] = null;      
+        $this->data['kdprogram'] = null;
+		$this->data['kdsatker'] = null; 		
 		$this->data['kdgiat'] = null; 		
         
         if(isset($_POST['thang']) && $_POST['thang'] != 0)
@@ -166,12 +167,12 @@ class Kementrian extends CI_Controller {
 		$this->load->library('pagination');
 		$this->data['halaman']	= abs((int)$this->uri->segment(3));
 		$config['base_url'] 	= base_url().'kementrian/keluaran/';
-		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
+		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']));
 		$config['per_page'] 	= 15; 
 		$config['cur_page'] 	= $this->data['halaman'];
 		$this->pagination->initialize($config);
 		$this->data['page'] 	= $this->pagination->create_links();
-		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
 		
         $this->data['template'] = 'kementrian/keluaran';                 
         $this->load->view('index', $this->data);
