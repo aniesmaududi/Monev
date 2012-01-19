@@ -30,7 +30,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php $total_ek = 0; foreach($output as $output_item): ?>					
+							<?php $total_ek = 0;$i=1; foreach($output as $output_item): ?>					
 							<tr style="font-size:12px;" valign="top">					
 								<td><?php echo $output_item->nmoutput;?></td>
 								<td align="center"><?php $TVK = $output_item->tvk; echo $TVK.'<br>
@@ -59,13 +59,13 @@
 									%
 								</td>					
 							</tr>								
-							<?php $total_ek += $ek; endforeach;?>
+							<?php $total_ek += $ek; $i++; endforeach;?>
 							<tr class="row-grey">
 								<td colspan="5" align="right"><b>Efisiensi</b></td>
 								<td align="right"><b>
 								<?php						
 								if(count($output) > 0):
-									$E = round($total_ek/$n,2);
+									$E = round($total_ek/$i,2);
 									echo $E;
 								else:
 									echo 0;	

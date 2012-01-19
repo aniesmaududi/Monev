@@ -6,11 +6,12 @@ class Satker extends CI_Controller
     function __construct()
     {
         parent::__construct();
-	is_login();
+		is_login();
         $this->data['now'] = date("Y-m-d H:i:s");
         $this->data['title'] = 'Satker ';
         //get Satker model
         $this->load->model('msatker');
+        $this->load->model('muser');
         $this->kdsatker = $this->session->userdata('kdsatker');
 	$this->data['dashboard_menu_link'] =  base_url().'satker/';
         $this->data['kdunit'] = $this->session->userdata('kdunit');
@@ -22,20 +23,52 @@ class Satker extends CI_Controller
     function index()
     {
         $this->data['title'] = 'Dashboard Satker';
-		$this->data['penyerapan'] = get_penyerapan('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['konsistensi'] = get_konsistensi('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['keluaran'] = get_keluaran('2011',$this->data['kddept'],$this->data['kdunit']);
-		$this->data['efisiensi'] = get_efisiensi('2011',$this->data['kddept'],$this->data['kdunit']);
+		$this->data['thang'] = '2011';
+		if(isset($_POST['thang']) && $_POST['thang'] != 0):
+			$this->data['thang'] = $_POST['thang'];
+		endif;
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		
         $this->data['template'] = 'satker/index';
         $this->load->view('index', $this->data);
     }
 
     /*-------------------------------- Laporan ----------------------------------*/
-    /*------------------------------- Penyerapan Anggaran ----------------------*/
-    function penyerapan()
+    //Dita
+    function laporan()
     {
-	// menunggu dari MNH
+    	//this part loads get_satker_program content according to satker's id 
+    	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
+    	if($this->data['program']):
+			$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
+			$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
+			$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
+    	endif;
+    	
+    	$this->data['template'] = 'satker/laporan';	
+    	$this->load->view('index',$this->data);
+    }
+    
+    /*------------------------------- Penyerapan Anggaran ----------------------*/
+    //Dita
+    function penyerapan_table()
+    {
+    	//this part loads get_satker_program content according to satker's id 
+    	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
+    	if($this->data['program']):
+			$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
+			$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
+			$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
+    	endif;
+        	
+    	$this->data['dept'] = $this->muser->getDept($this->session->userdata('kddept'));
+    	$this->data['nmdept'] = $this->data['dept'][0]['nmdept'];
+    	$this->data['unit'] = $this->muser->getUnit($this->session->userdata('kddept'),$this->session->userdata('kdunit'));
+    	$this->data['nmunit'] = $this->data['unit'][0]['nmunit'];
+    	
         $this->data['template'] = 'satker/penyerapan';
     	$this->load->view('index',$this->data);
     }
@@ -58,7 +91,7 @@ class Satker extends CI_Controller
         // menunggu dari MNH
     }
 
-    /*----------------------------- Capaian Hasil ----------------------*/
+    /*------------------------------------------- Capaian Hasil ----------------------*/
     public function capaian_hasil()
     {
         // pending
@@ -120,6 +153,8 @@ class Satker extends CI_Controller
 	$kdgiat = $this->input->post('kdgiat');
         $do = $this->input->post('submit');
         $this->msatker->set_real_output($do);
+
+        
 
         if ($do == 'Simpan') {
             $message = "Data realisasi keluaran telah disimpan, tetapi belum dieskalasi ke Eselon I. Anda dapat mengubahnya kembali.";

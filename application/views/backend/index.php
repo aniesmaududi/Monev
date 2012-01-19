@@ -8,7 +8,7 @@
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
- 
+
         <base href="<?php echo base_url(); ?>"></base>
         <!-- styles load below -->
         <link href="<?php echo ASSETS_DIR_CSS.'style.css'?>" rel="stylesheet" type="text/css">
@@ -35,8 +35,7 @@
 		
 		</div><!-- end of container -->
 		<!-- javascript load below -->
-		<script src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
-		 <script src="<?php echo ASSETS_DIR_JS.'chosen.jquery.min.js'?>"></script>
+		 <script src="<?php echo ASSETS_DIR_JS.'jquery-1.7.1.min.js'?>"></script>
 		<script src="<?php echo ASSETS_DIR_JS.'bootstrap-alerts.js'?>"></script>
 	</body>
 </html>

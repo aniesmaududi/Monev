@@ -15,11 +15,11 @@
 					<label>Nama Unit Eselon</label>
                     <select name="kdunit">
                     	<?php foreach(get_unit() as $unit): ?>
-                        	<option value="<?php echo $unit->kdunit;?>" <?php echo ($unit->kdunit == $detail->kdunit && $unit->kddept 					== $detail->kddept)? 'selected=selected':'';?>><?php echo $unit->nmunit;?></option>
+                        	<option value="<?php echo $unit->kddept.'|'.$unit->kdunit;?>" <?php echo ($unit->kdunit == $detail->kdunit && $unit->kddept 					== $detail->kddept)? 'selected=selected':'';?>><?php echo $unit->nmunit;?></option>
                         
                     <?php endforeach;?>
                     </select>
-					</div>		
+					</div>			
 					<div class="clearfix">
 					<label>Nama Satuan Kerja</label>
                     <input type="text" name="nmsatker" value="<?php echo $detail->nmsatker?>" />
@@ -74,8 +74,6 @@
 					<div class="clearfix">
 						<label>&nbsp;</label>
                         <input type="hidden" name="kdsatker" value="<?php echo $detail->kdsatker?>" />
-                       <input type="hidden" name="praid1" value="<?php echo $praid1;?>">
-                        <input type="hidden" name="praid2" value="<?php echo $praid2;?>">
 						<input type="hidden" name="table_name" value="<?php echo $param;?>">
 						<input type="submit" value="Simpan" class="btn primary">
 						atau

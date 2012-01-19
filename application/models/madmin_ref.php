@@ -10,8 +10,8 @@ class Madmin_ref extends CI_Model
     {
         $query = $this->db->query('select table_name '.
                                   'from information_schema.tables '.
-                                  'where table_schema = "db_monev" '.
-                                  'and table_name in ("t_dept","t_unit","t_satker","t_output","t_iku","t_program","t_giat") ');
+                                  'where table_schema = "monev_db" '.
+                                  'and table_name in ("t_dept","t_unit","t_satker") ');
         
         return $query->result_array();
     }
@@ -21,128 +21,29 @@ class Madmin_ref extends CI_Model
         return $this->db->list_fields($table_name);
     }
     
-    public function get_table_detail($table_name,$limit=FALSE, $offset=FALSE, $cari=FALSE)
+    public function get_table_detail($table_name,$limit=FALSE, $offset=FALSE)
     {
 		if ($table_name=='satker'){
-			if ($cari == ""){
-		$sql = 'SELECT s.kdsatker, s.nmsatker, s.kddept, s.kdunit, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
+			$sql = 'SELECT s.kdsatker,s.nmsatker, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
 		WHERE s.kddept = d.kddept
 				AND s.kdunit = u.kdunit
 				AND s.kddept = u.kddept ';
-			}
-			else {
-				$sql = 'SELECT s.kdsatker, s.nmsatker, s.kddept, s.kdunit, d.nmdept, u.nmunit FROM t_satker s, t_dept d, t_unit u
-		WHERE s.kddept = d.kddept
-				AND s.kdunit = u.kdunit
-				AND s.kddept = u.kddept AND nmsatker LIKE "%'.$cari.'%" ';
-			}
+			
 			if($limit):
-			$sql .='limit '.$offset.','.$limit.' ';
+				$sql .='limit '.$offset.','.$limit.' ';
 			endif;
 			$query = $this->db->query($sql);
 		}
 		
 		
 		elseif ($table_name=='dept'){
-			if ($cari == ""){
-		$sql = 'SELECT kddept, nmdept FROM t_dept ';
-			}
-			else {
-				$sql = 'SELECT kddept, nmdept FROM t_dept WHERE nmdept LIKE "%'.$cari.'%" ';
-			}
-			if($limit):
-			$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
+		$query = $this->db->query( 'SELECT kddept, nmdept FROM t_dept');
 		}
 		elseif ($table_name=='unit'){
-			if ($cari == ""){
-				$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
+		$query = $this->db->query( 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
 		FROM t_dept d, t_unit u
-		WHERE d.kddept = u.kddept ';
-			}
-			else {
-		$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit
-		FROM t_dept d, t_unit u
-		WHERE d.kddept = u.kddept AND nmunit LIKE "%'.$cari.'%" ';}
-		if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
-		}
-		elseif ($table_name=='output'){
-		
-		
-		if ($cari == ""){
-		$sql = 'SELECT o.KDOUTPUT, o.NMOUTPUT, g.KDGIAT, g.NMGIAT, o.SAT
-		FROM t_giat g, t_output o
-		WHERE g.kdgiat = o.KDGIAT ';
-			}
-			else {
-				$sql = 'SELECT o.KDOUTPUT, o.NMOUTPUT, g.KDGIAT, g.NMGIAT, o.SAT
-		FROM t_giat g, t_output o
-		WHERE g.kdgiat = o.KDGIAT AND o.NMOUTPUT LIKE "%'.$cari.'%" ';
-			}
-		if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
-		}
-		elseif ($table_name=='iku'){
-		
-				
-				if ($cari == ""){
-		$sql = 'SELECT i.kdiku, i.kddept, i.kdunit, i.nmiku, i.kdprogram, p.nmprogram
-		FROM t_iku i, t_program p, t_dept d, t_unit u
-		WHERE i.kdprogram = p.kdprogram
-		AND i.kddept = p.kddept
-		AND i.kdunit = p.kdunit 
-		AND i.kddept = d.kddept
-		AND i.kdunit = u.kdunit
-		AND i.kddept = u.kddept ';
-			}
-			else {
-				$sql = 'SELECT i.kdiku, i.kddept, i.kdunit, i.nmiku, i.kdprogram, p.nmprogram
-		FROM t_iku i, t_program p, t_dept d, t_unit u
-		WHERE i.kdprogram = p.kdprogram
-		AND i.kddept = p.kddept
-		AND i.kdunit = p.kdunit 
-		AND i.kddept = d.kddept
-		AND i.kdunit = u.kdunit
-		AND i.kddept = u.kddept AND nmiku LIKE "%'.$cari.'%" ';
-			}
-				
-		if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
-		}
-		
-		elseif ($table_name=='program'){
-		
-		if ($cari == ""){
-		$sql = 'SELECT kddept, kdunit, kdprogram, nmprogram, uroutcome FROM t_program ';
-			}
-			else {
-				$sql = 'SELECT kddept, kdunit, kdprogram, nmprogram, uroutcome FROM t_program  WHERE nmprogram LIKE "%'.$cari.'%" ';
-			}
-		if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
-		}
-		elseif ($table_name=='giat'){
-			if ($cari == ""){
-		$sql = 'SELECT  kdgiat, 	nmgiat, 	kddept, 	kdunit, 	kdprogram FROM t_giat ';
-			}
-			else {
-				$sql = 'SELECT  kdgiat, nmgiat, kddept, kdunit, kdprogram FROM t_giat WHERE nmgiat LIKE "%'.$cari.'%" ';
-			}
-		if($limit):
-				$sql .='limit '.$offset.','.$limit.' ';
-			endif;
-			$query = $this->db->query($sql);
-			
+		WHERE d.kddept = u.kddept
+		LIMIT 10 ');
 		}
 		else {
         $query = $this->db->query('select * '.
@@ -170,15 +71,14 @@ class Madmin_ref extends CI_Model
         return $query->row_array();
     }
     
-	public function get_data_detailsatker($param = FALSE, $praid1 =FALSE, $praid2 = FALSE, $id = FALSE)
+	public function get_data_detailsatker($param = FALSE, $id = FALSE)
 	{
-		if($param && $id && $praid1 && $praid2):
+		if($param && $id):
 			if($param=='satker'):
-				$data = $this->db->query('SELECT kdsatker, 	kdinduk, 	nmsatker, 	kddept, 	kdunit, 	kdlokasi, 	kdkabkota, 	nomorsp, 	kdkppn, 	kdjnssat, 	kdupdate FROM t_satker 
-		WHERE kddept = '.$praid1.'
-				AND kdunit = '.$praid2.'
-				AND kdsatker = '.$id.'
-					ORDER BY kdsatker ASC
+				$data = $this->db->query('
+					select kdsatker, kdunit, kddept, nmsatker, kdinduk, kdlokasi, kdkabkota, nomorsp, kdkppn, kdjnssat,	kdupdate
+					from t_satker
+					where kdsatker = '.$id.' 
 				');
 			endif;
 			return $data->row();
@@ -203,73 +103,14 @@ class Madmin_ref extends CI_Model
 		endif;
 	}
 	
-	public function get_data_detailunit($param = FALSE, $praid = FALSE, $id = FALSE)
+	public function get_data_detailunit($param = FALSE, $id = FALSE)
 	{
-		if($param && $id && $praid):
+		if($param && $id):
 			if($param=='unit'):
 				$data = $this->db->query('
 					select kddept, kdunit, nmunit, kdupdate
 					from t_unit
-					where kdunit = '.$id.' AND kddept = '.$praid.'
-				');
-			endif;
-			return $data->row();
-		else:
-		
-		endif;
-	}
-	public function get_data_detailoutput($param = FALSE, $praid = FALSE, $id = FALSE)
-	{
-		if($param && $id && $praid):
-			if($param=='output'):
-				$data = $this->db->query('
-					select * from t_output
-					where KDOUTPUT = '.$id.' AND KDGIAT = '.$praid.' 
-					ORDER BY NMOUTPUT ASC
-				');
-			endif;
-			return $data->row();
-		else:
-		
-		endif;
-	}
-		
-		public function get_data_detailiku($param = FALSE, $praid1 =FALSE, $praid2 = FALSE, $praid3=FALSE,  $id = FALSE)
-	{
-		if($param && $id && $praid1 && $praid2 && $praid3):
-			if($param=='iku'):
-				$data = $this->db->query('
-					select kddept, kdunit, kdprogram, kdiku, nmiku, kdupdate from t_iku
-					where kdiku = '.$id.' AND kddept = '.$praid1.' AND kdunit = '.$praid2.' AND kdprogram = '.$praid3.'
-				');
-			endif;
-			return $data->row();
-		else:
-		
-		endif;
-	}
-	public function get_data_detailprogram($param = FALSE, $praid1 = FALSE, $praid2 = FALSE, $id = FALSE)
-	{
-		if($param && $id && $praid1 &&$praid2):
-			if($param=='program'):
-				$data = $this->db->query('
-					select kddept, kdunit, kdprogram, nmprogram, uroutcome, kdsasaran, kdjnsprog, kdupdate from t_program
-					where kdprogram = '.$id.' AND kddept = '.$praid1.' AND kdunit = '.$praid2.'	');
-			endif;
-			return $data->row();
-		else:
-		
-		endif;
-	}
-	
-	public function get_data_detailgiat($param = FALSE, $id = FALSE)
-	{
-		if($param && $id):
-			if($param=='giat'):
-				$data = $this->db->query('
-					select kdgiat, 	nmgiat, 	kddept, 	kdunit, 	kdprogram
-					from t_giat
-					where kdgiat = '.$id.' 
+					where kdunit = '.$id.' 
 				');
 			endif;
 			return $data->row();
@@ -302,8 +143,6 @@ class Madmin_ref extends CI_Model
 	  }
 	
 	function ubahunit(){
-	$id = $this->input->post('id');
-	$praid = $this->input->post('praid');
 	$nmunit = $this->input->post('nmunit');
 	$kdunit = $this->input->post('kdunit');
 	$kddept = $this->input->post('kddept');
@@ -314,14 +153,10 @@ class Madmin_ref extends CI_Model
 			'kdupdate' => $kdupdate,
 			);
 	       $this->db->where('kdunit', $kdunit);
-		   $this->db->where('kddept', $praid);
 	       $this->db->update('t_unit', $data);
 	  }
 	  
 	  function ubahsatker(){
-		  $praid1 = $this->input->post('praid1');
-	$praid2 = $this->input->post('praid2');
-	
 	$nmsatker = $this->input->post('nmsatker');
 	$kdunitasal = $this->input->post('kdunitasal');
 	$kdunit = $this->input->post('kdunit');
@@ -335,102 +170,23 @@ class Madmin_ref extends CI_Model
 	$kdjnssat = $this->input->post('kdjnssat');
 	$kdupdate = $this->input->post('kdupdate');
 	
+$explode = explode('|', $kdunit);
 		$data = array(
-			'kddept' => $kddept,
 			'nmsatker' => $nmsatker,
-			'kdunit' => $kdunit,
-			'kdinduk'=> $kdinduk,
-			'kdlokasi' => $kdlokasi,
-			'kdkabkota' => $kdkabkota,
-			'nomorsp' => $nomorsp,
-			'kdkppn' => $kdkppn,
-			'kdjnssat'=> $kdjnssat,
-			'kdupdate' => $kdupdate,
+			'kdunit' => $explode[1],
+			'kddept' => $kddept,
+			'kdinduk'=> kdinduk,
+			'kdlokasi' => kdlokasi,
+			'kdkabkota' => kdkabkota,
+			'nomorsp' => nomorsp,
+			'kdkppn' => kdkppn,
+			'kdjnssat'=> kdjnssat,
+			'kdupdate' => kdupdate,
 			);
 	       $this->db->where('kdsatker', $kdsatker);
+		 //  $this->db->where('kdunit', $kdunitasal);
 	       $this->db->update('t_satker', $data);
 	  }
-	function ubahoutput(){
-	$praid = $this->input->post('praid');
-	$kdgiat = $this->input->post('KDGIAT');
-	$kdoutput = $this->input->post('KDOUTPUT');
-	$nmoutput = $this->input->post('NMOUTPUT');
-	$sat = $this->input->post('SAT');
-	$kdsum = $this->input->post('KDSUM');
-		$data = array(
-			'KDGIAT' => $kdgiat,
-			'NMOUTPUT' => $nmoutput,
-			'SAT' => $sat,
-			'KDSUM' => $kdsum,
-			);
-	       $this->db->where('KDGIAT', $praid);
-		   $this->db->where('KDOUTPUT', $kdoutput);
-	       $this->db->update('t_output', $data);
-	  }
-	   function ubahiku(){
-		   $praid1 = $this->input->post('praid1');
-		   $praid2 = $this->input->post('praid2');
-		   $praid3 = $this->input->post('praid3');
-	$kddept = $this->input->post('kddept');
-	$kdunit = $this->input->post('kdunit');
-	$kdprogram = $this->input->post('kdprogram');
-	$kdiku = $this->input->post('kdiku');
-	$nmiku = $this->input->post('nmiku');
-	$kdupdate = $this->input->post('kdupdate');
-		$data = array(
-			
-'nmiku'=>$nmiku,
-'kddept' => $kddept,
-'kdunit' => $kdunit,
-	'kdprogram' => $kdprogram,
-	'kdupdate' => $kdupdate,
-			);
-	       $this->db->where('kddept', $praid1);
-		   $this->db->where('kdunit', $praid2);
-		   $this->db->where('kdprogram', $praid3);
-		   $this->db->where('kdiku', $kdiku);
-	       $this->db->update('t_iku', $data);
-	  }
-	  
-    function ubahprogram(){
-		$praid1 =$this->input->post('praid1');
-		$praid2 =$this->input->post('praid2');
-	$kddept = $this->input->post('kddept');
-	$kdunit = $this->input->post('kdunit');
-	$kdprogram = $this->input->post('kdprogram');
-	$nmprogram = $this->input->post('nmprogram');
-	$uroutcome = $this->input->post('uroutcome');
-	$kdsasaran = $this->input->post('kdsasaran');
-	$kdjnsprog = $this->input->post('kdjnsprog');
-	$kdupdate = $this->input->post('kdupdate');
-		$data = array(
-					  'kddept' => $kddept,
-					  'kdunit' => $kdunit,
-	'nmprogram' => $nmprogram,
-	'uroutcome' => $uroutcome,
-	'kdsasaran' => $kdsasaran,
-	'kdjnsprog' => $kdjnsprog,
-	'kdupdate' => $kdupdate,
-			);
-	       $this->db->where('kddept', $praid1);
-		   $this->db->where('kdunit', $praid2);
-		   $this->db->where('kdprogram', $kdprogram);
-	       $this->db->update('t_program', $data);
-	  }
-	   function ubahgiat(){
-	$kddept = $this->input->post('kddept');
-	$kdunit = $this->input->post('kdunit');
-	$kdprogram = $this->input->post('kdprogram');
-	$kdgiat = $this->input->post('kdgiat');
-	$nmgiat = $this->input->post('nmgiat');
-		$data = array(
-					  'kddept' => $kddept,
-					  'kdunit' => $kdunit,
-	'kdprogram' => $kdprogram,
-	'nmgiat' => $nmgiat,
-			);
-		   $this->db->where('kdgiat', $kdgiat);
-	       $this->db->update('t_giat', $data);
-	  }
-	  
+	
+   
 }

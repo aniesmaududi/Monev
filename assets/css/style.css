@@ -1,5 +1,3 @@
-@import url('backend.css');
-@import url('chosen.css');
 html
 {
 	margin: 0px;
@@ -7,7 +5,7 @@ html
 	border:0px;
 }
 
-body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset
+body,div,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,dt,dd,img,form,fieldset,
 {
 	margin: 0px;
 	padding: 0px;
@@ -21,7 +19,6 @@ body
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	color: #454545;
-	padding-top:10px;
 }
 
 #login-container
@@ -62,48 +59,35 @@ img#logo
 
 #user
 {
-	background-color: #4A6AE8;
-    background-repeat: repeat-x;
-    background-image: -moz-linear-gradient(#88A6F3, #4A6AE8);
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#88A6F3), to(#4A6AE8));
-    background-image: -o-linear-gradient(top, #88A6F3, #4A6AE8);
-    background-image: linear-gradient(top, #88A6F3, #4A6AE8);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#88A6F3', endColorstr='#4A6AE8', GradientType=0);
-	padding: 6px 10px 6px 10px;
-	color: #ffffff;
+	background: url('../images/nav-list.png');
+	padding: 3px 7px 3px 7px;
+	color: #fff;
 	float: right;
 	border-bottom: 1px solid #3752b8;
 	border-top: 1px solid #3752b8;
 	border-left: 1px solid #3752b8;
 	font-size: 11px;
-	-moz-border-radius: 5px 0px 0px 5px;
-	-webkit-border-radius: 5px 0px 0px 5px;
-	border-radius: 5px 0px 0px 5px;
-	margin-top: 12px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-radius: 3px 0px 0px 3px;
+	border-radius: 3px 0px 0px 3px;
+	margin-top: 13px;
 }
 
 #position
 {
 	border: 1px solid #242424;
-	padding: 6px 10px 6px 10px;
+	padding: 3px 7px 3px 7px;
 	color: #fff;
 	float: right;
 	font-size: 11px;
-	background-color: #2D2D2D;
-    background-repeat: repeat-x;
-    background-image: -moz-linear-gradient(#6A6A6A, #2D2D2D);
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6A6A6A), to(#2D2D2D));
-    background-image: -o-linear-gradient(top, #6A6A6A, #2D2D2D);
-    background-image: linear-gradient(top, #6A6A6A, #2D2D2D);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6A6A6A', endColorstr='#2D2D2D', GradientType=0);
-	-moz-border-radius: 0px 5px 5px 0px;
-	-webkit-border-radius: 0px 5px 5px 0px;
-	border-radius: 0px 5px 5px 0px;
+	background: url('../images/black.png');
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-radius: 0px 3px 3px 0px;
+	border-radius: 0px 3px 3px 0px;
 	margin-right: 10px;
-	margin-top: 12px;
-	-moz-box-shadow:1px 0 rgba(255,255,255,0.2) inset;
-	-webkit-box-shadow:1px 0 rgba(255,255,255,0.2) inset;
-	box-shadow:1px 0 rgba(255,255,255,0.2) inset;
+	margin-top: 13px;
 }
 
 .floatright
@@ -126,23 +110,22 @@ a.custom
     background-image: -o-linear-gradient(top, #FBFBFB, #CECECE);
     background-image: linear-gradient(top, #FBFBFB, #CECECE);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#CECECE', GradientType=0);
-	padding: 6px 10px 6px 10px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-  	border-radius: 5px;
+	padding: 4px 10px 4px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+  	border-radius: 10px;
   	font-size: 12px;
-  	border: 1px solid #999999;
+  	border: 1px solid #919191;
   	color: #575757;
   	text-decoration: none;
-	text-shadow:0 1px #ffffff;
+  	-moz-box-shadow:0px 1px 1px #999;
+    -webkit-box-shadow:0px 1px 1px #999;
+    box-shadow:0px 1px 1px #999;
 }
 
 a.custom:hover
 {
 	background: url('../images/hover.png');
-  	-moz-box-shadow:0 0 3px #C6D5F4;
-    -webkit-box-shadow:0 0 3px #C6D5F4;
-    box-shadow:0 0 3px #C6D5F4;
 }
 
 input.custom
@@ -166,7 +149,6 @@ input.custom
   	-moz-box-shadow:0px 1px 1px #999;
     -webkit-box-shadow:0px 1px 1px #999;
     box-shadow:0px 1px 1px #999;
-	cursor:pointer;
 }
 
 input.custom:hover
@@ -496,16 +478,9 @@ table.login tr td.words
 
 #upload2-box
 {
-	background: #d1d1d1; /* Old browsers */
-	background: -moz-linear-gradient(top, #d1d1d1 0%, #ebebeb 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1d1d1), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* IE10+ */
-	background: linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
+	background: #323232; /* Old browsers */
 	padding: 10px 10px 10px 10px;
-	border: 1px solid #bebebe;
+	border: 1px solid #323232;
 	-moz-border-radius-bottomleft: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-radius: 0px 0px 5px 5px;
@@ -558,12 +533,11 @@ table.login tr td.words
 {
 	background: #323232;
 	color: #fff;
-	padding: 8px 0px 20px 0px;
+	padding: 8px 0px 5px 0px;
 	font-size: 12px;
-	-moz-border-radius: 0px 0px 5px 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
 	-webkit-border-radius: 0px 0px 5px 5px;
-	border-radius: 0px 0px 5px 5px;
-	border-bottom: 1px solid #bebebe;
 }
 
 #nav-box p#total
@@ -623,8 +597,8 @@ a.choice:hover .box-content
 .box-content
 {
 	margin: 0px;
-	border-left: 1px solid #bebebe;
-	border-right: 1px solid #bebebe;
+	border-left: 1px solid #646464;
+	border-right: 1px solid #646464;
 	color: #454545;
 	font-size: 13px;
 	background: white;
@@ -994,7 +968,6 @@ p#copyright
 	color: #dddddd;
 	font-size: 11px;
 	float: right;
-	margin:10px 0;
 }
 
 table tr td
@@ -1063,6 +1036,12 @@ table#report
 {
 	border-collapse: collapse;
 	width: 100%;
+}
+
+table#report th
+{
+	border: 1px solid #acacac;
+	padding: 5px;
 }
 
 table#report tr td

@@ -1,7 +1,8 @@
+		<script type="text/javascript" src="<?php echo ASSETS_DIR_JS;?>fusioncharts.js"></script>
         <img src="<?php echo ASSETS_DIR_IMG.'title.png'?>" id="logo"/>
-		<?php echo anchor('user/logout','Logout','class="custom floatright" id="logout"');?>
-		<div id="position"><?php echo $this->session->userdata('jabatan_name');?></div>
-		<div id="user"><?php echo $this->session->userdata('nama');?></div>
+        <a href="user/logout" class="custom floatright" id="logout">Logout</a>
+		<div id="position"><?php echo strtoupper($this->session->userdata('jabatan'));?></div>
+		<div id="user"><?php echo strtoupper($this->session->userdata('nama'));?></div>
 		
 		
 		

@@ -183,11 +183,6 @@ form.backend-form h4 span{
 	display:inline-block;
 	padding-right:10px;
 }
-/* nav */
-a.navigation-title.first{
-	border-bottom:none;
-}
-
 /*dropdown filter data*/
 span.custom-button-span{
 	display:block;
@@ -217,10 +212,39 @@ span.custom-button-span{
   	text-decoration: none;
 	cursor:pointer;
 	text-shadow: 0 1px #eeeeee;
-	
 	min-width:40px;
 }
 .custom-button:hover
+{
+	background: url('../images/hover.png');
+	-moz-box-shadow:0px 1px #F7F9FC inset;
+    -webkit-box-shadow:0px 1px #F7F9FC inset;
+    box-shadow:0px 1px #F7F9FC inset;
+}
+.custom-button2{
+	margin-left:5px;
+	font-weight:bold;
+	border:none;
+	-webkit-transition:border linear 0.2s,box-shadow linear 0.2s;-moz-transition:border linear 0.2s,box-shadow linear 0.2s;-ms-transition:border linear 0.2s,box-shadow linear 0.2s;-o-transition:border linear 0.2s,box-shadow linear 0.2s;transition:border linear 0.2s,box-shadow linear 0.2s;
+	background-color: #FBFBFB;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(#FBFBFB, #CECECE);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FBFBFB), to(#CECECE));
+    background-image: -o-linear-gradient(top, #FBFBFB, #CECECE);
+    background-image: linear-gradient(top, #FBFBFB, #CECECE);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBFBFB', endColorstr='#CECECE', GradientType=0);
+	padding: 6px 16px 6px 13px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+  	border-radius: 5px;
+  	font-size: 12px;
+  	color: #575757;
+  	text-decoration: none;
+	cursor:pointer;
+	text-shadow: 0 1px #eeeeee;
+	min-width:40px;
+}
+.custom-button2:hover
 {
 	background: url('../images/hover.png');
 	-moz-box-shadow:0px 1px #F7F9FC inset;
@@ -231,6 +255,7 @@ span.icon{
 	width:16px;
 	height:16px;
 	display:inline-block;
+	line-height:0;
 	float:left;
 	margin-right:5px;
 }
@@ -245,7 +270,6 @@ span.icon{
 	margin-bottom:10px;
 	border-bottom:none;
 	padding-bottom:10px;
-	line-height:22px;
 }
 .filter-option-box select{
 	margin-bottom:5px;
@@ -274,19 +298,10 @@ table#report th, table#report .row-grey {
 	-moz-box-shadow:0 1px #ffffff inset;
 	box-shadow:0 1px #ffffff inset;
 	text-shadow:0 1px #ffffff;
-	padding:8px 5px;
-	border: 1px solid #acacac;
 }
-.box-report .visualize{
-	position:relative;
-	left:-20px;
-}
+
 .box-report h3{
 	margin-top:20px;
 	text-align:center;
 	padding-top:10px;
 }
-.info-table{
-	width:519px;
-}
-table.accessHide { position: absolute; left: -999999px; }

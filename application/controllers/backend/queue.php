@@ -7,9 +7,7 @@ class Queue extends CI_Controller
         is_adminlogin();
         $this->data['now'] = date("Y-m-d H:i:s");
         $this->load->model('admin_model', 'admin');
-		$this->load->model('mqueue');
         $this->load->library('form_validation');
-		$this->load->helper('download');
         $this->load->dbforge();
         error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
     }
@@ -24,8 +22,8 @@ class Queue extends CI_Controller
                 'and u.kddept = satker.kddept '.
                 'and u.kdunit = satker.kdunit '.
                 'and u.kdsatker = satker.kdsatker '.
-                'and u.is_done is null '.
-                'ORDER BY id ASC';
+				'and u.is_done!=1 '.
+				'ORDER BY id ASC';
         
         $result = $this->db->query($sql);
         
@@ -118,7 +116,7 @@ class Queue extends CI_Controller
             }                                    
         }
         $this->db->update('db_monev.tb_upload', array('is_done' => true), array('id' => $id));
-        //redirect(site_url().'backend/queue');
+        redirect(site_url().'backend/queue');
     }
 
     public function test()
@@ -143,48 +141,26 @@ class Queue extends CI_Controller
 
 
     }
-
 	function proses()
 	{
 		$id = abs((int)$this->uri->segment(4));
 		$this->load->model('mqueue');
 		
+//			$this->session->set_flashdata('message_type', 'success');
+	//		$this->session->set_flashdata('message', 'Data berhasil diperbaharui');
+
+//		$this->load->view('backend/queue/index',$data);
 		$this->mqueue->set_status($id);
 		redirect('backend/queue/proses1');
-	}
-	
-	function done()
-	{
-        $this->data['title'] = 'Antrian Expor berkas Satker';
-        $this->data['template'] = 'queue/done';
-		$this->data['rows'] = $this->mqueue->list_done();
-        $this->load->view('backend/index', $this->data);
-	}
 
-	function success()
-	{
-        $this->data['title'] = 'Antrian Expor berkas Satker';
-        $this->data['template'] = 'queue/success';
-		$this->data['rows'] = $this->mqueue->list_success();
-        $this->load->view('backend/index', $this->data);
 	}
-
-	function fail()
-	{
-        $this->data['title'] = 'Antrian Expor berkas Satker';
-        $this->data['template'] = 'queue/failed';
-		$this->data['rows'] = $this->mqueue->list_fail();
-        $this->load->view('backend/index', $this->data);
-	}
-	
-	function get_file()
+	function proses1()
 	{
 		$id = abs((int)$this->uri->segment(4));
-		$name = $this->uri->segment(5);
-		echo $id;
-		if($name==true)
-		$this->mqueue->download($id);
-		else
-		redirect('backend/queue/fail');
+		$this->load->model('mqueue');
+		redirect('backend/queue');
+//		$this->load->view('backend/queue/index',$data);
+//		$this->mqueue->set_status($id);
+
 	}
 }
