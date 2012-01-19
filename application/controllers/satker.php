@@ -158,6 +158,14 @@ class Satker extends CI_Controller
 	*/
     }
 
+    /*-------------------------------- IKK ---------------------------------*/
+    function catatan()
+    {
+        // untuk menulis catatan dari satker ke eselon terkait proses input, kendala, dan lain-lain
+	$this->data['template'] = 'satker/catatan';
+    	$this->load->view('index',$this->data);
+    }
+
     /*-------------------------------- Upload ---------------------------------*/
     public function upload()
     {
