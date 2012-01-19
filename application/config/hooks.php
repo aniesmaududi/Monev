@@ -10,7 +10,11 @@
 |
 */
 
-
+$hook['post_controller_constructor'] = array(
+    'function' => 'hooks',
+    'filepath' => 'hooks',
+    'filename' => 'monev_hooks.php',
+);
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

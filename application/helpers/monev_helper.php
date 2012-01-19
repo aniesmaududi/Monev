@@ -81,11 +81,11 @@ function pembulatan_juta($num)
 /* REPORT AND CHART DATA */
 /*------------------------------------------------------------------------------*/
 // untuk ambil data penyerapan dari tb_penyerapan_anggaran
-function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
+function get_penyerapan($thang="2011", $kddept=null, $kdunit=null, $kdprogram=null, $kdsatker=null, $kdgiat=null)
 {
 	$ci = & get_instance();
 	$ci->load->database();
-	$sql = 'select round(( sum( realisasi ) / sum( pagu ) ) *100, 2) as p
+	$sql = 'select sum( realisasi ) as jmlrealisasi, sum( pagu ) as jmlpagu, round(( sum( realisasi ) / sum( pagu ) ) *100, 2) as p
 	from tb_penyerapan_anggaran
 	where thang='.$thang.' ';
 	
@@ -97,6 +97,12 @@ function get_penyerapan($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null)
 	endif;
 	if(isset($kdprogram)):
 		$sql .= 'and kdprogram='.$kdprogram.' ';
+	endif;
+	if(isset($kdsatker)):
+		$sql .= 'and kdsatker='.$kdsatker.' ';
+	endif;
+	if(isset($kdgiat)):
+		$sql .= 'and kdgiat='.$kdgiat.' ';
 	endif;
 	return $ci->db->query($sql)->row();
 }

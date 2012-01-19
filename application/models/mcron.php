@@ -10,63 +10,50 @@ class Mcron extends CI_Model
 	public function get_pagu_anggaran($thang="2011")
     {
         //Get calculation of Pagu Anggaran from d_item           
-		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jumlah) as total '.
-				'from d_item item, t_program program, t_dept dept, t_unit unit '.
-				'where item.kddept = dept.kddept '.
-				'and item.kdunit = unit.kdunit '.
-				'and item.kdprogram = program.kdprogram '.
-				'and program.kddept = dept.kddept '.
-				'and program.kdunit = unit.kdunit '.
-				'and unit.kddept = dept.kddept '.
-				'and item.thang = '.$thang;
-		$sql .= ' group by item.thang, item.kddept, item.kdunit, item.kdprogram';
-       
-        
+		$sql = 'select  thang, kddept, kdunit, kdprogram, kdsatker, kdgiat, sum(jumlah) as total 
+				from d_item
+				where thang = '.$thang.'
+				and kddept !=""
+				and kdunit !=""
+				and kdprogram !=""
+				and kdsatker !="" 
+				and kdgiat !=""
+				group by thang, kddept, kdunit, kdprogram, kdsatker, kdgiat';
+               
         $query = $this->db->query($sql);
         return $query->result();
     }
     
-    public function get_realisasi_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $all=false)
+    public function get_realisasi_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker, $kdgiat)
     {
-        //Get calculation of Realisasi Anggaran from r_2011_cur
-        
-		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jmlrealiasi) as total '.
-				'from r_'.$thang.'_cur item, t_program program, t_dept dept, t_unit unit '.
-				  'where item.kddept = dept.kddept '.
-				  'and item.kdunit = unit.kdunit '.
-				  'and item.kdprogram = program.kdprogram '.
-				  'and program.kddept = dept.kddept '.
-				  'and program.kdunit = unit.kdunit '.
-				  'and unit.kddept = dept.kddept ';
-		if(isset($kddept)){
-		$sql .= 'and item.kddept='.$kddept.' ';
-		}
-		if(isset($kdunit)){
-		$sql .= 'and item.kdunit='.$kdunit.' ';
-		}
-		if(isset($kdprogram)){
-		$sql .= 'and item.kdprogram='.$kdprogram.' ';
-		}
+        $sql = 'select kddept, kdunit, kdprogram, kdsatker, kdgiat, sum(jmlrealiasi) as total 
+				from r_'.$thang.'_cur 
+				where year(tgldok1) = '.$thang.' ';
+		if(isset($kddept)){ $sql .= 'and kddept='.$kddept.' '; }
+		if(isset($kdunit)){ $sql .= 'and kdunit='.$kdunit.' '; }
+		if(isset($kdprogram)){ $sql .= 'and kdprogram='.$kdprogram.' '; }
+		if(isset($kdsatker)){ $sql .= 'and kdsatker='.$kdsatker.' '; }
+		if(isset($kdgiat)){ $sql .= 'and kdgiat='.$kdgiat.' '; }
 		
-		$sql .= 'group by item.kddept, item.kdunit, item.kdprogram';
+		$sql .= 'group by year(tgldok1), kddept, kdunit, kdprogram, kdsatker, kdgiat';
        
-        
         $query = $this->db->query($sql);
         return $query->row();
     }
 	
-	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram)
+	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker)
 	{
 		$query = $this->db->query('
-			select id
+			select thang,kddept,kdunit,kdprogram,kdsatker
 				from tb_penyerapan_anggaran
 				where thang='.$thang.'
 				and kddept='.$kddept.'
 				and kdunit='.$kdunit.'
 				and kdprogram='.$kdprogram.'
+				and kdsatker='.$kdsatker.'
 		');
 		if(count($query->row()) > 0):
-			return $query->row()->id;
+			return $query->row();
 		else:
 			return false;
 		endif;
@@ -76,26 +63,37 @@ class Mcron extends CI_Model
 	{
 		$pagu = $this->get_pagu_anggaran($thang);
 		foreach($pagu as $pagu):
-			$realisasi = $this->get_realisasi_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, false);
-			$total_pagu = $pagu->total;
-			$total_realisasi = $realisasi->total;
-			$p = round(($total_realisasi/$total_pagu)*100,2);
-			$data = array(
-				'thang' => $thang,
-				'pagu' => $pagu->total,
-				'realisasi' => $realisasi->total,
-				'p' => $p,
-				'kddept' => $pagu->kddept,
-				'kdunit' => $pagu->kdunit,
-				'kdprogram' => $pagu->kdprogram
-			);
-			$check_data = $this->check_tb_penyerapan_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram);
-			if(!$check_data):
-				$this->db->insert('tb_penyerapan_anggaran',$data);
-			else:
-				$this->db->query('
-					update tb_penyerapan_anggaran set p='.$p.', pagu='.$pagu->total.', realisasi='.$realisasi->total.' where id='.$check_data.'
-				');
+			$jmlpagu = (isset($pagu->total)) ? $pagu->total : 0;
+			$jmlrealisasi = 0;
+			if($jmlpagu>0):
+				$realisasi = $this->get_realisasi_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, $pagu->kdsatker, $pagu->kdgiat);
+				if($realisasi):
+					$jmlrealisasi = $realisasi->total;
+				endif;
+				$p = round(($jmlrealisasi/$jmlpagu)*100,2);
+				$data = array(
+					'thang' => $thang,
+					'pagu' => $jmlpagu,
+					'realisasi' => $jmlrealisasi,
+					'p' => $p,
+					'kddept' => $pagu->kddept,
+					'kdunit' => $pagu->kdunit,
+					'kdprogram' => $pagu->kdprogram,
+					'kdsatker' => $pagu->kdsatker,
+					'kdgiat' => $pagu->kdgiat
+				);
+				$check_data = $this->check_tb_penyerapan_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, $pagu->kdsatker, $pagu->kdgiat);
+				if(!$check_data):
+					$this->db->insert('tb_penyerapan_anggaran',$data);
+				else:
+					$this->db->where('thang',$thang)
+						->where('kddept',$check_data->kddept)
+						->where('kdunit',$check_data->kdunit)
+						->where('kdprogram',$check_data->kdprogram)
+						->where('kdsatker',$check_data->kdsatker)
+						->where('kdgiat',$check_data->kdgiat)
+						->update('tb_penyerapan_anggaran',$data);
+				endif;
 			endif;
 		endforeach;
 	}

@@ -11,12 +11,14 @@ class Satker extends CI_Controller
         $this->data['title'] = 'Satker ';
         //get Satker model
         $this->load->model('msatker');
+		$this->load->model('mdja');
         $this->kdsatker = $this->session->userdata('kdsatker');
 		$this->data['dashboard_menu_link'] =  base_url().'satker/';
-        $this->data['kdunit'] = $this->session->userdata('kdunit');
 		$this->data['kddept'] = $this->session->userdata('kddept');
-		$this->data['kdsatker'] = $this->session->userdata('kddept');
+		$this->data['kdunit'] = $this->session->userdata('kdunit');
+		$this->data['kdsatker'] = $this->session->userdata('kdsatker');
 		$this->data['kdprogram'] = null;
+		$this->data['kdgiat'] = null;
     }
 
     function index()
@@ -26,7 +28,7 @@ class Satker extends CI_Controller
 		if(isset($_POST['thang']) && $_POST['thang'] != 0):
 			$this->data['thang'] = $_POST['thang'];
 		endif;
-		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']);
 		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
@@ -39,9 +41,32 @@ class Satker extends CI_Controller
     /*------------------------------- Penyerapan Anggaran ----------------------*/
     function penyerapan()
     {
-	// menunggu dari MNH
-        $this->data['template'] = 'satker/penyerapan';
-    	$this->load->view('index',$this->data);
+		$this->data['title'] = 'Pengukuran Penyerapan Anggaran';        
+        $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        $this->data['kdprogram'] = null;    
+        
+       	$thang = $this->input->post('thang');
+		if(empty($thang)) { $thang = '2011'; }
+		$this->data['thang'] = $thang;
+		
+		if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['giat'] = get_giat($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+        }
+		if((isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
+		$kddept = $this->data['kddept'];
+		$kdunit = $this->data['kdunit'];
+		$kdprogram = $this->data['kdprogram'];
+		$kdsatker = $this->data['kdsatker'];
+		$kdgiat = $this->data['kdgiat'];
+		
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']);
+        $this->data['template'] = 'satker/penyerapan';  
+        $this->load->view('index', $this->data);
     }
 
     /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
