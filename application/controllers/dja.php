@@ -243,12 +243,7 @@ class Dja extends CI_Controller
         }
         
 		//get volume keluaran
-		
-		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
-		
-		
-		$this->data['n'] = count($this->data['output']);
-        
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']); 
         
         $this->data['template'] = 'dja/efisiensi';    
         $this->load->view('index', $this->data);

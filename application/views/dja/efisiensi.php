@@ -2,7 +2,12 @@
 			<div id="search-box"></div>
 				
 			<div id="nav-box">
-				<span class="custom-button-span"></span>
+				<span class="custom-button-span">
+				<?php if($output): ?>
+				<a type="button" class="custom-button" /><span class="icon pdf"></span>pdf</a>
+				<a type="button" class="custom-button" /><span class="icon excel"></span>excel</a>
+				<?php endif;?>
+				</span>
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
 				<div class="filter-option-box">
@@ -11,7 +16,7 @@
 							<td width="150" class="bold">Kementrian / Lembaga</td>
 							<td>:</td>
 							<td>
-							<form name="form1" action="<?php echo site_url('dja/efisiensi_table');?>" method="POST">					
+							<form name="form1" action="" method="POST">					
 								<select name="kddept" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
 									<option value="0" selected="selected">SEMUA KEMENTERIAN</option>
 									<?php					
@@ -31,7 +36,7 @@
 							<td width="150" class="bold">Unit / Eselon</td>
 							<td>:</td>
 							<td>
-							<form name="form2" action="<?php echo site_url('dja/efisiensi_table');?>" method="POST">
+							<form name="form2" action="" method="POST">
 								<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 								<select name="kdunit" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH ESELON" tabindex="2">
 									<option value="0" selected="selected">SEMUA ESELON</option>
@@ -53,7 +58,7 @@
 							<td width="150" class="bold">Nama Program</td>
 							<td>:</td>
 							<td>
-							<form name="form3" action="<?php echo site_url('dja/efisiensi_table');?>" method="POST">
+							<form name="form3" action="" method="POST">
 								<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 								<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
 								<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
@@ -90,7 +95,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php $total_ek = 0; foreach($output as $output_item): ?>					
+							<?php $total_ek = 0; $i=1; foreach($output as $output_item): ?>					
 							<tr style="font-size:12px;" valign="top">					
 								<td><?php echo $output_item->nmoutput;?></td>
 								<td align="center"><?php $TVK = $output_item->tvk; echo $TVK.'<br>
@@ -119,13 +124,13 @@
 									%
 								</td>					
 							</tr>								
-							<?php $total_ek += $ek; endforeach;?>
+							<?php $total_ek += $ek; $i++; endforeach;?>
 							<tr class="row-grey">
 								<td colspan="5" align="right"><b>Efisiensi</b></td>
 								<td align="right"><b>
 								<?php						
 								if(count($output) > 0):
-									$E = round($total_ek/$n,2);
+									$E = round($total_ek/$i,2);
 									echo $E;
 								else:
 									echo 0;	

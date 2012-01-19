@@ -2,7 +2,12 @@
 			<div id="search-box"></div>
 				
 			<div id="nav-box">
-				<span class="custom-button-span"></span>
+				<span class="custom-button-span">
+				<?php if($output): ?>
+				<a type="button" class="custom-button" /><span class="icon pdf"></span>pdf</a>
+				<a type="button" class="custom-button" /><span class="icon excel"></span>excel</a>
+				<?php endif;?>
+				</span>
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
 				<div class="filter-option-box">

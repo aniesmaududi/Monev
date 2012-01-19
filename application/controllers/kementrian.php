@@ -217,7 +217,7 @@ class Kementrian extends CI_Controller {
 		$this->data['n'] = count($this->data['output']);
         
         
-        $this->data['template'] = 'dja/efisiensi';    
+        $this->data['template'] = 'kementrian/efisiensi';    
         $this->load->view('index', $this->data);
 	}
 	
@@ -504,8 +504,8 @@ class Kementrian extends CI_Controller {
 		$this->load->view('index', $this->data);
 	}
 	
-        /*---------------------------------------- OUTPUT ---------------------------------------*/
-        function unit_output()
+    /*---------------------------------------- OUTPUT ---------------------------------------*/
+    function unit_output()
 	{
 		$this->data['title'] = 'Pengesahan Output';
 		$dept = $this->mkementrian->get_dept_identity($this->kddept);
@@ -566,7 +566,7 @@ class Kementrian extends CI_Controller {
 	}
 	
 	/*---------------------------------------- IKK ---------------------------------------*/
-        function unit_ikk()
+    function unit_ikk()
 	{
 		$this->data['title'] = 'Pengesahan IKK';
 		$dept = $this->mkementrian->get_dept_identity($this->kddept);
@@ -627,7 +627,7 @@ class Kementrian extends CI_Controller {
 	}
 	
 	/*---------------------------------------- Efisien ---------------------------------------*/
-        function unit_efisien()
+    function unit_efisien()
 	{
 		$this->data['title'] = 'Pengesahan EFisiensi';
 		$dept = $this->mkementrian->get_dept_identity($this->kddept);
