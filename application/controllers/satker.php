@@ -91,7 +91,7 @@ class Satker extends CI_Controller
     	$this->load->view('index',$this->data);
     }
     
-    function detail_giat($kode)
+    function detail_giat($kdgiat)
     {
     	//this part loads get_satker_program content according to satker's id 
     	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
@@ -100,13 +100,14 @@ class Satker extends CI_Controller
     	
     	//this part loads kegiatan
     	$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
-    	$this->data['nmgiat'] = $this->data['kegiatan'][0]['nmgiat'];
-    	$this->data['kdgiat'] = $this->data['kegiatan'][0]['kdgiat'];
-    	
+    	$this->data['kdgiat'] = $kdgiat;
+	$detail_giat = $this->msatker->get_detail_giat($kdgiat);
+	$this->data['nmgiat'] = $detail_giat['nmgiat'];
+
     	//this part loads output
-    	$this->data['output'] = $this->msatker->get_output($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kode);
+    	$this->data['output'] = $this->msatker->get_output($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
     	
-    	$this->data['ikk'] = $this->msatker->get_ikk($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kode);
+    	$this->data['ikk'] = $this->msatker->get_ikk($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
     	
    	$this->data['template'] = 'satker/detail_giat';
     	$this->load->view('index',$this->data);
@@ -116,6 +117,7 @@ class Satker extends CI_Controller
     /*------------------------------ OUTPUT ------------------------------*/    
     public function do_real_output()
     {
+	$kdgiat = $this->input->post('kdgiat');
         $do = $this->input->post('submit');
         $this->msatker->set_real_output($do);
 
@@ -125,7 +127,7 @@ class Satker extends CI_Controller
             $message = "Data realisasi keluaran telah dieskalasi ke Eselon I.";
         }
 	$this->session->set_flashdata('message', $message);
-	redirect('satker/detail_giat');        
+	redirect('satker/detail_giat/'.$kdgiat);        
     }
 
     /*-------------------------------- IKK ---------------------------------*/

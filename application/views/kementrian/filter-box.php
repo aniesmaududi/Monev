@@ -55,7 +55,7 @@
 								</td>
 							</tr>
 							<?php endif; ?>
-							<?php if(($this->uri->segment(2)=='kosistensi') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
+							<?php if(($this->uri->segment(2)=='konsistensi') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
 							<tr>
 								<td width="150" class="bold">Satuan Kerja</td>
 								<td>:</td>

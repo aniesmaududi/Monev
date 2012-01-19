@@ -1,6 +1,11 @@
 			<h1><?php echo $nmgiat;?></h1>
 			<div id="search-box">
-				
+				<?php if($this->session->flashdata('message')):?>
+				<div class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">
+						<a class="close" href="#">&times;</a>
+						<p><?php echo $this->session->flashdata('message')?></p>
+				</div>
+				<?php endif;?>
 			</div>
 			<div id="nav-box">
 				<div class="clearfix"></div>
@@ -31,7 +36,16 @@
 					<div class="column2"><?php echo $row['vol'];?></div>
 					<div class="column5">
 						<!-- data rvk -->
-						<input type="text" name="rvk_<?php echo $i;?>" class="realisasi" value=""/>
+						<?php
+						$rvk = "";
+						$disabled = "";
+						if(isset($row['rvk'])){
+							$rvk = $row['rvk'];							
+							if($row['accsatker'] == 1){ $disabled = 'disabled';}
+						}
+						?>						
+						<input type="text" name="rvk_<?php echo $i;?>" class="realisasi" value="<?php echo $rvk;?>" <?php echo $disabled;?>/>	
+						
 					</div>
 					<div class="clearfix"></div>
 				</div><!-- end of box-content -->
@@ -76,11 +90,5 @@
 				</script>
 				
 				
-				<div class="clearfix"></div>
-				<?php if($this->session->flashdata('message')):?>
-				<div class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">
-						<a class="close" href="#">&times;</a>
-						<p><?php echo $this->session->flashdata('message')?></p>
-				</div>
-				<?php endif;?>
+				<div class="clearfix"></div>				
 			</div>
