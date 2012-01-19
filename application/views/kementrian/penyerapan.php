@@ -18,7 +18,7 @@
 								<td>:</td>
 								<td>
 								<form name="form1" action="" method="POST">					
-									<select name="kddept" onchange="this.form.submit();" disabled=disabled class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
+									<select name="kddept" onchange="this.form.submit();" style="width:519px" disabled=disabled class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
 										<option value="<?php echo $kddept?>"><?php echo get_detail_data('t_dept',array('kddept'=>$kddept),'nmdept');?></option>
 									</select>					
 								</form>
@@ -31,7 +31,7 @@
 								<td>
 								<form name="form2" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
-									<select name="kdunit" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH ESELON" tabindex="2">
+									<select name="kdunit" onchange="this.form.submit();" style="width:519px" class="chzn-select" data-placeholder="PILIH ESELON" tabindex="2">
 										<option value="0" selected="selected">SEMUA ESELON</option>
 										<?php
 										foreach ($unit as $item):
@@ -54,7 +54,7 @@
 								<form name="form3" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
-									<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
+									<select name="kdprogram" onchange="this.form.submit();" style="width:519px" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
 										<option value="0" selected="selected">SEMUA PROGRAM</option>
 										<?php
 										foreach ($program as $item):

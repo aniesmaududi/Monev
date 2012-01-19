@@ -226,9 +226,9 @@ class Msatker extends CI_Model
             $accsatker = 1;    
         }
                         
-        $kddept = $this->input->post('kddept');
-        $kdunit = $this->input->post('kdunit');
-        $kdsatker = $this->input->post('kdsatker');
+        $kddept = $this->session->userdata('kddept');
+        $kdunit = $this->session->userdata('kdunit');
+        $kdsatker = $this->session->userdata('kdsatker');
         $kdprogram = $this->input->post('kdprogram');
         $kdgiat = $this->input->post('kdgiat');
         $n = $this->input->post('n');
@@ -271,12 +271,12 @@ class Msatker extends CI_Model
             if($status == 'update')
             {
                 $this->db->update('tb_real_output',$data, 'kddept = '.$kddept.' and kdunit = '.$kdunit.' and kdsatker = '.$kdsatker.' and kdprogram = '.$kdprogram.' and kdgiat = '.$kdgiat.' and kdoutput = '.$kdoutput.' and accsatker = 0');
-                $this->log->create('entry data', $this->session->kdsatker.' add data realisasi output');
+                $this->log->create('entry data', $kdsatker.' add data realisasi output');
             }
             else
             {
                 $this->db->insert('tb_real_output',$data);
-                $this->log->create('entry data', $this->session->kdsatker.' add data realisasi output');
+                $this->log->create('entry data', $kdsatker.' add data realisasi output');
             }
         }
         

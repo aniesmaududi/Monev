@@ -1,115 +1,91 @@
-<h1>Pengukuran Tingkat Pencapaian Keluaran</h1>
+			<h1><?php echo $title;?></h1>
 			<div id="search-box">
+				
 			</div>
 			<div id="nav-box">
-				<input type="button" class="blackbg" value="pdf" style="margin-top:-2px; width:70px;"/>
-				<input type="button" class="blackbg" value="excel" style="margin-top:-2px; width:70px;"/>
+				<span class="custom-button-span" style="text-align:right;padding-right:10px;">
+				<?php 
+				if($output && isset($kdgiat)):?>
+					<a type="button" class="custom-button" /><span class="icon pdf"></span>pdf</a>
+					<a type="button" class="custom-button" /><span class="icon excel"></span>excel</a>
+				<?php else:
+					echo $page;
+				endif;?>
+				</span>
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
-					<table>
-						<tr>
-							<td width="180px">Kementrian Negara / Lembaga</td>
-							<td>:</td>
-							<td colspan="4"><?php echo $nmdept;?></td>
-						</tr>
-						<tr>
-							<td>Unit / Eselon I</td>
-							<td>:</td>
-							<td colspan="4"><?php echo $nmunit;?></td>
-						</tr>
-						<tr>
-							<td>Nama Program</td>
-							<td>:</td>
-							<td colspan="4"><?php echo (isset($nmprogram))? $nmprogram: 'Tidak Ada Kegiatan';?></td>
-						</tr>
-						<tr>
-							<td>Tahun Anggaran</td>
-							<td>:</td>
-							<td width="200px">
-								<select data-placeholder="Pilih Tahun Anggaran" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="2011">2011</option> 
-						          <option value="2010">2010</option>
-						          <option value="2010">2009</option>
-						        </select>
-							</td>
-							<td>Bulan</td>
-							<td>:</td>
-							<td>
-								<select data-placeholder="Pilih Bulan" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="Januari">Januari</option> 
-						          <option value="Februari">Februari</option>
-						          <option value="Maret">Maret</option>
-						          <option value="April">April</option> 
-						          <option value="Mei">Mei</option>
-						          <option value="Juni">Juni</option>
-						        </select>
-							</td>
-						</tr>
-						<tr>
-							<td>Nama Kegiatan</td>
-							<td>:</td>
-							<td colspan="4">
-								<select data-placeholder="Pilih Kegiatan" class="chzn-select" style="width:100%;" tabindex="2">
-						          <option value=""></option> 
-						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
-						          <option value="Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara">Pengembangan SDM Melalui Penyelenggaran Diklat Teknis dan Fungsional di Bidang Kekayaan Negara</option> 
-						        </select>
-							</td>
-						</tr>
-					</table>
-					<br/>
+					<div class="filter-option-box">
+						<?php $this->view('satker/filter-box');?>
+					</div>
+					<?php if($output && !isset($kdgiat)):?>
 					<table id="report">
-						<tr class="align-middle">
-							<td width="200" rowspan="2"><strong>Keluaran</strong></td>
-							<td colspan="2"><strong>Volume</strong></td>
-							<td colspan="2"><strong>Kualitas</strong></td>
-							<td rowspan="2"><strong>Tingkat Pencapaian Keluaran</strong></td>
+						<thead>
+							<?php if(!isset($kddept)):?>
+							<th>K/L</th>
+							<?php endif;?>
+							<?php if(!isset($kdunit)):?>
+							<th>Eselon I</th>
+							<?php endif;?>
+							<?php if(!isset($kdprogram)):?>
+							<th>Program</th>
+							<?php endif;?>
+							<th>Kegiatan</th>					
+						</thead>
+						<tbody>
+						<?php foreach($output as $output_item): ?>		
+						<tr valign="top" onclick="javascript:window.location('<?php echo site_url()?>')">
+							<?php if(!isset($kddept)):?>
+							<td><?php echo $output_item->nmdept;?></td>
+							<?php endif;?>
+							<?php if(!isset($kdunit)):?>
+							<td><?php echo $output_item->nmunit;?></td>
+							<?php endif;?>
+							<?php if(!isset($kdprogram)):?>
+							<td><?php echo $output_item->nmprogram;?></td>
+							<?php endif;?>
+							<td><?php echo $output_item->nmgiat;?></td>
 						</tr>
-						<tr class="align-middle">
-							<td width="80">Target</td>
-							<td width="80">Realisasi</td>
-							<td width="80">Target</td>
-							<td width="80">Realisasi</td>
-						</tr>
-						<tr class="align-middle">
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
-							<td>4</td>
-							<td>5</td>
-							<td>6</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 1 (Orang)</td>
-							<td>50</td>
-							<td>40</td>
-							<td>100%</td>
-							<td>100%</td>
-							<td>80.00%</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 2 (Laporan)</td>
-							<td>3</td>
-							<td>3</td>
-							<td>100%</td>
-							<td>95%</td>
-							<td>95%</td>
-						</tr>
-						<tr class="align-right">
-							<td class="align-left">Keluaran 3 (Sistem)</td>
-							<td>1</td>
-							<td>1</td>
-							<td>100%</td>
-							<td>95%</td>
-							<td>95%</td>
-						</tr>
-						<tr>
-							<td colspan="5">Pencapaian Keluaran</td>
-							<td class="align-right yellow">90%</td>
-						</tr>
+						<?php endforeach;?>
+						</tbody>
 					</table>
-					<br/>
-				</div><!-- end of box-content -->
-			</div><!-- end of nav-box -->
+					<?php elseif($output && isset($kdgiat)):?>
+						<table id="report">
+							<thead>
+								<tr>
+									<th rowspan="2" width="300">Keluaran</th>
+									<th colspan="2">Volume Keluaran</th>
+									<th rowspan="2" width="80">Tk. Penc Keluaran</th>		
+								</tr>
+								<tr>
+									<th width="100">Target</th>
+									<th width="100">Realisasi</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$total_k =0;
+								$i = 0;
+								foreach($output as $output_item):?>
+								<tr>
+									<td><?php echo $output_item->nmoutput?><br>
+										<span class="gray small-text">(<?php echo $output_item->sat?>)</span></td>
+									<td align="center"><?php echo $output_item->tvk?></td>
+									<td align="center"><?php echo $output_item->rvk?></td>
+									<td align="center"><?php $k = round($output_item->rvk/$output_item->tvk*100,2);echo $k;?>%</td>
+								</tr>
+								<?php 
+								$total_k += $k; 
+								$i++;
+								endforeach;?>
+								<tr class="row-grey">
+									<td colspan="3" align="right"><b>Rata-rata Pencapaian Keluaran</b></td>
+									<td align="center"><b><?php $PK = round($total_k/$i,2);
+										echo $PK.'%';?></b></td>
+								</tr>
+							</tbody>
+						</table>
+					<?php else:?>
+						<p class="alert-message block-message error laporan-alert">Tidak ada data</p>
+					<?php endif; ?>
+				</div>				
+			</div>

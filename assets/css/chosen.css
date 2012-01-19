@@ -42,7 +42,6 @@
   overflow: hidden;
   white-space: nowrap;
   position: relative;
-  height: 26px;
   line-height: 26px;
   padding: 0 0 0 8px;
   color: #444;
@@ -239,7 +238,7 @@
 }
 .chzn-container .chzn-results li {
   display: none;
-  line-height: 80%;
+  line-height: 100%;
   padding: 7px 7px 8px;
   margin: 0;
   list-style: none;

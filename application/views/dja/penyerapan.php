@@ -17,7 +17,7 @@
 								<td width="150" class="bold">Kementrian / Lembaga</td>
 								<td>:</td>
 								<td>
-								<form name="form1" action="<?php echo site_url('dja/penyerapan_table');?>" method="POST">					
+								<form name="form1" action="" method="POST">					
 									<select name="kddept" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
 										<option value="0" selected="selected">SEMUA KEMENTERIAN</option>
 										<?php					
@@ -37,7 +37,7 @@
 								<td width="150" class="bold">Unit / Eselon</td>
 								<td>:</td>
 								<td>
-								<form name="form2" action="<?php echo site_url('dja/penyerapan_table');?>" method="POST">
+								<form name="form2" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<select name="kdunit" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH ESELON" tabindex="2">
 										<option value="0" selected="selected">SEMUA ESELON</option>
@@ -59,7 +59,7 @@
 								<td width="150" class="bold">Nama Program</td>
 								<td>:</td>
 								<td>
-								<form name="form3" action="<?php echo site_url('dja/penyerapan_table');?>" method="POST">
+								<form name="form3" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
 									<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">

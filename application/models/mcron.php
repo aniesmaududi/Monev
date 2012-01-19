@@ -10,63 +10,51 @@ class Mcron extends CI_Model
 	public function get_pagu_anggaran($thang="2011")
     {
         //Get calculation of Pagu Anggaran from d_item           
-		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jumlah) as total '.
-				'from d_item item, t_program program, t_dept dept, t_unit unit '.
-				'where item.kddept = dept.kddept '.
-				'and item.kdunit = unit.kdunit '.
-				'and item.kdprogram = program.kdprogram '.
-				'and program.kddept = dept.kddept '.
-				'and program.kdunit = unit.kdunit '.
-				'and unit.kddept = dept.kddept '.
-				'and item.thang = '.$thang;
-		$sql .= ' group by item.thang, item.kddept, item.kdunit, item.kdprogram';
-       
-        
+		$sql = 'select  thang, kddept, kdunit, kdprogram, kdsatker, kdgiat, sum(jumlah) as total 
+				from d_item
+				where thang = '.$thang.'
+				and kddept !=""
+				and kdunit !=""
+				and kdprogram !=""
+				and kdsatker !="" 
+				and kdgiat !=""
+				group by thang, kddept, kdunit, kdprogram, kdsatker, kdgiat';
+               
         $query = $this->db->query($sql);
         return $query->result();
     }
     
-    public function get_realisasi_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $all=false)
+    public function get_realisasi_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker, $kdgiat)
     {
-        //Get calculation of Realisasi Anggaran from r_2011_cur
-        
-		$sql = 'select dept.kddept, dept.nmdept, unit.kdunit, unit.nmunit, program.kdprogram, program.nmprogram, sum(jmlrealiasi) as total '.
-				'from r_'.$thang.'_cur item, t_program program, t_dept dept, t_unit unit '.
-				  'where item.kddept = dept.kddept '.
-				  'and item.kdunit = unit.kdunit '.
-				  'and item.kdprogram = program.kdprogram '.
-				  'and program.kddept = dept.kddept '.
-				  'and program.kdunit = unit.kdunit '.
-				  'and unit.kddept = dept.kddept ';
-		if(isset($kddept)){
-		$sql .= 'and item.kddept='.$kddept.' ';
-		}
-		if(isset($kdunit)){
-		$sql .= 'and item.kdunit='.$kdunit.' ';
-		}
-		if(isset($kdprogram)){
-		$sql .= 'and item.kdprogram='.$kdprogram.' ';
-		}
+        $sql = 'select kddept, kdunit, kdprogram, kdsatker, kdgiat, sum(jmlrealiasi) as total 
+				from r_'.$thang.'_cur 
+				where year(tgldok1) = '.$thang.' ';
+		if(isset($kddept)){ $sql .= 'and kddept='.$kddept.' '; }
+		if(isset($kdunit)){ $sql .= 'and kdunit='.$kdunit.' '; }
+		if(isset($kdprogram)){ $sql .= 'and kdprogram='.$kdprogram.' '; }
+		if(isset($kdsatker)){ $sql .= 'and kdsatker='.$kdsatker.' '; }
+		if(isset($kdgiat)){ $sql .= 'and kdgiat='.$kdgiat.' '; }
 		
-		$sql .= 'group by item.kddept, item.kdunit, item.kdprogram';
+		$sql .= 'group by year(tgldok1), kddept, kdunit, kdprogram, kdsatker, kdgiat';
        
-        
         $query = $this->db->query($sql);
         return $query->row();
     }
 	
-	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram)
+	public function check_tb_penyerapan_anggaran($thang="2011", $kddept, $kdunit, $kdprogram, $kdsatker, $kdgiat)
 	{
 		$query = $this->db->query('
-			select id
+			select thang,kddept,kdunit,kdprogram,kdsatker,kdgiat
 				from tb_penyerapan_anggaran
 				where thang='.$thang.'
 				and kddept='.$kddept.'
 				and kdunit='.$kdunit.'
 				and kdprogram='.$kdprogram.'
+				and kdsatker='.$kdsatker.' 
+				and kdgiat='.$kdgiat.'
 		');
 		if(count($query->row()) > 0):
-			return $query->row()->id;
+			return $query->row();
 		else:
 			return false;
 		endif;
@@ -76,77 +64,54 @@ class Mcron extends CI_Model
 	{
 		$pagu = $this->get_pagu_anggaran($thang);
 		foreach($pagu as $pagu):
-			$realisasi = $this->get_realisasi_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, false);
-			$total_pagu = $pagu->total;
-			$total_realisasi = $realisasi->total;
-			$p = round(($total_realisasi/$total_pagu)*100,2);
-			$data = array(
-				'thang' => $thang,
-				'pagu' => $pagu->total,
-				'realisasi' => $realisasi->total,
-				'p' => $p,
-				'kddept' => $pagu->kddept,
-				'kdunit' => $pagu->kdunit,
-				'kdprogram' => $pagu->kdprogram
-			);
-			$check_data = $this->check_tb_penyerapan_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram);
-			if(!$check_data):
-				$this->db->insert('tb_penyerapan_anggaran',$data);
-			else:
-				$this->db->query('
-					update tb_penyerapan_anggaran set p='.$p.', pagu='.$pagu->total.', realisasi='.$realisasi->total.' where id='.$check_data.'
-				');
+			$jmlpagu = (isset($pagu->total)) ? $pagu->total : 0;
+			$jmlrealisasi = 0;
+			if($jmlpagu>0):
+				$realisasi = $this->get_realisasi_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, $pagu->kdsatker, $pagu->kdgiat);
+				if($realisasi):
+					$jmlrealisasi = $realisasi->total;
+				endif;
+				$p = round(($jmlrealisasi/$jmlpagu)*100,2);
+				$data = array(
+					'thang' => $thang,
+					'pagu' => $jmlpagu,
+					'realisasi' => $jmlrealisasi,
+					'p' => $p,
+					'kddept' => $pagu->kddept,
+					'kdunit' => $pagu->kdunit,
+					'kdprogram' => $pagu->kdprogram,
+					'kdsatker' => $pagu->kdsatker,
+					'kdgiat' => $pagu->kdgiat
+				);
+				$check_data = $this->check_tb_penyerapan_anggaran($thang, $pagu->kddept, $pagu->kdunit, $pagu->kdprogram, $pagu->kdsatker, $pagu->kdgiat);
+				if(!$check_data):
+					$this->db->insert('tb_penyerapan_anggaran',$data);
+				else:
+					$this->db->where('thang',$thang)
+						->where('kddept',$check_data->kddept)
+						->where('kdunit',$check_data->kdunit)
+						->where('kdprogram',$check_data->kdprogram)
+						->where('kdsatker',$check_data->kdsatker)
+						->where('kdgiat',$check_data->kdgiat)
+						->update('tb_penyerapan_anggaran',$data);
+				endif;
 			endif;
 		endforeach;
 	}
 	
 	// tingkat konsistensi
-	public function get_rpd($thang="2011", $bulan=null, $kddept=null, $kdunit=null, $kdprogram=null, $kdsatker=null)
+	public function get_rpd($thang="2011", $limit, $offset)
     {
-        //Get RPD from m_trktrm by kddept, kdunit
-        if(!isset($kddept) && !isset($kdunit) && !isset($kdprogram) && !isset($kdsatker) && !isset($bulan) ):
-			$sql = 'select kddept,kdunit,kdprogram,kdsatker 
-				from m_trktrm 
-				where thang='.$thang.' 
-				and kddept!="" 
-				and kdunit!=""
-				and kdsatker!="" 
-				and kdprogram!=""
-				group by kddept,kdunit,kdprogram,kdsatker';
-		else:
-			if(isset($bulan)):
-				$sum = '';
-				for($i=1;$i<=$bulan;$i++):
-					$bulan_i = $i;
-					if($i<=9):
-						$bulan_i = '0'.$i;
-					endif;
-					if($i!=1):
-						$sum .='+';
-					endif;
-					$sum .= 'jml'.$bulan_i;
-				endfor;
-				$sql = 'select kddept,kdunit,kdprogram,kdsatker,sum('.$sum.') as jmlrpd '.
-				'from m_trktrm '.
-				'where thang = '.$thang;
-			else:
-				$sql = 'select kddept,kdunit,kdprogram,kdsatker, sum(jml01) as jml01, sum(jml02) as jml02, sum(jml03) as jml03, sum(jml04) as jml04, sum(jml05) as jml05, sum(jml06) as jml06, sum(jml07) as jml07, sum(jml08) as jml08, sum(jml09) as jml09, sum(jml10) as jml10, sum(jml11) as jml11, sum(jml12) as jml12 '.
-				'from m_trktrm '.
-				'where thang = '.$thang;
-			endif;
-			if(isset($kddept)):
-				$sql .= ' and kddept = '.$kddept;
-			endif;
-			if(isset($kdunit)):
-				$sql .= ' and kdunit = '.$kdunit;
-			endif;
-			if(isset($kdprogram)):
-				$sql .= ' and kdprogram = '.$kdprogram;
-			endif;
-			if(isset($kdsatker)):
-				$sql .= ' and kdsatker = '.$kdsatker;
-			endif;
-		endif;
+		$sql = 'select kddept,kdunit,kdprogram,kdsatker, sum(jml01) as jml01, sum(jml02) as jml02, sum(jml03) as jml03, sum(jml04) as jml04, sum(jml05) as jml05, sum(jml06) as jml06, sum(jml07) as jml07, sum(jml08) as jml08, sum(jml09) as jml09, sum(jml10) as jml10, sum(jml11) as jml11, sum(jml12) as jml12  
+			from m_trktrm 
+			where thang='.$thang.' 
+			and kddept!="" 
+			and kdunit!=""
+			and kdsatker!="" 
+			and kdprogram!=""
+			group by thang,kddept,kdunit,kdprogram,kdsatker
+			order by thang,kddept,kdunit,kdprogram,kdsatker
+			limit '.$offset.','.$limit;
 		
         return $this->db->query($sql);
     }
@@ -155,25 +120,10 @@ class Mcron extends CI_Model
     {
         //Get monthly Realisasi from table r_2011_cur
 		if(isset($bulan)):
-			$sum = '';
-			for($i=1;$i<=$bulan;$i++):
-				$bulan_i = $i;
-				if($i<=9):
-					$bulan_i = '0'.$i;
-				endif;
-				if($i!=1):
-					$sum .=',';
-				endif;
-				$sum .= $bulan_i;
-			endfor;
-			$sql = 'select kddept,kdunit,kdprogram,kdsatker, substring(tgldok1,1,4) as thang, substring(tgldok1,6,2) as bulan, sum(jmlrealiasi) as jmlrealisasi 
+			$sql = 'select kddept, kdunit, kdprogram, kdsatker, sum(jmlrealiasi) as jmlrealisasi 
 				from r_'.$thang.'_cur 
-				where substring(tgldok1,1,4) = '.$thang.' 
-				and (substring(tgldok1,6,2) in ('.$sum.')) 
-				and kddept!="" 
-				and kdunit!="" 
-				and kdsatker!="" 
-				and kdprogram!=""';
+				where year(tgldok1) = '.$thang.' 
+				and month(tgldok1) = '.$bulan.' ';
 			if(isset($kddept)):
 				$sql .= ' and kddept = '.$kddept;
 			endif;
@@ -186,7 +136,7 @@ class Mcron extends CI_Model
 			if(isset($kdsatker)):
 				$sql .= ' and kdsatker = '.$kdsatker;
 			endif;
-			$sql .= ' group by kddept, kdunit, kdprogram, kdsatker';
+			$sql .= ' group by year(tgldok1), month(tgldok1), kddept, kdunit, kdprogram, kdsatker';
 			return $this->db->query($sql);
 		endif;
     }
@@ -194,7 +144,7 @@ class Mcron extends CI_Model
 	public function check_tb_konsistensi($thang="2011", $bulan, $kddept, $kdunit, $kdprogram, $kdsatker)
 	{
 		$query = $this->db->query('
-			select id
+			select thang,bulan,kddept,kdunit,kdprogram,kdsatker
 				from tb_konsistensi
 				where thang='.$thang.'
 				and bulan='.$bulan.'
@@ -202,63 +152,64 @@ class Mcron extends CI_Model
 				and kdunit='.$kdunit.'
 				and kdprogram='.$kdprogram.'
 				and kdsatker='.$kdsatker.'
-		');
-		if(count($query->row()) > 0):
-			return $query->row()->id;
+		')->row();
+		if(count($query) > 0):
+			return $query;
 		else:
 			return false;
 		endif;
 	}
 	
-	public function cron_konsistensi($thang)
+	public function cron_konsistensi($thang, $limit, $offset)
 	{
-		$data_bulanan = $this->get_rpd($thang, null, null, null, null, null, null, null)->result();
+		$data_bulanan = $this->get_rpd($thang, $limit, $offset)->result();
 		if($data_bulanan):
-			$i = 1;
 			foreach($data_bulanan as $konsistensi):
+				$kddept = $konsistensi->kddept;
+				$kdunit = $konsistensi->kdunit;
+				$kdsatker = $konsistensi->kdsatker;
+				$kdprogram = $konsistensi->kdprogram;
+				$jmlrpd = 0;
+				$jmlrealisasi = 0;
 				for($bulan=1;$bulan<=12;$bulan++):
-					
-					
-					$jmlrealisasi = 0;
-					$rpd = $this->get_rpd($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
-					$realisasi = $this->get_realisasi_bulanan($thang, $bulan, $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker)->row();
+					$jml = 'jml'.format_bulan($bulan);
+					$rpd = $konsistensi->$jml;
+					$jmlrpd = $jmlrpd+$rpd;
+					$realisasi = $this->get_realisasi_bulanan($thang, $bulan, $kddept, $kdunit, $kdprogram, $kdsatker)->row();
 					if($realisasi):
-						$jmlrealisasi = $realisasi->jmlrealisasi;
+						$jmlrealisasi = $jmlrealisasi+$realisasi->jmlrealisasi;
 					endif;
-					$k = round($jmlrealisasi/$rpd->jmlrpd*100,2);
+					$k = round($jmlrealisasi/$jmlrpd*100,2);
 					$data = array(
 						'thang' => $thang,
 						'bulan' => format_bulan($bulan),
-						'jmlrpd' => $rpd->jmlrpd,
+						'jmlrpd' => $jmlrpd,
 						'jmlrealisasi' => $jmlrealisasi,
 						'k' => $k,
-						'kddept' => $konsistensi->kddept,
-						'kdunit' => $konsistensi->kdunit,
-						'kdsatker' => $konsistensi->kdsatker,
-						'kdprogram' => $konsistensi->kdprogram
+						'kddept' => $kddept,
+						'kdunit' => $kdunit,
+						'kdsatker' => $kdsatker,
+						'kdprogram' => $kdprogram
 					);
-					$check_data = $this->check_tb_konsistensi($thang, format_bulan($bulan), $konsistensi->kddept, $konsistensi->kdunit, $konsistensi->kdprogram, $konsistensi->kdsatker);
+					$check_data = $this->check_tb_konsistensi($thang, format_bulan($bulan), $kddept, $kdunit, $kdprogram, $kdsatker);
 					if(!$check_data):
 						$this->db->insert('tb_konsistensi',$data);
 					else:
-						$this->db->query('
-							update tb_konsistensi set jmlrpd='.$rpd->jmlrpd.', jmlrealisasi='.$jmlrealisasi.', k='.$k.' where id='.$check_data.'
-						');
+						$this->db->where('thang',$thang)
+							->where('bulan',format_bulan($bulan))
+							->where('kddept',$kddept)
+							->where('kdunit',$kdunit)
+							->where('kdsatker',$kdsatker)
+							->where('kdprogram',$kdprogram)
+							->update('tb_konsistensi',$data);
 					endif;
-					echo '<b>CRON '.$i.' : </b>';
-					echo 'tahun : '.$thang.' | ';
-					echo 'bulan : '.format_bulan($bulan).' | ';
-					echo 'dept : '. $konsistensi->kddept.' | ';
-					echo 'unit : '. $konsistensi->kdunit.' | ';
-					echo 'satker : '. $konsistensi->kdsatker.' | ';
-					echo 'program : '. $konsistensi->kdprogram.' | ';
-					echo 'rpd kumulatif : '. $rpd->jmlrpd.' | ';
-					echo 'realisasi kumulatif : '. $rpd->jmlrpd.' | ';
-					echo 'konsistensi : '. $k.' <hr> ';
-					$i++;
 				endfor;
 			endforeach;
+			return true;
+		else:
+			return false;
 		endif;
+		
 	}
 
 	// pencapaian keluaran
@@ -267,11 +218,11 @@ class Mcron extends CI_Model
 		if(!isset($kddept) && !isset($kdunit) && !isset($kdsatker) && !isset($kdprogram) && !isset($kdgiat) && !isset($kdoutput)):
 			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
                 'from tb_real_output sr '.
-                'where substring(tgldok,1,4) = '.$thang. ' ';
+                'where year(tgldok) = '.$thang. ' ';
 		else:
 			$sql = 'select sr.kddept,sr.kdunit,sr.kdsatker,sr.kdprogram,sr.kdgiat,sr.kdoutput,sr.tvk, sr.rvk '.
                 'from tb_real_output sr '.
-                'where substring(tgldok,1,4) = '.$thang. ' ';
+                'where year(tgldok) = '.$thang. ' ';
 		endif;
 		
         if(isset($bulan)):
@@ -321,13 +272,10 @@ class Mcron extends CI_Model
 	public function cron_keluaran($thang)
 	{
 		for($bulan=1;$bulan<=12;$bulan++):
-			$bulan_ke = $bulan;
-			if($bulan<10):
-				$bulan_ke = '0'.$bulan;
-			endif;
+			
 			$total_persen = 0;
 			$i = 0;
-			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, $bulan_ke)->result();
+			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, format_bulan($bulan))->result();
 			if($data_bulanan):
 				foreach($data_bulanan as $keluaran):
 					$i++;
@@ -337,7 +285,7 @@ class Mcron extends CI_Model
 				endforeach;
 				$data = array(
 					'thang' => $thang,
-					'bulan' => $bulan_ke,
+					'bulan' => format_bulan($bulan),
 					'pk' => round($total_persen/$i,2),
 					'kddept' => $keluaran->kddept,
 					'kdunit' => $keluaran->kdunit,

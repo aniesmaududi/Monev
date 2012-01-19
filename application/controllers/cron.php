@@ -15,9 +15,15 @@ class Cron extends CI_Controller
 		//echo "cron aspek penyerapan sukses";
 	}
 	
-	function cron_konsistensi($thang="2011")
+	function cron_konsistensi($thang="2011",$limit=null, $offset=null)
 	{
-		$this->mcron->cron_konsistensi($thang);
+		$limit = (isset($limit)) ? $limit: 10;
+		$offset = (isset($offset)) ? $offset: 0;
+		$cron_proses = $this->mcron->cron_konsistensi($thang, $limit, $offset);
+		if($cron_proses):
+			$next_offset = $offset+$limit;
+			$this->cron_konsistensi($thang,$limit,$next_offset);
+		endif;
 		//echo "cron aspek konsistensi sukses";
 	}
 	

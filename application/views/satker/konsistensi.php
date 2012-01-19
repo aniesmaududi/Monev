@@ -13,7 +13,7 @@
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
 					<div class="filter-option-box">
-						<?php $this->view('dja/filter-box')?>
+						<?php $this->view('satker/filter-box')?>
 					</div>
 					<?php if($konsistensi):?>
 					<table id="report">

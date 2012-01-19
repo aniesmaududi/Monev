@@ -30,6 +30,8 @@
 				<input type="hidden" name="kdoutput_<?php echo $i;?>" value="<?php echo $row['kdoutput'];?>"/>
 				<input type="hidden" name="tvk_<?php echo $i;?>" value="<?php echo $row['vol'];?>"/>
 				<input type="hidden" name="sat_<?php echo $i;?>" value="<?php if(isset($row['sat'])) echo $row['sat'];?>"/>				
+
+				
 				
 				<div class="box-normal box-end">					
 					<div class="column6"><?php echo $row['nmoutput'].' ('.$row['sat'].')';?></div>

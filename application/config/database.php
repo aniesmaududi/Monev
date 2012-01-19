@@ -4,7 +4,7 @@
 | DATABASE CONNECTIVITY SETTINGS
 | -------------------------------------------------------------------
 | This file will contain the settings needed to access your database.
-| 
+|
 | For complete instructions please consult the 'Database Connection'
 | page of the User Guide.
 |
@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'bondowoso';
+$db['default']['password'] = '';
 $db['default']['database'] = 'db_monev';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
