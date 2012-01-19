@@ -16,7 +16,8 @@ class Kementrian extends CI_Controller {
 		$this->load->model('mkementrian');		
 		$this->load->model('mdja');
 		//keperluan chart
-		$this->data['kddept'] = $this->session->userdata('kddept'); // 015
+		$this->data['kddept'] = $this->session->userdata('kddept');
+		$this->data['kdsatker'] = null;
 		$this->_iskl = FALSE;
 	}
 	
@@ -43,9 +44,9 @@ class Kementrian extends CI_Controller {
         endif;
 		
 		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		
 		$this->data['template'] = 'kementrian/index';
 		$this->load->view('index', $this->data);
@@ -122,11 +123,8 @@ class Kementrian extends CI_Controller {
 			$this->data['kdsatker'] = $_POST['kdsatker'];
 		}
 		
-		
 		$this->data['konsistensi'] = get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
-                
-        $this->data['template'] = 'kementrian/konsistensi';            
-        
+        $this->data['template'] = 'kementrian/konsistensi';
         $this->load->view('index', $this->data);
 	}
 	
@@ -159,17 +157,15 @@ class Kementrian extends CI_Controller {
             $this->data['kdprogram'] = $_POST['kdprogram'];    
 			$this->data['giat'] = get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
         }
-		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+		if((isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
         {
-            $this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
             $this->data['kdprogram'] = $_POST['kdprogram'];    
 			$this->data['kdgiat'] = $_POST['kdgiat'];
         }
 		
 		$this->load->library('pagination');
 		$this->data['halaman']	= abs((int)$this->uri->segment(3));
-		$config['base_url'] 	= base_url().'dja/keluaran/';
+		$config['base_url'] 	= base_url().'kementrian/keluaran/';
 		$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdgiat']));
 		$config['per_page'] 	= 15; 
 		$config['cur_page'] 	= $this->data['halaman'];
@@ -213,10 +209,6 @@ class Kementrian extends CI_Controller {
 		
 		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
 		
-		
-		$this->data['n'] = count($this->data['output']);
-        
-        
         $this->data['template'] = 'kementrian/efisiensi';    
         $this->load->view('index', $this->data);
 	}

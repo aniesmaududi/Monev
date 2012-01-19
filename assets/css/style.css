@@ -496,16 +496,9 @@ table.login tr td.words
 
 #upload2-box
 {
-	background: #d1d1d1; /* Old browsers */
-	background: -moz-linear-gradient(top, #d1d1d1 0%, #ebebeb 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1d1d1), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* IE10+ */
-	background: linear-gradient(top, #d1d1d1 0%,#ebebeb 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
+	background: #323232; /* Old browsers */
 	padding: 10px 10px 10px 10px;
-	border: 1px solid #bebebe;
+	border: 1px solid #323232;
 	-moz-border-radius-bottomleft: 5px;
 	-moz-border-radius-bottomright: 5px;
 	-webkit-border-radius: 0px 0px 5px 5px;

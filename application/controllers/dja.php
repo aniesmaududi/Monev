@@ -10,13 +10,6 @@ class Dja extends CI_Controller
         $this->data['title'] = '';
         //get user DJA model
         $this->load->model('mdja');
-		$this->data['dashboard_menu_link'] =  base_url().'dja/';
-        
-        //keperluan chart
-        $this->_kdunit = "11"; // 11
-        $this->_kddept = "018"; // 015
-        $this->_iskl = FALSE;
-		
     }
     
     function index()
@@ -26,6 +19,7 @@ class Dja extends CI_Controller
         $this->data['kddept'] = null;
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;
+		$this->data['kdsatker'] = null;
 		$this->data['thang'] = '2011';
 		if(isset($_POST['thang']) && $_POST['thang'] != 0):
 			$this->data['thang'] = $_POST['thang'];
@@ -49,9 +43,9 @@ class Dja extends CI_Controller
         endif;
 		
 		$this->data['penyerapan'] = get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
-		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
 		
         $this->data['template'] = 'dja/index';
         $this->load->view('index', $this->data);

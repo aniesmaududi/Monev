@@ -11,7 +11,7 @@
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
 				<div class="filter-option-box">
-					<?php $this->view('kementrian/filter-box')?>
+					<?php $this->view('eselon/filter-box')?>
 				</div>
 				<?php if($output):?>
 					<table id="report">
