@@ -4,16 +4,8 @@
 								<td>:</td>
 								<td>
 								<form name="form1" action="" method="POST">					
-									<select name="kddept" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEMENTERIAN" tabindex="1">
-										<option value="0" selected="selected">SEMUA KEMENTERIAN</option>
-										<?php					
-										foreach ($dept as $item):
-											if($kddept == $item['kddept']){ $selected = 'selected';} else { $selected = "";}
-										?>
-											<option value="<?php echo $item['kddept'];?>" <?php echo $selected;?>>
-											<?php echo $item['kddept'];?> &mdash; <?php echo $item['nmdept'];?>
-											</option>				
-										<?php endforeach; ?>
+									<select name="kddept" onchange="this.form.submit();" class="chzn-select" style="width:519px" disabled=disabled data-placeholder="PILIH KEMENTERIAN" tabindex="1">
+										<option value="<?php echo $kddept?>"><?php echo get_detail_data('t_dept',array('kddept'=>$kddept),'nmdept');?></option>
 									</select>					
 								</form>
 								</td>
@@ -25,14 +17,14 @@
 								<td>
 								<form name="form2" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
-									<select name="kdunit" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH ESELON" tabindex="2">
+									<select name="kdunit" onchange="this.form.submit();" class="chzn-select" style="width:519px" data-placeholder="PILIH ESELON" tabindex="2">
 										<option value="0" selected="selected">SEMUA ESELON</option>
 										<?php
 										foreach ($unit as $item):
-											if($kdunit == $item['kdunit']){ $selected = 'selected';} else { $selected = "";}
+											if($kdunit == $item->kdunit){ $selected = 'selected';} else { $selected = "";}
 										?>
-										<option value="<?php echo $item['kdunit'];?>" <?php echo $selected;?>>
-										<?php echo $item['kdunit'];?> &mdash; <?php echo $item['nmunit'];?>
+										<option value="<?php echo $item->kdunit;?>" <?php echo $selected;?>>
+										<?php echo $item->kdunit;?> &mdash; <?php echo $item->nmunit;?>
 										</option>				
 									<?php endforeach ?>
 									</select>					
@@ -48,14 +40,14 @@
 								<form name="form3" action="" method="POST">
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
-									<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH PROGRAM" tabindex="3">
+									<select name="kdprogram" onchange="this.form.submit();" class="chzn-select" style="width:519px" data-placeholder="PILIH PROGRAM" tabindex="3">
 										<option value="0" selected="selected">SEMUA PROGRAM</option>
 										<?php
 										foreach ($program as $item):
-											if($kdprogram == $item['kdprogram']){ $selected = 'selected';} else { $selected = "";}
+											if($kdprogram == $item->kdprogram){ $selected = 'selected';} else { $selected = "";}
 										?>
-										<option value="<?php echo $item['kdprogram'];?>" <?php echo $selected;?>>
-										<?php echo $item['kdprogram'];?> &mdash; <?php echo $item['nmprogram'];?>
+										<option value="<?php echo $item->kdprogram;?>" <?php echo $selected;?>>
+										<?php echo $item->kdprogram;?> &mdash; <?php echo $item->nmprogram;?>
 										</option>				
 									<?php endforeach ?>
 									</select>					
@@ -72,14 +64,14 @@
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
 									<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>
-									<select name="kdsatker" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH SATKER" tabindex="3">
+									<select name="kdsatker" onchange="this.form.submit();" class="chzn-select" style="width:519px" data-placeholder="PILIH SATKER" tabindex="3">
 										<option value="0" selected="selected">SEMUA SATKER</option>
 										<?php
 										foreach ($satker as $item):
-											if($kdsatker == $item['kdsatker']){ $selected = 'selected';} else { $selected = "";}
+											if($kdsatker == $item->kdsatker){ $selected = 'selected';} else { $selected = "";}
 										?>
-										<option value="<?php echo $item['kdsatker'];?>" <?php echo $selected;?>>
-										<?php echo $item['kdsatker'];?> &mdash; <?php echo $item['nmsatker'];?>
+										<option value="<?php echo $item->kdsatker;?>" <?php echo $selected;?>>
+										<?php echo $item->kdsatker;?> &mdash; <?php echo $item->nmsatker;?>
 										</option>				
 									<?php endforeach ?>
 									</select>					
@@ -96,7 +88,7 @@
 									<input type="hidden" name="kddept" value="<?php echo $kddept;?>"/>
 									<input type="hidden" name="kdunit" value="<?php echo $kdunit;?>"/>
 									<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>
-									<select name="kdgiat" onchange="this.form.submit();" class="chzn-select" data-placeholder="PILIH KEGIATAN" tabindex="3">
+									<select name="kdgiat" onchange="this.form.submit();" class="chzn-select" style="width:519px" data-placeholder="PILIH KEGIATAN" tabindex="3">
 										<option value="0" selected="selected">PILIH KEGIATAN</option>
 										<?php
 										foreach ($giat as $item):
