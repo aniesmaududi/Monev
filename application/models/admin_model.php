@@ -78,4 +78,59 @@ class Admin_model extends CI_Model
 		$this->db->where('id',$id)->update('tb_user',$data);
 	}
 	
+	//-------
+	function add_user()
+	{
+	$userid = $this->input->post('userid');
+	$nama =  $this->input->post('nama');
+	$pass = $this->input->post('passwd');
+	$jabid = $this->input->post('jabid');
+
+	if($this->input->post('kddept'))
+	$kddept = $this->input->post('kddept');
+	else
+	$kddept='';
+	
+	if($this->input->post('kdunit'))
+	$kdunit = $this->input->post('kdunit');
+	else
+	$kdunit='';
+
+	if($this->input->post('kdsatker'))
+	$kdsatker = $this->input->post('kdsatker');
+	else
+	$kdsatker='';
+	
+	$sql = 'INSERT into tb_user(userid,nama,passwd,jabid,kddept,kdunit,kdsatker)
+			VALUES ("'.$userid.'", "'.$nama.'", md5("'.$pass.'"), "'.$jabid.'", "'.$kddept.'", "'.$kdunit.'", "'.$kdsatker.'");';
+	$this->db->query($sql);
+	}
+	
+	function delete_user($id)
+	{
+	$sql = 'UPDATE tb_user SET  status="N" WHERE id='.$id.';';
+	$this->db->query($sql);
+	}
+	//---
+	function get_departemen($id)
+	{
+	$sql = 'SELECT kddept, nmdept from t_dept;';
+	$query = $this->db->query($sql);
+	return $query->result();
+	
+	}
+	function get_unit($id)
+	{
+	$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit from t_dept d, t_unit u WHERE u.kddept=d.kddept AND u.kddept='.$id;
+	$query = $this->db->query($sql);
+	return $query->result();
+	
+	}
+	function get_satker($idd,$idu)
+	{
+	$sql = 'SELECT d.kddept, d.nmdept, u.kdunit, u.nmunit, s.kdsatker, s.nmsatker from t_dept d, t_unit u, t_satker s WHERE u.kddept=d.kddept AND s.kdunit=u.kdunit AND s.kddept=d.kddept AND s.kdunit='.$idu.' AND s.kddept='.$idd;
+	$query = $this->db->query($sql);
+	return $query->result();
+	
+	}
 }

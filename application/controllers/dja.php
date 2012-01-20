@@ -62,35 +62,47 @@ class Dja extends CI_Controller
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;    
         
-        if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+        if(empty($thang))
+        {
+            $thang = '2011';
+        }
+		$this->data['thang'] = $thang;
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null; 
+		$this->data['kdsatker'] = null;		
+        
+		if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
+		if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
             $this->data['kddept'] = $_POST['kddept'];
-            $this->data['unit'] = get_eselon($this->data['kddept']);
+            $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
         }
         if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
         }
         if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
             $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['satker'] = $this->mdja->get_satker($this->data['kddept'], $this->data['kdunit']);
         }
-        
-		$thang = $this->input->post('thang');
-		if(empty($thang))
-		{
-			//$thang = date("Y");
-			$thang = '2011';
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
+        {
+			$this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['kdsatker'] = $_POST['kdsatker'];
 		}
-		$kddept = $this->data['kddept'];
-		$kdunit = $this->data['kdunit'];
-		$kdprogram = $this->data['kdprogram'];
-		
-		$this->data['penyerapans'] = $this->mdja->get_penyerapan($thang,$kddept,$kdunit,$kdprogram)->result();
+        
+        $this->data['penyerapans'] = $this->mdja->get_penyerapan($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'])->result();
         $this->data['template'] = 'dja/penyerapan';  
         $this->load->view('index', $this->data);
     }

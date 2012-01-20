@@ -16,7 +16,7 @@
 					<div class="column5">Realisasi</div>
 					<div class="clearfix"></div>
 				</div><!-- end of box-title -->
-				<?php echo form_open('satker/do_real_output');?>
+				<?php echo form_open('eselon/do_output_approval');?>
 				
 				<input type="hidden" name="kdprogram" value="<?php echo $kdprogram;?>"/>				
 				<input type="hidden" name="kdgiat" value="<?php echo $kdgiat;?>"/>
@@ -31,27 +31,12 @@
 				<input type="hidden" name="tvk_<?php echo $i;?>" value="<?php echo $row['vol'];?>"/>
 				<input type="hidden" name="sat_<?php echo $i;?>" value="<?php if(isset($row['sat'])) echo $row['sat'];?>"/>				
 
-				
-				
 				<div class="box-normal box-end">					
 					<div class="column6"><?php echo $row['nmoutput'].' ('.$row['sat'].')';?></div>
 					<div class="column2"><?php echo $row['vol'];?></div>
-					<div class="column5">
-						<!-- data rvk -->
-						<?php
-						$rvk = "";
-						$disabled = "";
-						if(isset($row['rvk'])){
-							$rvk = $row['rvk'];							
-							if($row['accsatker'] == 1){ $disabled = 'disabled';}
-						}
-						?>						
-						<input type="text" name="rvk_<?php echo $i;?>" class="realisasi" value="<?php echo $rvk;?>" <?php echo $disabled;?>/>	
-						
-					</div>
+					<div class="column5"><?php echo $row['rvk'];?></div>						
 					<div class="clearfix"></div>
 				</div><!-- end of box-content -->
-				
 				<div class="box-subset-title">IKK <?php echo $row['nmoutput'];?> :</div>
 				
 				<?php foreach($ikk as $row1):?>
@@ -60,9 +45,38 @@
 					<div class="column2"><div class="subset"></div></div>
 					<div class="column5"></div>
 					<div class="clearfix"></div>
-				</div><!-- end of box-content -->
+				</div><!-- end of box-content -->							
+				<?php endforeach; // end of ikk foreach ?>
 				
-				<?php endforeach; // end of ikk foreach
+				<div align="right">
+				<?php
+					if($row['accsatker'] == 1 && $row['accunit'] == 1 && $row['accdept'] == 0){
+					  echo '<img src="'.ASSETS_DIR_IMG.'done.png">
+					<p>[Dalam proses : K/L]</p>';	
+						
+					} elseif($row['accsatker'] == 1 && $row['accunit'] == 1 && $row['accdept'] == 1){
+					  echo '<img src="'.ASSETS_DIR_IMG.'done.png">
+					<p>[FINAL]</p>';	
+					
+					} else {
+						if($row['accdept_date'] != "0000-00-00 00:00:00")
+						{ echo '<img src="'.ASSETS_DIR_IMG.'notdone.png">
+						<p>Dikembalikan oleh K/L</p>'; }
+						elseif($row['accunit_date'] != "0000-00-00 00:00:00" && $row['accdept_date'] == "0000-00-00 00:00:00")
+						{ echo '<img src="'.ASSETS_DIR_IMG.'notdone.png">
+						<p>Dikembalikan ke Satker</p>'; }
+						else
+						{
+					?>
+					Disahkan <input type="radio" name="status_<?php echo $i;?>" value="ok"/><br>
+					Tidak disahkan <input type="radio" name="status_<?php echo $i;?>" value="nok" checked/>				
+					<?php
+						}
+					}
+					?>
+				</div>
+				
+				<?php
 				$i++;
 				endforeach; // end of output foreach
 				$n = $i-1;	
@@ -70,27 +84,17 @@
 				<input type="hidden" name="n" value="<?php echo $n;?>"/>
 				
 				<?php
-				if($row['accsatker'] == 1)
+				if($row['accunit'] == 1)
 				{
-					if($row['accunit'] == 0)
+					if($row['accdept'] == 0)
 					{
-						$message = "Data dalam proses Eselon I";
+						$message = "Data dalam proses K/L";
 					}
-					elseif($row['accunit'] == 1 && $row['accdept'] == 0)
-					{
-						$message = "Data dalam proses Kementerian";	
-					}
-				?>
-				<div style="margin-top:20px;margin-bottom:0;" class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">
-					<a class="close" href="#">&times;</a>
-					<p><?php echo $message;?></p>
-				</div>	
-				<?php
 				} else {
 				?>
-				<!--<input type="submit" name="submit" value="Proses" id="incomplete" class="blackbg"/>-->
+				
 				<input type="submit" name="submit" value="Proses" class="blackbg"/>
-				<input type="submit" name="submit" value="Simpan" class="blackbg"/>
+				
 				<?php } ?>
 				</form>
 				<br/>

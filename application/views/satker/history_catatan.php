@@ -1,8 +1,7 @@
-			<?php $this->view('_charts');?>
 			<h1><?php echo(isset($title))?$title:'Dashboard Satker';?></h1>
 			<div id="search-box">
 				<p><?php echo(isset($subtitle))?$subtitle:'Catatan Satker';?>
-				Lihat <a href="satker/history_catatan"> Rekaman Catatan</a></p>
+				<a href="satker/catatan"> Tambah Catatan</a></p>
 			</div>
 			<div id="nav-box">
 				<!--
@@ -19,15 +18,19 @@
 				</div>
 				-->
 				<div class="box-content box-end">
-					<?php echo form_open('satker/do_catatan');?>
-					<input type="submit" name="submit" value="Simpan" class="blackbg"/>
-					<?php if($this->session->flashdata('message')):?>
-					<div class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">
-							<a class="close" href="#">&times;</a>
-							<p><?php echo $this->session->flashdata('message')?></p>
-					</div>
-					<?php endif;?>
-					<textarea id="comment" name="comment"></textarea>
-					</form>
+					<table id="report">
+						<thead>
+							<th>Catatan</th>
+							<th>Tgl. Input</th>							
+						</thead>
+						<tbody>
+							<?php foreach($catatan as $row): ?>
+							<tr>
+								<td align="left"><?php echo $row['catatan'];?></td>
+								<td align="center"><?php echo $row['tglupdate'];?></td>
+							</tr>
+							<?php endforeach ?>
+						</tbody>
+					</table>
 				</div>
 			</div>

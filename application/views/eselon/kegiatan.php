@@ -20,11 +20,11 @@
 				</div>
 				
 				<?php foreach($kegiatan as $row):?>
-				<a class="choice" href="satker/detail_giat/<?php echo $row['kdgiat'];?>"><div class="box-content box-end">
+				<a class="choice" href="eselon/detail_giat/<?php echo $row['kdgiat'];?>"><div class="box-content box-end">
 					<div class="box-content-left">
 					<h3><?php echo $row['nmgiat']?></h3>					
 					<br/>
-					<p>Terakhir diinput pada tanggal 15 Januari 2011 , 07:23:25</p>
+					<p>Terakhir diinput oleh Satker <?php echo $row['kdsatker'] .' -- '. $row['nmsatker'] ?> pada tanggal <?php echo $row['accsatker_date'];?></p>
 					</div><!-- end of box-content-left -->
 					
 					<div class="box-content-right">
