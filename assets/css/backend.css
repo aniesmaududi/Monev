@@ -330,3 +330,10 @@ table#report th, table#report .row-grey {
 	width:519px;
 }
 table.accessHide { position: absolute; left: -999999px; }
+.sampai-bulan{
+	line-height:20px;
+	display:inline-block;
+	position:relative;
+	top:-8px;
+	padding:0 5px;
+}

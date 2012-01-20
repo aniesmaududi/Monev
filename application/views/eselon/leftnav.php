@@ -22,7 +22,7 @@
 					-->
 				</ul>
 			</div><!-- end of navigation-list -->
-			<a class="navigation-title" href="eselon-monitoring.html">Monitoring</a>
+			<a class="navigation-title" <?php echo ($this->uri->segment(2)=='monitoring' || $this->uri->segment(2)=='mpenyerapan' || $this->uri->segment(2)=='mkonsistensi' || $this->uri->segment(2)=='mkeluaran' || $this->uri->segment(2)=='mefisiensi') ? 'id="active-main"': ''; ?> href="eselon-monitoring.html">Monitoring</a>
 			<div id="navigation-list">
 				<ul>
 					<li <?php if($this->uri->segment(2) == 'mpenyerapan'):echo 'id="active-list"';endif;?>><a href="eselon/mpenyerapan"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Penyerapan Anggaran</a></li>

@@ -342,7 +342,7 @@ class Mdja extends CI_Model
     }
 	
 	// laporan
-	public function get_penyerapan($thang='2011',$kddept=null,$kdunit=null,$kdprogram=null)
+	public function get_penyerapan($thang,$kddept=null,$kdunit=null,$kdprogram=null)
 	{
 		$sql = '
 			SELECT 
@@ -441,7 +441,7 @@ class Mdja extends CI_Model
 		return $this->db->query($sql);
 	}
 	
-	public function get_report_konsistensi($thang=null,$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null)
+	public function get_report_konsistensi($thang=null,$kddept=null,$kdunit=null,$kdprogram=null,$kdsatker=null,$bulan_awal=null,$bulan_akhir=null)
 	{
 		$sql = '
 			SELECT 
@@ -473,6 +473,14 @@ class Mdja extends CI_Model
 			$sql .= ' and kdsatker='.$kdsatker.' ';
 			$group .= ', kdsatker';
 		}
+		if(isset($bulan_awal)){
+			$sql .= ' and bulan>='.$bulan_awal.' ';
+		}
+		if(isset($bulan_awal) && isset($bulan_akhir)):
+			$sql .= ' and bulan>='.$bulan_awal.' and bulan<='.$bulan_akhir.' ';
+		elseif(!isset($bulan_awal) && isset($bulan_akhir)):
+			$sql .= ' bulan<='.$bulan_akhir.' ';
+		endif;
 		return $this->db->query($sql.$group.$order)->result();
 	}
 	

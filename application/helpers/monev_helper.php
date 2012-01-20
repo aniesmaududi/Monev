@@ -53,7 +53,13 @@ function format_bulan($i,$format="signed")
 		$array_bulan = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
 		if($format=="long"):
 			$bulan = $array_bulan[$i];
+		elseif($format=="long_from0"):
+			$i = ($i<10) ? substr($i,1,1) : $i;
+			$bulan = $array_bulan[$i];
 		elseif($format=="short"):
+			$bulan = substr($array_bulan[$i],0,3);
+		elseif($format=="short_from0"):
+			$i = ($i<10) ? substr($i,1,1) : $i;
 			$bulan = substr($array_bulan[$i],0,3);
 		endif;
 	endif;
@@ -181,6 +187,18 @@ function get_efisiensi($thang="2011",$kddept=null,$kdunit=null,$kdprogram=null,$
 		$sql .= 'and kdgiat='.$kdgiat.' ';
 	endif;
 	return $ci->db->query($sql)->row();
+}
+// untuk ambil data tahun anggaran
+function get_thang()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	$result = $ci->db->order_by('thang')->select('thang')->get('t_thang')->result();
+	if($result):
+		return $result;
+	else:
+		return false;
+	endif;
 }
 // untuk ambil detail data dari tabel tertentu
 function get_detail_data($table_name,$where,$return_data)

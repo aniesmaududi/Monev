@@ -10,6 +10,7 @@ class Dja extends CI_Controller
         $this->data['title'] = '';
         //get user DJA model
         $this->load->model('mdja');
+		$this->data['thang'] = '2011';
     }
     
     function index()
@@ -51,7 +52,8 @@ class Dja extends CI_Controller
         $this->load->view('index', $this->data);
     }
     
-    /*------------------------------------------- Penyerapan Anggaran ----------------------*/
+	/*------------------------------------------- LAPORAN -------------------------------------------------*/
+    /*------------------------------------------- Penyerapan Anggaran -------------------------------------*/
     public function penyerapan()
     {
         $this->data['title'] = 'Pengukuran Penyerapan Anggaran';        
@@ -93,7 +95,7 @@ class Dja extends CI_Controller
         $this->load->view('index', $this->data);
     }
     
-    /*---------------------Konsistensi antara Perencanaan dan Implementasi ----------------------*/
+    /*---------------------- Konsistensi antara Perencanaan dan Implementasi ------------------------------*/
     public function konsistensi()
     {
         $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
@@ -204,7 +206,7 @@ class Dja extends CI_Controller
         $this->load->view('index', $this->data);
     }
     
-    /*-------------------------------------- Pengukuran Efisiensi ----------------------------------*/
+    /*-------------------------------------- Pengukuran Efisiensi -----------------------------------------*/
     public function efisiensi()
     {
         $this->data['title'] = 'Pengukuran Efisiensi';    
@@ -242,4 +244,104 @@ class Dja extends CI_Controller
         $this->data['template'] = 'dja/efisiensi';    
         $this->load->view('index', $this->data);
     }
+	
+	/*-------------------------------------------- MONITORING ---------------------------------------------*/
+	/*------------------------------------------- Penyerapan Anggaran -------------------------------------*/
+	public function mpenyerapan()
+    {
+        $this->data['title'] = 'Monitoring Penyerapan Anggaran';        
+        $this->data['dept'] = $this->mdja->get_dept();
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;    
+        
+        if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['unit'] = get_eselon($this->data['kddept']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+        }
+        
+		if(isset($_POST['thang']) && $_POST['thang']!=''){ 
+			$this->data['thang'] = $_POST['thang']; 
+		}
+		
+		$this->data['penyerapans'] = $this->mdja->get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'])->result();
+        $this->data['template'] = 'dja/mpenyerapan';  
+        $this->load->view('index', $this->data);
+    }
+	
+	/*---------------------- Konsistensi antara Perencanaan dan Implementasi ------------------------------*/
+    public function mkonsistensi()
+    {
+        $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
+        $this->data['pengukuran'] = 'konsistensi';
+        $this->data['dept'] = $this->mdja->get_dept();
+		if(isset($_POST['thang']) && $_POST['thang']!=''){ 
+			$this->data['thang'] = $_POST['thang']; 
+		}
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null; 
+		$this->data['kdsatker'] = null;
+		$this->data['bulan_awal'] = null;
+		$this->data['bulan_akhir'] = null;
+        
+		if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
+		if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['satker'] = $this->mdja->get_satker($this->data['kddept'], $this->data['kdunit']);
+        }
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
+        {
+			$this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['kdsatker'] = $_POST['kdsatker'];
+		}
+		if(isset($_POST['bulan_awal']) && $_POST['bulan_awal']!=''){
+			$this->data['bulan_awal'] = $_POST['bulan_awal'];
+		}
+		if(isset($_POST['bulan_akhir']) && $_POST['bulan_akhir']!=''){
+			$this->data['bulan_akhir'] = $_POST['bulan_akhir'];
+			if(isset($this->data['bulan_awal']) && ($this->data['bulan_awal'] > $this->data['bulan_akhir'])){
+				$this->data['bulan_akhir'] = $this->data['bulan_awal'];
+			}
+		}
+		
+		$this->data['konsistensi'] = $this->mdja->get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker'],$this->data['bulan_awal'],$this->data['bulan_akhir']);
+                
+        $this->data['template'] = 'dja/mkonsistensi';            
+        
+        $this->load->view('index', $this->data);
+    }
+	
 }
