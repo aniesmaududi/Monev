@@ -14,7 +14,8 @@
         
 </div>
 <div id="upload2-box">
-	<form action="" method="POST">
-	<input type="submit" value="unggah berkas" class="custom-button2"/>
+<?php echo $cap_img.'<br>' ;?>
+<input type="text" name="captcha" value="" />
+	<input type="submit" name="submit" value="unggah berkas" class="custom-button2"/>
     </form>
 </div>
