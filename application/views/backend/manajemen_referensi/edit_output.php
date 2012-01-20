@@ -4,8 +4,8 @@
 			   <div class="clearfix">
 					<label>Nama Kegiatan</label>
                     <select name="KDGIAT">
-                    	<?php foreach(get_giat() as $giat): ?>
-                     <option value="<?php echo $giat->kdgiat;?>" <?php echo ($giat->kdgiat == $detail->KDGIAT)? 'selected=selected':'';?>><?php echo $giat->nmgiat;?></option>
+                    	<?php foreach(get_giat2() as $giat2): ?>
+                     <option value="<?php echo $giat2->kdgiat;?>" <?php echo ($giat2->kdgiat == $detail->KDGIAT)? 'selected=selected':'';?>><?php echo $giat2->nmgiat;?></option>
                         <?php endforeach;?>
                     </select>
 					</div>
