@@ -405,7 +405,7 @@ class Satker extends CI_Controller
 		'img_path' => './captcha/', 
 		'img_url' => base_url().'captcha/', 
 		'img_width' => 200, 
-		'img_height' => 60,		
+		'img_height' => 60, 
 		// 'font_path'    => '../system/fonts/2.ttf',
 		 'expiration' => 300 ,
 		);
@@ -419,7 +419,7 @@ class Satker extends CI_Controller
 			'ip_address' => $this->input->ip_address(),
 			'word' => $cap['word'] ,
 			);
-			$query = $this->db->insert_string('captcha',$data );
+			$query = $this ->db->insert_string('captcha',$data );
 			$this->db->query($query);
 		}else{
 			return "Umm captcha not work";
@@ -476,8 +476,9 @@ class Satker extends CI_Controller
 						$kd_lokasi = substr($code, 9, 2);
 						$kd_satker = substr($code, 12, 6);
 						$kd_thang = substr($code, 19, 21);
+						$check = substr($data['file_name'], 20, 7); //check jika di string tersebut mengandung 12_.rar
 
-						if($kd_thang!=0) //check format filename.. format pengecekan di cek lagi
+						if($check=='12_.rar') //check format filename.. format pengecekan di cek lagi
 						{ 
 							$code = $kd_kementrian . $kd_unit . $kd_lokasi . $kd_satker . '.' . $kd_thang;
 							$fp = fopen($data['full_path'], 'r');
@@ -502,6 +503,7 @@ class Satker extends CI_Controller
 							)); 
 
 							$filename = substr($data['file_name'], 0, 21);
+							$filename1 = substr($data['file_name'], 20, 7);
 					
 							$kd_file = $this->msatker->get_kd_file($filename);
 							foreach($kd_file as $hasil)
