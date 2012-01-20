@@ -459,7 +459,8 @@ class Satker extends CI_Controller
 			{
 		echo 'test';
 				$config['upload_path'] = './tmp/';
-				$config['allowed_types'] = 'rar';
+//				$config['allowed_types'] = 'rar';
+				$config['allowed_types'] = '*';
 				$config['overwrite'] = true;
 				$config['max_size'] = '4096';
 				$this->load->library('upload', $config);		
@@ -476,9 +477,9 @@ class Satker extends CI_Controller
 						$kd_lokasi = substr($code, 9, 2);
 						$kd_satker = substr($code, 12, 6);
 						$kd_thang = substr($code, 19, 21);
-						$check = substr($data['file_name'], 19, 8); //check jika di string tersebut mengandung 12_.rar
+						$check = substr($data['file_name'], 19, 3); //check jika di string tersebut mengandung 12_.rar
 
-						if($check=='.12_.rar') //check format filename.. format pengecekan di cek lagi
+						if($check=='.12') //check format filename.. format pengecekan di cek lagi mungkin perlu ditambahkan kddept, kdunit dan kdsatker, atau juga yang lain
 						{ 
 							$code = $kd_kementrian . $kd_unit . $kd_lokasi . $kd_satker . '.' . $kd_thang;
 							$fp = fopen($data['full_path'], 'r');
@@ -488,7 +489,7 @@ class Satker extends CI_Controller
 
 							$code2 = substr($data['file_name'], 0, 19);
 							$this->db->insert('tb_upload', array(
-								'filename' => $data['file_name'],
+								'filename' => $data['file_name'].'.rar',
 								'length' => $_FILES['file']['size'],
 								'data' => $content,
 								'code' => $code . '.' . $kd_thang,
