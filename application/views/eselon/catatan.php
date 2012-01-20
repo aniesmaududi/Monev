@@ -1,8 +1,8 @@
 			<?php $this->view('_charts');?>
-			<h1><?php echo(isset($title))?$title:'Dashboard Satker';?></h1>
+			<h1><?php echo(isset($title))?$title:'Catatan Eselon';?></h1>
 			<div id="search-box">
-				<p><?php echo(isset($subtitle))?$subtitle:'Catatan Satker';?>
-				Lihat <a href="satker/history_catatan"> Rekaman Catatan</a></p>
+				<p><?php echo(isset($subtitle))?$subtitle:'Catatan Eselon';?>
+				Lihat <a href="eselon/history_catatan"> Rekaman Catatan</a></p>
 			</div>
 			<div id="nav-box">
 				<!--
@@ -19,7 +19,7 @@
 				</div>
 				-->
 				<div class="box-content box-end">
-					<?php echo form_open('satker/do_catatan');?>
+					<?php echo form_open('eselon/do_catatan');?>
 					<input type="submit" name="submit" value="Simpan" class="blackbg"/>
 					<?php if($this->session->flashdata('message')):?>
 					<div class="alert-message <?php echo $this->session->flashdata('message_type')?> no-margin-bottom" data-alert="alert">

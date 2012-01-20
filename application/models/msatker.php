@@ -171,6 +171,43 @@ class Msatker extends CI_Model
         return $query->row_array();
     }
     
+    public function get_satker_program_revisi($kddept, $kdunit, $kdsatker)
+    {
+        //Get program list from table tb_real_output by kdsatker, kdunit, and kddept
+        $query = $this->db->query('SELECT distinct output.kdsatker, output.kdprogram, output.kdunit, output.kddept, program.nmprogram '.
+                                  'from tb_real_output output, t_program program '.
+                                  'where output.kdprogram=program.kdprogram '.
+                                  'and output.kdunit=program.kdunit '.
+                                  'and output.kddept=program.kddept '.
+                                  'and output.kdunit='.$kdunit.' '.
+                                  'and output.kddept='.$kddept.' '.
+                                  'and output.kdsatker='.$kdsatker.' '.
+                                  'and output.accsatker=0 '.
+                                  'and output.accunit_date!="0000-00-00 00:00:00" ');
+        return $query->result_array();
+    }
+    
+    public function get_satker_kegiatan_revisi($kddept, $kdunit, $kdsatker, $kdprogram)
+    {
+        //Get kegiatan list from table d_output by kdprogram, kdsatker, kdunit, and kddept
+        $query = $this->db->query('select distinct output.kdsatker, output.kddept, output.kdunit, output.kdsatker, output.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat '.
+                                    'from tb_real_output output, t_giat giat, t_program program '.
+                                    'where output.kdgiat = giat.kdgiat '.
+                                    'and output.kdunit = giat.kdunit '.
+                                    'and output.kddept = giat.kddept '.
+                                    'and output.kdprogram = program.kdprogram '.
+                                    'and output.kdunit = program.kdunit '.
+                                    'and output.kddept = program.kddept '.
+                                    'and output.kddept='.$kddept.' '.
+                                    'and output.kdunit='.$kdunit.' '.                                 
+                                    'and output.kdsatker='.$kdsatker.' '.
+                                    'and output.kdprogram='.$kdprogram.' '.
+                                    'and output.accsatker=0 '.
+                                    'and output.accunit_date!="0000-00-00 00:00:00" ');        
+        
+        return $query->result_array();
+    }
+    
     public function get_output($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat)
     {
         $is_exist = $this->is_exist_real_output($kddept, $kdunit, $kdsatker, $kdprogram, $kdgiat);
@@ -551,5 +588,38 @@ class Msatker extends CI_Model
             } 
         } 
         return $number; 
+    }
+    
+    public function get_catatan()
+    {
+        $kddept = $this->session->userdata('kddept');
+        $kdunit = $this->session->userdata('kdunit');
+        $kdsatker = $this->session->userdata('kdsatker');
+        
+        $query = $this->db->query('select catatan, tglupdate from tb_catatan_satker '.
+                                  'where kdsatker = '.$kdsatker.' '.
+                                  'and kdunit = '.$kdunit.' '.
+                                  'and kddept = '.$kddept.' '.
+                                  'order by tglupdate desc');
+        return $query->result_array();
+        
+    }
+    
+    public function set_catatan()
+    {
+        $kddept = $this->session->userdata('kddept');
+        $kdunit = $this->session->userdata('kdunit');
+        $kdsatker = $this->session->userdata('kdsatker');
+        $text = $this->input->post('comment');
+        
+        $data = array(
+          'kdsatker' => $kdsatker,
+          'kdunit' => $kdunit,
+          'kddept' => $kddept,
+          'catatan' => $text,
+          'tglupdate' => date('Y-m-d H:i:s'),
+        );
+        $this->db->insert('tb_catatan_satker',$data);
+        $this->log->create('entry data', 'Satker '.$kdsatker.' add catatan');
     }
 }

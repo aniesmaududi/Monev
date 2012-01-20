@@ -35,7 +35,7 @@
 			<div class="clearfix"></div>
 		
 		</div><!-- end of content -->
-		<p id="copyright">Copyright &copy; <?php echo date('Y');?> Kementerian Keuangan RI - DJA</p>
+		<p id="copyright">Copyright &copy; 2011 Kementerian Keuangan RI - DJA</p>
 		</div><!-- end of container -->
 		<!-- javascript load below -->
 		
