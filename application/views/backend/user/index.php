@@ -1,4 +1,5 @@
 			<h1><?php echo $title;?></h1>
+		<?php echo form_open('backend/user/vtambahdata/'); echo form_submit('','Tambah'); ?>
 			<div id="search-box" style="min-height:400px;">
 				<?php if(count($users)>0):?>
 				<?php
@@ -7,6 +8,8 @@
 				endif;
 				?>
 					<table class="backend-table">
+						
+						</tr>
 						<thead>
 							<th>Username</th>
 							<th>Nama</th>
@@ -18,7 +21,8 @@
 							<td><?php echo $user->userid?></td>
 							<td><?php echo $user->nama?></td>
 							<td><?php echo $user->jabatan?></td>
-							<td><a href="<?php echo site_url('backend/user/edit/'.$user->id)?>" class="btn">Edit</a> <a href="" class="btn error">Hapus</a></td>
+							<td><a href="<?php echo site_url('backend/user/edit/'.$user->id)?>" class="btn">Edit</a> <a href="<?php echo site_url('backend/user/delete/'.$user->id)?>" class="btn error">Hapus</a></td>
+							
 						</tr>
 						<?php endforeach;?>
 					</table>

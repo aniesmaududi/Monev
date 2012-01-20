@@ -416,3 +416,10 @@ function get_kppn()
 	
 	return $kppn = $ci->db->get('t_kppn')->result();
 }
+function get_jabid()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $kppn = $ci->db->get('tb_jabatan')->result();
+}
