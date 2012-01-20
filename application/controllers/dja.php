@@ -62,47 +62,35 @@ class Dja extends CI_Controller
         $this->data['kdunit'] = null;
         $this->data['kdprogram'] = null;    
         
-        if(empty($thang))
-        {
-            $thang = '2011';
-        }
-		$this->data['thang'] = $thang;
-        $this->data['kddept'] = null;
-        $this->data['kdunit'] = null;
-        $this->data['kdprogram'] = null; 
-		$this->data['kdsatker'] = null;		
-        
-		if(isset($_POST['thang']) && $_POST['thang'] != 0)
-        {
-			$this->data['thang'] = $_POST['thang'];
-		}
-		if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+        if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
         {
             $this->data['kddept'] = $_POST['kddept'];
-            $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
+            $this->data['unit'] = get_eselon($this->data['kddept']);
         }
         if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
         }
         if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
         {
             $this->data['kddept'] = $_POST['kddept'];
             $this->data['kdunit'] = $_POST['kdunit'];
             $this->data['kdprogram'] = $_POST['kdprogram'];
-			$this->data['satker'] = $this->mdja->get_satker($this->data['kddept'], $this->data['kdunit']);
         }
-		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
-        {
-			$this->data['kddept'] = $_POST['kddept'];
-            $this->data['kdunit'] = $_POST['kdunit'];
-            $this->data['kdprogram'] = $_POST['kdprogram'];
-			$this->data['kdsatker'] = $_POST['kdsatker'];
-		}
         
-        $this->data['penyerapans'] = $this->mdja->get_penyerapan($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'])->result();
+		$thang = $this->input->post('thang');
+		if(empty($thang))
+		{
+			//$thang = date("Y");
+			$thang = '2011';
+		}
+		$kddept = $this->data['kddept'];
+		$kdunit = $this->data['kdunit'];
+		$kdprogram = $this->data['kdprogram'];
+		
+		$this->data['penyerapans'] = $this->mdja->get_penyerapan($thang,$kddept,$kdunit,$kdprogram)->result();
         $this->data['template'] = 'dja/penyerapan';  
         $this->load->view('index', $this->data);
     }
@@ -251,7 +239,7 @@ class Dja extends CI_Controller
         }
         
 		//get volume keluaran
-		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']); 
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'],null,0); 
         
         $this->data['template'] = 'dja/efisiensi';    
         $this->load->view('index', $this->data);
@@ -289,7 +277,7 @@ class Dja extends CI_Controller
 			$this->data['thang'] = $_POST['thang']; 
 		}
 		
-		$this->data['penyerapans'] = $this->mdja->get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'])->result();
+		$this->data['penyerapan'] = $this->mdja->get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'])->row();
         $this->data['template'] = 'dja/mpenyerapan';  
         $this->load->view('index', $this->data);
     }
@@ -353,6 +341,62 @@ class Dja extends CI_Controller
                 
         $this->data['template'] = 'dja/mkonsistensi';            
         
+        $this->load->view('index', $this->data);
+    }
+	
+	/*-------------------------------- Pengukuran Volume Keluaran -----------------------------------------*/
+    public function mkeluaran()
+    {
+		$this->data['title'] = 'Monitoring Tingkat Pencapaian Keluaran';
+        $this->data['dept'] = $this->mdja->get_dept();
+		if(isset($_POST['thang']) && $_POST['thang']!=''){ 
+			$this->data['thang'] = $_POST['thang']; 
+		}
+        $this->data['kddept'] = null;
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;
+		$this->data['kdsatker'] = null; 		
+		$this->data['kdgiat'] = null; 		
+        
+        if(isset($_POST['kddept']) && $_POST['kddept'] != 0)
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['unit'] = $this->mdja->get_unit($this->data['kddept']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = $this->mdja->get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['giat'] = $this->mdja->get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+        }
+		if((isset($_POST['kddept']) && $_POST['kddept'] != 0) && (isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kddept'] = $_POST['kddept'];
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
+		if(!isset($this->data['kdgiat'])):
+			$this->load->library('pagination');
+			$this->data['halaman']	= abs((int)$this->uri->segment(3));
+			$config['base_url'] 	= base_url().'dja/mkeluaran/';
+			$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']));
+			$config['per_page'] 	= 15; 
+			$config['cur_page'] 	= $this->data['halaman'];
+			$this->pagination->initialize($config);
+			$this->data['page'] 	= $this->pagination->create_links();
+			$this->data['output'] 	= $this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		else:
+			$this->data['output'] 	= $this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']);
+		endif;
+        $this->data['template'] = 'dja/mkeluaran';                 
         $this->load->view('index', $this->data);
     }
 	

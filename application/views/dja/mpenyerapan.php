@@ -95,7 +95,8 @@
 						</table>
 					</div>
 					<?php // if(isset($submitP)): ?>
-						<?php if($penyerapans):?>
+						<?php if($penyerapan):?>
+						
 						<table id="report">
 							<thead>
 								<th>Tahun Anggaran</th>
@@ -104,7 +105,6 @@
 								<th>Persentase</th>				
 							</thead>
 							<tbody>
-								<?php foreach($penyerapans as $penyerapan):?>
 								<tr>
 									<td align="center"><?php echo $penyerapan->tahun?></td>
 									<td align="right">
@@ -117,9 +117,13 @@
 										<?php echo $penyerapan->penyerapan?>%
 									</td>
 								</tr>
-								<?php endforeach;?>
 							</tbody>
 						</table>
+						<?php  $this->view('dja/_chart_penyerapan');?>
+						<br><br>
+						<div class="clearfix">
+						<div id="chart-container-penyerapan" class="chart-container"  style="width: 100%; float:left; height: 300px; margin: 0;"></div>
+						</div>
 						<?php else:?>
 							<p class="alert-message block-message error">Tidak ada data</p>
 						<?php endif; ?>

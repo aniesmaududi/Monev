@@ -206,7 +206,7 @@ class Mdja extends CI_Model
 		if(isset($kdsatker)){
         $sql .= 'and sr.kdsatker='.$kdsatker.' ';
         }
-		if(isset($kdgiat)){
+		if(isset($kdgiat) && $kdgiat!=0 ){
         $sql .= 'and sr.kdgiat='.$kdgiat.' ';
         }
         
@@ -226,7 +226,9 @@ class Mdja extends CI_Model
                 'and sr.kdoutput=output.kdoutput '.
                 'and sr.kdgiat=output.kdgiat '.
                 ' ';
+		if(!isset($kdgiat) && $kdgiat==0){
 		$sql .= ' group by sr.kddept,sr.kdunit,sr.kdprogram,sr.kdgiat,sr.kdsatker';
+		}
         if($limit):
 			$sql .=' limit '.$offset.','.$limit;
 		endif;
@@ -352,7 +354,7 @@ class Mdja extends CI_Model
 				p.nmprogram AS program, 
 				sum(pa.pagu) AS pagu, 
 				sum(pa.realisasi) AS realisasi,
-				round(avg(pa.p),2) AS penyerapan
+				round(sum(pa.realisasi)/sum(pa.pagu)*100,2) AS penyerapan
 			FROM tb_penyerapan_anggaran pa, t_unit u, t_dept d, t_program p
 			WHERE pa.thang = '.$thang.' 
 			AND pa.kddept = d.kddept
