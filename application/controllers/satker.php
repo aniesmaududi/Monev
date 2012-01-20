@@ -186,7 +186,7 @@ class Satker extends CI_Controller
     	$this->load->view('index',$this->data);
     }
     
-    function detail_giat($kode)
+    function detail_giat($kdgiat)
     {
     	//this part loads get_satker_program content according to satker's id 
     	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
@@ -195,22 +195,60 @@ class Satker extends CI_Controller
     	
     	//this part loads kegiatan
     	$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
-    	$this->data['nmgiat'] = $this->data['kegiatan'][0]['nmgiat'];
-    	$this->data['kdgiat'] = $this->data['kegiatan'][0]['kdgiat'];
-    	
+    	$this->data['kdgiat'] = $kdgiat;
+	$detail_giat = $this->msatker->get_detail_giat($kdgiat);
+	$this->data['nmgiat'] = $detail_giat['nmgiat'];
+
     	//this part loads output
-    	$this->data['output'] = $this->msatker->get_output($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kode);
+    	$this->data['output'] = $this->msatker->get_output($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
     	
-    	$this->data['ikk'] = $this->msatker->get_ikk($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kode);
+    	$this->data['ikk'] = $this->msatker->get_ikk($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
     	
    	$this->data['template'] = 'satker/detail_giat';
     	$this->load->view('index',$this->data);
     }
     
+    function revisi()
+    {
+    	//this part loads get_satker_program content according to satker's id 
+    	$this->data['program'] = $this->msatker->get_satker_program_revisi($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
+    	if($this->data['program']):
+			$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
+			$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
+			$this->data['revisi'] = $this->msatker->get_satker_kegiatan_revisi($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
+    	endif;
+    	//this part loads kegiatan
+    	
+    	$this->data['template'] = 'satker/revisi';
+    	$this->load->view('index',$this->data);
+    }
+    
+    function detail_revisi($kdgiat)
+    {
+    	//this part loads get_satker_program content according to satker's id 
+    	$this->data['program'] = $this->msatker->get_satker_program($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'));
+    	$this->data['nmprogram'] = $this->data['program'][0]['nmprogram'];
+    	$this->data['kdprogram'] = $this->data['program'][0]['kdprogram'];
+    	
+    	//this part loads kegiatan
+    	$this->data['kegiatan'] = $this->msatker->get_satker_kegiatan($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram']);
+    	$this->data['kdgiat'] = $kdgiat;
+	$detail_giat = $this->msatker->get_detail_giat($kdgiat);
+	$this->data['nmgiat'] = $detail_giat['nmgiat'];
+
+    	//this part loads output
+    	$this->data['output'] = $this->msatker->get_output($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
+    	
+    	$this->data['ikk'] = $this->msatker->get_ikk($this->session->userdata('kddept'),$this->session->userdata('kdunit'),$this->session->userdata('kdsatker'),$this->data['kdprogram'],$kdgiat);
+    	
+   	$this->data['template'] = 'satker/detail_giat';
+    	$this->load->view('index',$this->data);
+    }
     
     /*------------------------------ OUTPUT ------------------------------*/    
     public function do_real_output()
     {
+	$kdgiat = $this->input->post('kdgiat');
         $do = $this->input->post('submit');
         $this->msatker->set_real_output($do);
 
@@ -220,7 +258,7 @@ class Satker extends CI_Controller
             $message = "Data realisasi keluaran telah dieskalasi ke Eselon I.";
         }
 	$this->session->set_flashdata('message', $message);
-	redirect('satker/detail_giat');        
+	redirect('satker/detail_giat/'.$kdgiat);        
     }
 
     /*-------------------------------- IKK ---------------------------------*/
@@ -253,12 +291,46 @@ class Satker extends CI_Controller
 	*/
     }
 
-    /*-------------------------------- IKK ---------------------------------*/
+    /*-------------------------------- Catatan Satker ---------------------------------*/
     function catatan()
     {
         // untuk menulis catatan dari satker ke eselon terkait proses input, kendala, dan lain-lain
-		$this->data['template'] = 'satker/catatan';
+	$this->data['title'] = 'Catatan Penting';
+	$this->data['subtitle'] = 'Catatan ini untuk disampaikan kepada Eselon I perihal capaian kinerja, kendala, dan lain-lain.';
+		$this->data['thang'] = '2011';
+		if(isset($_POST['thang']) && $_POST['thang'] != 0):
+			$this->data['thang'] = $_POST['thang'];
+		endif;
+		$this->data['penyerapan'] = get_penyerapan($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']);
+		$this->data['konsistensi'] = get_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['keluaran'] = get_keluaran($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		$this->data['efisiensi'] = get_efisiensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker']);
+		
+	$this->data['template'] = 'satker/catatan';
     	$this->load->view('index',$this->data);
+    }
+    
+    function history_catatan()
+    {
+        // untuk menulis catatan dari satker ke eselon terkait proses input, kendala, dan lain-lain
+	$this->data['title'] = 'Rekaman Catatan';
+	$this->data['subtitle'] = 'Catatan ini untuk disampaikan kepada Eselon I perihal capaian kinerja, kendala, dan lain-lain.';
+	$this->data['catatan'] = $this->msatker->get_catatan();
+	$this->data['template'] = 'satker/history_catatan';
+    	$this->load->view('index',$this->data);
+    }
+    
+    public function do_catatan()
+    {		
+        $do = $this->input->post('submit');
+        $this->msatker->set_catatan($do);
+
+        if ($do == 'Simpan') {
+            $message = "Catatan Anda telah direkam untuk diteruskan ke Eselon I";
+        }
+	
+	$this->session->set_flashdata('message', $message);
+	redirect('satker/catatan/');	
     }
 
     /*-------------------------------- Upload ---------------------------------*/

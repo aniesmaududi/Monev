@@ -47,7 +47,7 @@ if(isset($logout)) echo $logout; ?>
 			</div>
 			</form>
 		</div>
-		<p id="copyright">Copyright &copy; <?php echo date('Y');?> Kementerian Keuangan RI - DJA</p>
+		<p id="copyright">Copyright &copy; 2011 Kementerian Keuangan RI - DJA</p>
 		</div>
 		<script src="<?php echo ASSETS_DIR_JS?>jquery-1.7.1.min.js"></script>
 		<script src="<?php echo ASSETS_DIR_JS?>bootstrap-alerts.js"></script>

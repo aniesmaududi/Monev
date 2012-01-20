@@ -105,7 +105,7 @@ class Mkementrian extends CI_Model
         return $query->result_array();
     }
     
-    public function get_unit_program_output($kddept)
+    public function get_unit_program($kddept)
     {
         //Get unit from tb_real_output
         $query = $this->db->query('select distinct output.kddept, output.kdunit, unit.nmunit, output.kdprogram, program.nmprogram '.
@@ -119,10 +119,10 @@ class Mkementrian extends CI_Model
         return $query->result_array();
     }
     
-    public function get_unit_kegiatan_output($kddept, $kdunit, $kdprogram)
+    public function get_unit_kegiatan($kddept, $kdunit, $kdprogram)
     {
         //Get kegiatan list from table tb_real_output by kdprogram, kdunit, and kddept
-        $query = $this->db->query('select distinct sr.kdsatker, sr.kddept, sr.kdunit, sr.kdsatker, sr.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat, satker.nmsatker '.
+        $query = $this->db->query('select distinct sr.kdsatker, sr.kddept, sr.kdunit, sr.kdsatker, sr.kdprogram, program.nmprogram, giat.kdgiat, giat.nmgiat, satker.nmsatker, sr.accsatker_date '.
                                     'from tb_real_output sr, t_giat giat, t_program program, t_satker satker '.
                                     'where sr.kdgiat = giat.kdgiat '.
                                     'and sr.kdunit = giat.kdunit '.
@@ -178,9 +178,9 @@ class Mkementrian extends CI_Model
     
     public function set_real_output_approval()
     {        
-        $kddept = $this->input->post('kddept');
-        $kdunit = $this->input->post('kdunit');
-        $kdsatker = $this->input->post('kdsatker');
+        $kddept = $this->session->userdata('kddept');
+        $kdunit = $this->session->userdata('kdunit');
+        $kdsatker = $this->session->userdata('kdsatker');
         $kdprogram = $this->input->post('kdprogram');
         $kdgiat = $this->input->post('kdgiat');
         $n = $this->input->post('n');
@@ -451,5 +451,41 @@ class Mkementrian extends CI_Model
         }
         
         return 1;
+    }
+    
+    public function get_catatan()
+    {
+        $kddept = $this->session->userdata('kddept');        
+        
+        $query = $this->db->query('select catatan, tglupdate from tb_catatan_kl '.                                                                    
+                                  'where kddept = '.$kddept.' '.
+                                  'order by tglupdate desc');
+        return $query->result_array();
+        
+    }
+    
+    public function get_catatan_eselon()
+    {
+        $kddept = $this->session->userdata('kddept');        
+        
+        $query = $this->db->query('select kdunit, catatan, tglupdate from tb_catatan_eselon '.                                                                    
+                                  'where kddept = '.$kddept.' '.
+                                  'order by tglupdate desc');
+        return $query->result_array();
+        
+    }
+    
+    public function set_catatan()
+    {
+        $kddept = $this->session->userdata('kddept');
+        $text = $this->input->post('comment');
+        
+        $data = array(          
+          'kddept' => $kddept,
+          'catatan' => $text,
+          'tglupdate' => date('Y-m-d H:i:s'),
+        );
+        $this->db->insert('tb_catatan_kl',$data);
+        $this->log->create('entry data', 'K/L '.$kddept.' add catatan');
     }
 }

@@ -4,7 +4,7 @@
 			<div class="navigation-list">
 				<ul>
 					<li <?php if($this->uri->segment(2) == 'kegiatan'):echo 'id="active-list"';endif;?>><a href="satker/kegiatan"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Semua Kegiatan</a></li>
-					<li><a href="#"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Perlu Perbaikan</a></li>
+					<li <?php if($this->uri->segment(2) == 'kegiatan'):echo 'id="active-list"';endif;?>><a href="satker/revisi"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Perlu Perbaikan</a></li>
 					<li <?php if($this->uri->segment(2) == 'catatan'):echo 'id="active-list"';endif;?>><a href="satker/catatan"><img src="<?php echo ASSETS_DIR_IMG.'arrow.png'?>"/> Catatan</a></li>
 				</ul>
 			</div><!-- end of navigation-list -->
