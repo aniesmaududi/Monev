@@ -150,7 +150,7 @@ class Queue extends CI_Controller
 		$this->load->model('mqueue');
 		
 		$this->mqueue->set_status($id);
-		redirect('backend/queue/proses1');
+		redirect('backend/queue/');
 	}
 	
 	function done()
