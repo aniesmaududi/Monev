@@ -79,12 +79,10 @@
 				<input type="hidden" name="n" value="<?php echo $n;?>"/>
 				
 				<?php
-				if($row['accunit'] == 1)
-				{
-					if($row['accdept'] == 0)
-					{
-						$message = "Data dalam proses K/L";
-					}
+				if($row['accdept'] == 1)
+				{ 
+					$message = "Telah dieskalasi ke DJA";
+					
 				} else {
 				?>
 				

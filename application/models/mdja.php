@@ -226,7 +226,9 @@ class Mdja extends CI_Model
                 'and sr.kdoutput=output.kdoutput '.
                 'and sr.kdgiat=output.kdgiat '.
                 ' ';
+                if(!isset($kdgiat)){
 		$sql .= ' group by sr.kddept,sr.kdunit,sr.kdprogram,sr.kdgiat,sr.kdsatker';
+                }
         if($limit):
 			$sql .=' limit '.$offset.','.$limit;
 		endif;
