@@ -405,7 +405,7 @@ class Satker extends CI_Controller
 		'img_path' => './captcha/', 
 		'img_url' => base_url().'captcha/', 
 		'img_width' => 200, 
-		'img_height' => 60, 
+		'img_height' => 60,		
 		// 'font_path'    => '../system/fonts/2.ttf',
 		 'expiration' => 300 ,
 		);
@@ -419,7 +419,7 @@ class Satker extends CI_Controller
 			'ip_address' => $this->input->ip_address(),
 			'word' => $cap['word'] ,
 			);
-			$query = $this ->db->insert_string('captcha',$data );
+			$query = $this->db->insert_string('captcha',$data );
 			$this->db->query($query);
 		}else{
 			return "Umm captcha not work";

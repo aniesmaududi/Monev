@@ -272,7 +272,7 @@ class Mcron extends CI_Model
 	public function cron_keluaran($thang)
 	{
 		for($bulan=1;$bulan<=12;$bulan++):
-			
+			$bulan_ke = $bulan;
 			$total_persen = 0;
 			$i = 0;
 			$data_bulanan = $this->get_volume_keluaran($thang,$kddept=null, $kdunit=null, $kdsatker=null, $kdprogram=null, $kdgiat=null, $kdoutput=null, format_bulan($bulan))->result();
@@ -298,7 +298,7 @@ class Mcron extends CI_Model
 					$this->db->insert('tb_keluaran',$data);
 				else:
 					$this->db->query('
-						update tb_keluaran set pk='.$pk.' where id='.$check_data.'
+						update tb_keluaran set pk='.round($total_persen/$i,2).' where id='.$check_data.'
 					');
 				endif;
 			endif;
