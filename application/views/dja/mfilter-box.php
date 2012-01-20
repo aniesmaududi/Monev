@@ -17,6 +17,7 @@
 								</form>
 								</td>
 							</tr>
+							<?php if($this->uri->segment(2)=='konsistensi'):?>
 							<tr>
 								<td width="150" class="bold">Bulan</td>
 								<td>:</td>
@@ -46,6 +47,7 @@
 								</form>
 								</td>
 							</tr>
+							<?php endif;?>
 							<tr>
 								<td width="150" class="bold">Kementrian / Lembaga</td>
 								<td>:</td>
@@ -110,7 +112,7 @@
 								</td>
 							</tr>
 							<?php endif; ?>
-							<?php if(($this->uri->segment(2)!='penyerapan' && $this->uri->segment(2)!='keluaran') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
+							<?php if(($this->uri->segment(2)!='mpenyerapan' && $this->uri->segment(2)!='mkeluaran') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
 							<tr>
 								<td width="150" class="bold">Satuan Kerja</td>
 								<td>:</td>
@@ -134,7 +136,7 @@
 								</td>
 							</tr>							
 							<?php endif;?>
-							<?php if(($this->uri->segment(2)!='penyerapan' && $this->uri->segment(2)=='keluaran') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
+							<?php if(($this->uri->segment(2)!='mpenyerapan' && $this->uri->segment(2)=='mkeluaran') && (isset($kddept) && $kddept != 0) && (isset($kdunit) && $kdunit != 0) && (isset($kdprogram) && $kdprogram != 0)): ?>
 							<tr>
 								<td width="150" class="bold">Kegiatan</td>
 								<td>:</td>
