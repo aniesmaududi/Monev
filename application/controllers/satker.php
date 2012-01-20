@@ -479,7 +479,7 @@ class Satker extends CI_Controller
 						$kd_thang = substr($code, 19, 21);
 						$check = substr($data['file_name'], 19, 3); //check jika di string tersebut mengandung 12_.rar
 
-						if($check=='.12') //check format filename.. format pengecekan di cek lagi mungkin perlu ditambahkan kddept, kdunit dan kdsatker, atau juga yang lain
+						if($check=='.12'&&substr($data['file_name'], 22, 99)=='') //check format filename.. format pengecekan di cek lagi mungkin perlu ditambahkan kddept, kdunit dan kdsatker, atau juga yang lain
 						{ 
 							$code = $kd_kementrian . $kd_unit . $kd_lokasi . $kd_satker . '.' . $kd_thang;
 							$fp = fopen($data['full_path'], 'r');

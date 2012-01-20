@@ -625,7 +625,7 @@ class Msatker extends CI_Model
 	
 	function get_kd_file($name)
 	{
-	$sql = 'SELECT id, filename from tb_upload where filename LIKE "%'.$name.'%" ORDER BY filename ASC LIMIT 1;';
+	$sql = 'SELECT id, filename from tb_upload where filename LIKE "%'.$name.'%" ORDER BY id DESC LIMIT 1;';
 	$query = $this->db->query($sql);
 	return $query->result();
 	}
