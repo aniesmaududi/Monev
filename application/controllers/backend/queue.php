@@ -186,5 +186,5 @@ class Queue extends CI_Controller
 		$this->mqueue->download($id);
 		else
 		redirect('backend/queue/fail');
-	}
+	} 
 }
