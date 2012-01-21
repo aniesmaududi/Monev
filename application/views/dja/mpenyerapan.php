@@ -119,7 +119,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<?php  $this->view('dja/_chart_penyerapan');?>
+						<?php  $this->view('chart/_chart_penyerapan');?>
 						<br><br>
 						<div class="clearfix">
 						<div id="chart-container-penyerapan" class="chart-container"  style="width: 100%; float:left; height: 300px; margin: 0;"></div>

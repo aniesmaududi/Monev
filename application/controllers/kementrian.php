@@ -16,8 +16,12 @@ class Kementrian extends CI_Controller {
 		$this->load->model('mkementrian');		
 		$this->load->model('mdja');
 		//keperluan chart
+		$this->data['thang'] = '2011';
 		$this->data['kddept'] = $this->session->userdata('kddept');
-		$this->data['kdsatker'] = null;		
+		$this->data['kdunit'] = null;
+		$this->data['kdprogram'] = null;
+		$this->data['kdsatker'] = null;
+		$this->data['kdgiat'] = null; 
 	}
 	
 	function index()
@@ -207,11 +211,131 @@ class Kementrian extends CI_Controller {
         
 		//get volume keluaran
 		
-		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+		$this->data['output'] = $this->mdja->get_volume_keluaran($thang, $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'],null,0);
 		
         $this->data['template'] = 'kementrian/efisiensi';    
         $this->load->view('index', $this->data);
 	}
+	
+	/*-------------------------------------------- MONITORING ---------------------------------------------*/
+	/*------------------------------------------- Penyerapan Anggaran -------------------------------------*/
+	public function mpenyerapan()
+    {
+        $this->data['title'] = 'Monitoring Penyerapan Anggaran';
+        $this->data['kdunit'] = null;
+        $this->data['kdprogram'] = null;    
+		$this->data['unit'] = get_eselon($this->data['kddept']);
+        
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+        }
+        
+		if(isset($_POST['thang']) && $_POST['thang']!=''){ 
+			$this->data['thang'] = $_POST['thang']; 
+		}
+		
+		$this->data['penyerapan'] = $this->mdja->get_penyerapan($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'])->row();
+        $this->data['template'] = 'kementrian/mpenyerapan';  
+        $this->load->view('index', $this->data);
+    }
+	
+	/*---------------------- Konsistensi antara Perencanaan dan Implementasi ------------------------------*/
+    public function mkonsistensi()
+    {
+        $this->data['title'] = 'Konsistensi Antara Perencanaan dan Implementasi';
+        $this->data['pengukuran'] = 'konsistensi';
+		$this->data['bulan_awal'] = null;
+		$this->data['bulan_akhir'] = null;
+		$this->data['unit'] = get_eselon($this->data['kddept']);
+        
+		if(isset($_POST['thang']) && $_POST['thang'] != 0)
+        {
+			$this->data['thang'] = $_POST['thang'];
+		}
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['satker'] = get_satker($this->data['kddept'], $this->data['kdunit']);
+        }
+		if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdsatker']) && $_POST['kdsatker'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];
+			$this->data['kdsatker'] = $_POST['kdsatker'];
+		}
+		if(isset($_POST['bulan_awal']) && $_POST['bulan_awal']!=''){
+			$this->data['bulan_awal'] = $_POST['bulan_awal'];
+		}
+		if(isset($_POST['bulan_akhir']) && $_POST['bulan_akhir']!=''){
+			$this->data['bulan_akhir'] = $_POST['bulan_akhir'];
+			if(isset($this->data['bulan_awal']) && ($this->data['bulan_awal'] > $this->data['bulan_akhir'])){
+				$this->data['bulan_akhir'] = $this->data['bulan_awal'];
+			}
+		}
+		
+		$this->data['konsistensi'] = $this->mdja->get_report_konsistensi($this->data['thang'],$this->data['kddept'],$this->data['kdunit'],$this->data['kdprogram'],$this->data['kdsatker'],$this->data['bulan_awal'],$this->data['bulan_akhir']);
+                
+        $this->data['template'] = 'kementrian/mkonsistensi';            
+        
+        $this->load->view('index', $this->data);
+    }
+	
+	/*-------------------------------- Pengukuran Volume Keluaran -----------------------------------------*/
+    public function mkeluaran()
+    {
+		$this->data['title'] = 'Monitoring Tingkat Pencapaian Keluaran';
+		$this->data['unit'] = get_eselon($this->data['kddept']);
+		if(isset($_POST['thang']) && $_POST['thang']!=''){ 
+			$this->data['thang'] = $_POST['thang']; 
+		}		
+				
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['program'] = get_program($this->data['kddept'], $this->data['kdunit']);
+        }
+        if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['giat'] = get_giat($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram']);
+        }
+		if((isset($_POST['kdunit']) && $_POST['kdunit'] != 0) && (isset($_POST['kdprogram']) && $_POST['kdprogram'] != 0) && (isset($_POST['kdgiat']) && $_POST['kdgiat'] != 0))
+        {
+            $this->data['kdunit'] = $_POST['kdunit'];
+            $this->data['kdprogram'] = $_POST['kdprogram'];    
+			$this->data['kdgiat'] = $_POST['kdgiat'];
+        }
+		if(!isset($this->data['kdgiat'])):
+			$this->load->library('pagination');
+			$this->data['halaman']	= abs((int)$this->uri->segment(3));
+			$config['base_url'] 	= base_url().'kementrian/mkeluaran/';
+			$config['total_rows'] 	= count($this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']));
+			$config['per_page'] 	= 15; 
+			$config['cur_page'] 	= $this->data['halaman'];
+			$this->pagination->initialize($config);
+			$this->data['page'] 	= $this->pagination->create_links();
+			$this->data['output'] 	= $this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat'], $config['per_page'],$config['cur_page']);
+		else:
+			$this->data['output'] 	= $this->mdja->get_volume_keluaran($this->data['thang'], $this->data['kddept'], $this->data['kdunit'], $this->data['kdprogram'], $this->data['kdsatker'], $this->data['kdgiat']);
+		endif;
+        $this->data['template'] = 'kementrian/mkeluaran';                 
+        $this->load->view('index', $this->data);
+    }
+	
 	
 	/*------------------------------------------- Capaian Hasil ----------------------*/
 	public function capaian_hasil()

@@ -7,7 +7,7 @@
 				<div class="clearfix"></div>
 				<div class="box-content box-report">
 					<div class="filter-option-box">
-						<?php $this->view('dja/mfilter-box')?>
+						<?php $this->view('eselon/mfilter-box')?>
 					</div>
 					<?php if($konsistensi):?>
 					<?php $this->view('chart/_chart_konsistensi');?>

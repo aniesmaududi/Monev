@@ -1,4 +1,4 @@
-			<?php $this->view('_charts');?>
+			<?php $this->view('chart/_charts');?>
 			<h1><?php echo(isset($title))?$title:'Dashboard Satker';?></h1>
 			<div id="search-box">
 				
