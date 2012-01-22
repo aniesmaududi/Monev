@@ -457,7 +457,6 @@ class Satker extends CI_Controller
 		{
 			if($this->_check_capthca()) //check captcha true
 			{
-		echo 'test';
 				$config['upload_path'] = './tmp/';
 //				$config['allowed_types'] = 'rar';
 				$config['allowed_types'] = '*';
@@ -478,8 +477,8 @@ class Satker extends CI_Controller
 						$kd_satker = substr($code, 12, 6);
 						$kd_thang = substr($code, 19, 21);
 						$check = substr($data['file_name'], 19, 3); //check jika di string tersebut mengandung 12_.rar
-
-						if($check=='.12'&&substr($data['file_name'], 22, 99)=='') //check format filename.. format pengecekan di cek lagi mungkin perlu ditambahkan kddept, kdunit dan kdsatker, atau juga yang lain
+//						if($check=='.12'&&substr($data['file_name'], 22, 99)==''&&$this->session->userdata('kdsatker')==$kd_satker%%$this->session->userdata('kdunit')==$kd_unit&&$this->session->userdata('kddept')==$kd_dept) //check format filename.. format pengecekan di cek lagi mungkin perlu ditambahkan kddept, kdunit dan kdsatker, atau juga yang lain
+						if($this->cekformat($data['file_name'])) //check format filename..
 						{ 
 							$code = $kd_kementrian . $kd_unit . $kd_lokasi . $kd_satker . '.' . $kd_thang;
 							$fp = fopen($data['full_path'], 'r');
@@ -540,12 +539,12 @@ class Satker extends CI_Controller
 		} //end press submit
 		$this->data['template'] = 'satker/upload';
 		$this->load->view('index', $this->data);
-	
-	
+	}	
+
+	function cekformat($name)
+	{
+		$pattern = '/^(z)([0-1]{2})(_)([0-9]{5})(_)([0-1]{2})(_)([0-1]{6})(.1)([0-9])$/';
+		return preg_match($pattern, $name);
 	}
-
-
-	
-	
 	
 }
