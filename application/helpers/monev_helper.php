@@ -439,5 +439,21 @@ function get_jabid()
 	$ci = & get_instance();
 	$ci->load->database();
 	
-	return $kppn = $ci->db->get('tb_jabatan')->result();
+	return $jabid = $ci->db->get('tb_jabatan')->result();
+}
+
+function get_program2()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $program2 = $ci->db->get('t_program')->result();
+}
+
+function get_giat2()
+{
+	$ci = & get_instance();
+	$ci->load->database();
+	
+	return $giat2 = $ci->db->get('t_giat')->result();
 }

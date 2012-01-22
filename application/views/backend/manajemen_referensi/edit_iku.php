@@ -27,8 +27,8 @@
                     <div class="clearfix">
 					<label>Nama Program</label>
                     <select name="kdprogram">
-                    	<?php foreach(get_program() as $program): ?>
-                     <option value="<?php echo $program->kdprogram;?>" <?php echo ($program->kdunit == $detail->kdunit && $program->kddept == $detail->kddept && $program->kdprogram == $detail->kdprogram)? 'selected=selected':'';?>><?php echo $program->nmprogram;?></option>
+                    	<?php foreach(get_program2() as $program2): ?>
+                     <option value="<?php echo $program2->kdprogram;?>" <?php echo ($program2->kdunit == $detail->kdunit && $program2->kddept == $detail->kddept && $program2->kdprogram == $detail->kdprogram)? 'selected=selected':'';?>><?php echo $program2->nmprogram;?></option>
                         <?php endforeach;?>
                     </select>
 					</div>
